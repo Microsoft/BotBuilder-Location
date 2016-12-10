@@ -19,7 +19,7 @@ The Bing location control makes this process easy by abstracting away the tediou
 To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
 
 ## Getting Started
-Navigate to the [C#](https://github.com/Microsoft/BotBuilder-Location/tree/master/CSharp) or [Node.js](https://github.com/Microsoft/BotBuilder-Location/tree/master/Node) folder and follow the guide to add the control to your Bot Framework bot. 
+Navigate to the [C#](/CSharp) or [Node.js](/Node) folder and follow the guide to add the control to your Bot Framework bot. 
 
 ## Examples
 The examples demostrate different scenarios you can achieve using the Bing location control. 
