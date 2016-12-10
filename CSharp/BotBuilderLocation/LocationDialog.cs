@@ -1,6 +1,4 @@
-﻿using Microsoft.Bot.Builder.Internals.Fibers;
-
-namespace Microsoft.Bot.Builder.Location
+﻿namespace Microsoft.Bot.Builder.Location
 {
     using System;
     using System.Linq;
@@ -9,6 +7,7 @@ namespace Microsoft.Bot.Builder.Location
     using Builder.Dialogs;
     using Connector;
     using Dialogs;
+    using Internals.Fibers;
 
     /// <summary>
     /// Represents a dialog that handles retrieving a location from the user.
@@ -107,6 +106,7 @@ namespace Microsoft.Bot.Builder.Location
         private readonly IGeoSpatialService geoSpatialService;
         private readonly string apiKey;
         private bool requiredDialogCalled;
+        private Location selectedLocation;
 
         /// <summary>
         /// Determines whether this is the root dialog or not.
@@ -193,19 +193,43 @@ namespace Microsoft.Bot.Builder.Location
         /// <returns>The asynchronous task.</returns>
         internal override async Task ResumeAfterChildDialogInternalAsync(IDialogContext context, IAwaitable<LocationDialogResponse> result)
         {
-            var response = await result;
+            this.selectedLocation = (await result).Location;
 
-            await this.TryReverseGeocodeAddress(response.Location);
+            await this.TryReverseGeocodeAddress(this.selectedLocation);
 
             if (!this.requiredDialogCalled && this.requiredFields != LocationRequiredFields.None)
             {
                 this.requiredDialogCalled = true;
-                var requiredDialog = new LocationRequiredFieldsDialog(response.Location, this.requiredFields, this.ResourceManager);
+                var requiredDialog = new LocationRequiredFieldsDialog(this.selectedLocation, this.requiredFields, this.ResourceManager);
                 context.Call(requiredDialog, this.ResumeAfterChildDialogAsync);
             }
             else
             {
-                context.Done(CreatePlace(response.Location));
+                var confirmationAsk = string.Format(
+                    this.ResourceManager.ConfirmationAsk,
+                    this.selectedLocation.GetFormattedAddress(this.ResourceManager.AddressSeparator));
+
+                PromptDialog.Confirm(
+                        context,
+                        async (dialogContext, answer) =>
+                        {
+                            if (await answer)
+                            {
+                                var confirmation = string.Format(
+                                    this.ResourceManager.Confirmation,
+                                    this.selectedLocation.GetFormattedAddress(this.ResourceManager.AddressSeparator));
+                                await dialogContext.PostAsync(confirmation);
+                                dialogContext.Done(CreatePlace(this.selectedLocation));
+                            }
+                            else
+                            {
+                                await dialogContext.PostAsync(this.ResourceManager.ResetPrompt);
+                                await this.StartAsync(dialogContext);
+                            }
+                        },
+                        confirmationAsk,
+                        retry: this.ResourceManager.ConfirmationInvalidResponse,
+                        promptStyle: PromptStyle.None);
             }
         }
 

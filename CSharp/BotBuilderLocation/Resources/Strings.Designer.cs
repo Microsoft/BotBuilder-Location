@@ -61,65 +61,101 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I also need the country:.
+        ///   Looks up a localized string similar to , .
         /// </summary>
-        internal static string AskForCountry {
+        internal static string AddressSeparator {
             get {
-                return ResourceManager.GetString("AskForCountry", resourceCulture);
+                return ResourceManager.GetString("AddressSeparator", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I also need the locality:.
+        ///   Looks up a localized string similar to Please provide the {0}..
         /// </summary>
-        internal static string AskForLocality {
+        internal static string AskForEmptyAddressTemplate {
             get {
-                return ResourceManager.GetString("AskForLocality", resourceCulture);
+                return ResourceManager.GetString("AskForEmptyAddressTemplate", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I also need the postal code:.
+        ///   Looks up a localized string similar to OK {0}..
         /// </summary>
-        internal static string AskForPostalCode {
+        internal static string AskForPrefix {
             get {
-                return ResourceManager.GetString("AskForPostalCode", resourceCulture);
+                return ResourceManager.GetString("AskForPrefix", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I also need the region:.
+        ///   Looks up a localized string similar to  Please also provide the {0}..
         /// </summary>
-        internal static string AskForRegion {
+        internal static string AskForTemplate {
             get {
-                return ResourceManager.GetString("AskForRegion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to I also need the address line:.
-        /// </summary>
-        internal static string AskForStreetAddress {
-            get {
-                return ResourceManager.GetString("AskForStreetAddress", resourceCulture);
+                return ResourceManager.GetString("AskForTemplate", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to cancel.
         /// </summary>
-        internal static string Cancel {
+        internal static string CancelCommand {
             get {
-                return ResourceManager.GetString("Cancel", resourceCulture);
+                return ResourceManager.GetString("CancelCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK, cancelled..
+        /// </summary>
+        internal static string CancelPrompt {
+            get {
+                return ResourceManager.GetString("CancelPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thanks, I will ship to {0}..
+        /// </summary>
+        internal static string Confirmation {
+            get {
+                return ResourceManager.GetString("Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK, I will ship to {0}. Is that correct? Enter &apos;yes&apos; or &apos;no&apos;..
+        /// </summary>
+        internal static string ConfirmationAsk {
+            get {
+                return ResourceManager.GetString("ConfirmationAsk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I didn&apos;t understand. Enter &apos;yes&apos; or &apos;no&apos;..
+        /// </summary>
+        internal static string ConfirmationInvalidResponse {
+            get {
+                return ResourceManager.GetString("ConfirmationInvalidResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to country.
+        /// </summary>
+        internal static string Country {
+            get {
+                return ResourceManager.GetString("Country", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to help.
         /// </summary>
-        internal static string Help {
+        internal static string HelpCommand {
             get {
-                return ResourceManager.GetString("Help", resourceCulture);
+                return ResourceManager.GetString("HelpCommand", resourceCulture);
             }
         }
         
@@ -133,7 +169,7 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Didn&apos;t get that. Choose a location or cancel..
+        ///   Looks up a localized string similar to Type or say a number to choose the address, or enter &apos;cancel&apos; to exit..
         /// </summary>
         internal static string InvalidLocationResponse {
             get {
@@ -142,7 +178,25 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I wasn&apos;t able to find this address. Try again..
+        ///   Looks up a localized string similar to Tap on Send Location to proceed; type or say cancel to exit..
+        /// </summary>
+        internal static string InvalidLocationResponseFacebook {
+            get {
+                return ResourceManager.GetString("InvalidLocationResponseFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to city or locality.
+        /// </summary>
+        internal static string Locality {
+            get {
+                return ResourceManager.GetString("Locality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I could not find this address. Please try again..
         /// </summary>
         internal static string LocationNotFound {
             get {
@@ -151,7 +205,7 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I found the above results, select one:.
+        ///   Looks up a localized string similar to I found these results. Type or say a number to choose the address, or enter &apos;other&apos; to select another address..
         /// </summary>
         internal static string MultipleResultsFound {
             get {
@@ -160,11 +214,47 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to other.
+        /// </summary>
+        internal static string OtherComand {
+            get {
+                return ResourceManager.GetString("OtherComand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to zip or postal code.
+        /// </summary>
+        internal static string PostalCode {
+            get {
+                return ResourceManager.GetString("PostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to state or region.
+        /// </summary>
+        internal static string Region {
+            get {
+                return ResourceManager.GetString("Region", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to reset.
         /// </summary>
-        internal static string Reset {
+        internal static string ResetCommand {
             get {
-                return ResourceManager.GetString("Reset", resourceCulture);
+                return ResourceManager.GetString("ResetCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK, let&apos;s start over..
+        /// </summary>
+        internal static string ResetPrompt {
+            get {
+                return ResourceManager.GetString("ResetPrompt", resourceCulture);
             }
         }
         
@@ -178,11 +268,38 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I found the above result, should I use it?.
+        ///   Looks up a localized string similar to I found this result. Is this the correct address?.
         /// </summary>
         internal static string SingleResultFound {
             get {
                 return ResourceManager.GetString("SingleResultFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to street address.
+        /// </summary>
+        internal static string StreetAddress {
+            get {
+                return ResourceManager.GetString("StreetAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Type or say an address..
+        /// </summary>
+        internal static string TitleSuffix {
+            get {
+                return ResourceManager.GetString("TitleSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Tap &apos;Send Location&apos; to choose an address..
+        /// </summary>
+        internal static string TitleSuffixFacebook {
+            get {
+                return ResourceManager.GetString("TitleSuffixFacebook", resourceCulture);
             }
         }
     }

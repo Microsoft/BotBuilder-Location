@@ -1,0 +1,23 @@
+{
+    "AddressSeparator": ", ",
+    "AskForEmptyAddressTemplate": "Please provide the %s.",
+    "AskForPrefix": "OK %s.",
+    "AskForTemplate": " Please also provide the %s.",
+    "CancelPrompt": "OK, cancelled.",
+    "Confirmation": "Thanks, I will ship to %s.",
+    "ConfirmationAsk": "OK, I will ship to %s. Is that correct? Enter 'yes' or 'no'.",
+    "Country": "country",
+    "DefaultPrompt": "Where should I ship your order?",
+    "InvalidLocationResponse": "Didn't get that. Choose a location or cancel.",
+    "InvalidLocationResponseFacebook": "Tap on Send Location to proceed; type or say cancel to exit.",
+    "LocationNotFound": "I could not find this address. Please try again.",
+    "Locality": "city or locality",
+    "MultipleResultsFound": "I found these results. Type or say a number to choose the address, or enter 'other' to select another address.",
+    "PostalCode": "zip or postal code",
+    "Region": "state or region",
+    "ResetPrompt": "OK, let's start over.",
+    "SingleResultFound": "I found this result. Is this the correct address?",    
+    "StreetAddress": "street address",
+    "TitleSuffix": " Type or say an address",
+    "TitleSuffixFacebook": " Tap 'Send Location' to choose an address."
+}   

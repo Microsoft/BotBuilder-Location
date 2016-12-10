@@ -96,7 +96,7 @@
     <Compile Include="LocationRequiredFields.cs" />
     <Compile Include="Dialogs\LocationRequiredFieldsDialog.cs" />
     <Compile Include="LocationResourceManager.cs" />
-    <Compile Include="PlaceExtensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="PostalAddress.cs" />
     <Compile Include="Bing\Address.cs" />
     <Compile Include="Bing\BingGeoSpatialService.cs" />

@@ -27,7 +27,7 @@
         /// <param name="prompt">The prompt posted to the user when dialog starts.</param>
         /// <param name="supportsKeyboard">Indicates whether channel supports keyboard buttons or not.</param>
         /// <param name="resourceManager">The resource manager.</param>
-        public RichLocationRetrieverDialog(
+        internal RichLocationRetrieverDialog(
             IGeoSpatialService geoSpatialService,
             string apiKey,
             string prompt,
@@ -43,7 +43,7 @@
         public override async Task StartAsync(IDialogContext context)
         {
             this.locations.Clear();
-            await context.PostAsync(this.prompt);
+            await context.PostAsync(this.prompt + this.ResourceManager.TitleSuffix);
             context.Wait(this.MessageReceivedAsync);
         }
 
@@ -114,6 +114,13 @@
                 return true;
             }
 
+            if (StringComparer.OrdinalIgnoreCase.Equals(message.Text, this.ResourceManager.OtherComand))
+            {
+                // Return new empty location to be filled by the required fields dialog.
+                context.Done(new LocationDialogResponse(new Location()));
+                return true;
+            }
+
             return false;
         }
 
@@ -141,7 +148,7 @@
                         }
                     },
                     prompt: this.ResourceManager.SingleResultFound,
-                    retry: null,
+                    retry: this.ResourceManager.ConfirmationInvalidResponse,
                     attempts: 3,
                     promptStyle: style);
         }

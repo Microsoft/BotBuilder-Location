@@ -61,7 +61,7 @@ namespace BotBuilderLocation.Sample.Controllers
                                      LocationRequiredFields.Region | LocationRequiredFields.Country |
                                      LocationRequiredFields.PostalCode;
 
-                var prompt = "Hi, where would you like me to ship to your widget?";
+                var prompt = "Where should I ship your order?";
 
                 var locationDialog = new LocationDialog(apiKey, this.channelId, prompt, options, requiredFields);
 
@@ -71,19 +71,10 @@ namespace BotBuilderLocation.Sample.Controllers
             private async Task ResumeAfterLocationDialogAsync(IDialogContext context, IAwaitable<Place> result)
             {
                 var place = await result;
+
                 if (place != null)
                 {
-                    var address = place.GetPostalAddress();
-
-                    string name = address != null ?
-                        $"{address.StreetAddress}, {address.Locality}, {address.Region}, {address.Country} ({address.PostalCode})" :
-                        "the pinned location";
-
-                    await context.PostAsync($"OK, I will ship it to {name}");
-                }
-                else
-                {
-                    await context.PostAsync("OK, I won't be shipping it");
+                    await context.PostAsync("Bye");
                 }
 
                 context.Done<string>(null);

@@ -1,0 +1,13 @@
+{
+    "name": "sample",
+    "version": "0.6.0",
+    "description": "Sample for the botbuilder-location control",
+    "author": "Microsoft Corp.",
+    "license": "MIT",
+    "dependencies": {
+        "botbuilder": "^3.4.4",
+        "botbuilder-location": "file:../core",
+        "dotenv-extended": "^1.0.4",
+        "restify": "^4.2.0"
+    }
+}

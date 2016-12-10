@@ -117,46 +117,85 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AskForCountry" xml:space="preserve">
-    <value>I also need the country:</value>
+  <data name="AddressSeparator" xml:space="preserve">
+    <value>, </value>
   </data>
-  <data name="AskForLocality" xml:space="preserve">
-    <value>I also need the locality:</value>
+  <data name="AskForEmptyAddressTemplate" xml:space="preserve">
+    <value>Please provide the {0}.</value>
   </data>
-  <data name="AskForPostalCode" xml:space="preserve">
-    <value>I also need the postal code:</value>
+  <data name="AskForPrefix" xml:space="preserve">
+    <value>OK {0}.</value>
   </data>
-  <data name="AskForRegion" xml:space="preserve">
-    <value>I also need the region:</value>
+  <data name="AskForTemplate" xml:space="preserve">
+    <value> Please also provide the {0}.</value>
   </data>
-  <data name="AskForStreetAddress" xml:space="preserve">
-    <value>I also need the address line:</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
+  <data name="CancelCommand" xml:space="preserve">
     <value>cancel</value>
   </data>
-  <data name="Help" xml:space="preserve">
+  <data name="CancelPrompt" xml:space="preserve">
+    <value>OK, cancelled.</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>OK, I will ship to {0}.</value>
+  </data>
+  <data name="ConfirmationAsk" xml:space="preserve">
+    <value>OK, I will ship to {0}. Is that correct? Enter 'yes' or 'no'.</value>
+  </data>
+  <data name="ConfirmationInvalidResponse" xml:space="preserve">
+    <value>I didn't understand. Enter 'yes' or 'no'.</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>country</value>
+  </data>
+  <data name="HelpCommand" xml:space="preserve">
     <value>help</value>
   </data>
   <data name="HelpMessage" xml:space="preserve">
     <value>The help message</value>
   </data>
   <data name="InvalidLocationResponse" xml:space="preserve">
-    <value>Didn't get that. Choose a location or cancel.</value>
+    <value>Type or say a number to choose the address, or enter 'cancel' to exit.</value>
+  </data>
+  <data name="InvalidLocationResponseFacebook" xml:space="preserve">
+    <value>Tap on Send Location to proceed; type or say cancel to exit.</value>
+  </data>
+  <data name="Locality" xml:space="preserve">
+    <value>city or locality</value>
   </data>
   <data name="LocationNotFound" xml:space="preserve">
-    <value>I wasn't able to find this address. Try again.</value>
+    <value>I could not find this address. Please try again.</value>
   </data>
   <data name="MultipleResultsFound" xml:space="preserve">
-    <value>I found the above results, select one:</value>
+    <value>I found these results. Type or say a number to choose the address, or enter 'other' to select another address.</value>
   </data>
-  <data name="Reset" xml:space="preserve">
+  <data name="OtherComand" xml:space="preserve">
+    <value>other</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>zip or postal code</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>state or region</value>
+  </data>
+  <data name="ResetCommand" xml:space="preserve">
     <value>reset</value>
+  </data>
+  <data name="ResetPrompt" xml:space="preserve">
+    <value>OK, let's start over.</value>
   </data>
   <data name="SelectLocation" xml:space="preserve">
     <value>Select a location</value>
   </data>
   <data name="SingleResultFound" xml:space="preserve">
-    <value>I found the above result, should I use it?</value>
+    <value>I found this result. Is this the correct address?</value>
+  </data>
+  <data name="StreetAddress" xml:space="preserve">
+    <value>street address</value>
+  </data>
+  <data name="TitleSuffix" xml:space="preserve">
+    <value> Type or say an address.</value>
+  </data>
+  <data name="TitleSuffixFacebook" xml:space="preserve">
+    <value> Tap 'Send Location' to choose an address.</value>
   </data>
 </root>

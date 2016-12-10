@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Bot.Builder.Location.Dialogs
+﻿using Microsoft.Bot.Builder.Internals.Fibers;
+
+namespace Microsoft.Bot.Builder.Location.Dialogs
 {
     using System;
     using System.Collections.Generic;
@@ -17,28 +19,13 @@
         public FacebookNativeLocationRetrieverDialog(string prompt, LocationResourceManager resourceManager)
             : base(resourceManager)
         {
+            SetField.NotNull(out this.prompt, nameof(prompt), prompt);
             this.prompt = prompt;
         }
 
         public override async Task StartAsync(IDialogContext context)
         {
-            var reply = context.MakeMessage();
-            reply.ChannelData = new FacebookMessage
-            (
-                text: this.prompt,
-                quickReplies: new List<FacebookQuickReply>
-                {
-                        new FacebookQuickReply(
-                            contentType: FacebookQuickReply.ContentTypes.Location,
-                            title: default(string),
-                            payload: default(string)
-                        )
-                }
-            );
-
-            await context.PostAsync(reply);
-
-            context.Wait(this.MessageReceivedAsync);
+            await this.StartAsync(context, this.prompt + this.ResourceManager.TitleSuffixFacebook);
         }
 
         protected override async Task MessageReceivedInternalAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
@@ -66,9 +53,28 @@
             else
             {
                 // If we didn't receive a valid place, post error message and restart dialog.
-                await context.PostAsync(this.ResourceManager.InvalidLocationResponse);
-                await this.StartAsync(context);
+                await this.StartAsync(context, this.ResourceManager.InvalidLocationResponseFacebook);
             }
+        }
+
+        private async Task StartAsync(IDialogContext context, string message)
+        {
+            var reply = context.MakeMessage();
+            reply.ChannelData = new FacebookMessage
+            (
+                text: message,
+                quickReplies: new List<FacebookQuickReply>
+                {
+                        new FacebookQuickReply(
+                            contentType: FacebookQuickReply.ContentTypes.Location,
+                            title: default(string),
+                            payload: default(string)
+                        )
+                }
+            );
+
+            await context.PostAsync(reply);
+            context.Wait(this.MessageReceivedAsync);
         }
     }
 }

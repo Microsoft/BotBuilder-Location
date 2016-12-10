@@ -114,14 +114,20 @@
         /// <returns>The asynchronous task.</returns>
         private async Task<bool> TryHandleSpecialCommandResponse(IDialogContext context, LocationDialogResponse response)
         {
-            // If special command cancel, pass up a null to parent dialog.
-            if (response == null || StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.resourceManager.Cancel))
+            if (response == null)
             {
                 context.Done<T>(null);
                 return true;
             }
 
-            if (StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.resourceManager.Help))
+            if (StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.resourceManager.CancelCommand))
+            {
+                await context.PostAsync(this.ResourceManager.CancelPrompt);
+                context.Done<T>(null);
+                return true;
+            }
+
+            if (StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.resourceManager.HelpCommand))
             {
                 await context.PostAsync(this.ResourceManager.HelpMessage);
                 context.Wait(this.MessageReceivedAsync);
@@ -131,10 +137,11 @@
             // If response is a reset, check whether this is the root dialog or not
             // if yes, claim it and rerun the start method, otherwise pass it up
             // to parent dialog to handle it.
-            if (StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.resourceManager.Reset))
+            if (StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.resourceManager.ResetCommand ))
             {
                 if (this.IsRootDialog)
                 {
+                    await context.PostAsync(this.ResourceManager.ResetPrompt);
                     await this.StartAsync(context);
                 }
                 else
