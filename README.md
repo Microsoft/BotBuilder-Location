@@ -1,7 +1,7 @@
 ## Overview
 The Bing location control for Microsoft Bot Framework makes the process of collecting and validating the user's desired location in a conversation easy and reliable. The control works consistently across all channels supported by Bot Framework. All with a few lines of code. 
 
-![Basic Scenario](Images/skype_singleresult.png)
+![Basic Scenario](Images/skype_singleaddress_1.png)
 
 
 ## Why Use 
