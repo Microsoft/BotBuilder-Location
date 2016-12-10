@@ -1,6 +1,9 @@
 ## Overview
 The Bing location control for Microsoft Bot Framework makes the process of collecting and validating the user's desired location in a conversation easy and reliable. The control works consistently across all channels supported by Bot Framework. All with a few lines of code. 
 
+![Basic Scenario](Images/skype_singleresult.png)
+
+
 ## Why Use 
 Bots often need the user's location to complete a task. For example, a Taxi bot requires the user's pickup location and destination before requesting a ride. Similarly, a Pizza bot must know the user's address to submit the order, and so on. Normally, bot developers need to use a combination of location or place APIs, and have their bots engage in a multi-turn dialog with users to get their desired location and subsequently validate it. The development steps are usually complicated and error-prone.  
 
