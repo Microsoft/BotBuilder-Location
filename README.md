@@ -9,7 +9,7 @@ Bots often need the user's location to complete a task. For example, a Taxi bot 
 The Bing location control makes this process easy by abstracting away the tedious coding steps to let the user pick a location and reliably validate it. The control offers the following capabilities: 
 
 - Address look up and validation using Bing's Maps REST services. 
-- Consistent conversational experience across all supported messaging channels.
+- User location returned as strongly-typed object complying with Schema.org.
 - Address disambiguation when more than one address is found.
 - Support for declaring required location fields.
 - Support for Messenger's native location picker dialog.
