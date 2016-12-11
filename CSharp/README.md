@@ -1,7 +1,7 @@
 # Bing Location Control for Microsoft Bot Framework
 
 ## Overview
-The following examples demonstrate how to use the Bing location control to collect and validate the user's location with your Microsoft Bot Framework bot in C#. Return to [main page](../../) to learn more about the control. 
+The following examples demonstrate how to use the Bing location control to collect and validate the user's location with your Microsoft Bot Framework bot in C#. 
 
 ## Prerequisites
 To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
