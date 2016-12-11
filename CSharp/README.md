@@ -1,4 +1,4 @@
-# Bing Location Control for Bot Microsoft Bot Framework
+# Bing Location Control for Microsoft Bot Framework
 
 ## Overview
 The following examples demonstrate how to use the Bing location control to collect and validate the user's location with your Microsoft Bot Framework bot in C#. 
