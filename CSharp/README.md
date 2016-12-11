@@ -13,7 +13,7 @@ using Microsoft.Bot.Builder.Location;
 
 ## Code Highlights
 
-### Calling control with default parameters
+#### Calling control with default parameters
 The example calls the location dialog with default parameters and a custom prompt message asking the user to provide an address. 
 
 ````C#
