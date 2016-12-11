@@ -1,18 +1,18 @@
+# Bing Location Control for Microsoft Bot Framework
+
 ## Overview
-The following examples demonstrate how to use the Bing location control to collect and validate the user's  location with your Microsoft Bot Framework Node.js bot. 
+The following examples demonstrate how to use the Bing location control to collect and validate the user's location with your Microsoft Bot Framework bot in Node.js.
 
 ## Prerequisites
 To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
 
 ## Code Highlights
 
-#### Usage
-Get the BotBuilder and Restify modules using npm.
+### Usage
+Install the BotBuilder and Restify modules using npm.
 
     npm install --save botbuilder-location
-
-From your bot, use the location control
-        
+       
     var locationDialog = require('botbuilder-location');
 
 #### Calling the control with default parameters
