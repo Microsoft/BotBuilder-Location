@@ -106,18 +106,16 @@ export interface ILocationPromptOptions {
 #### Parameters
 
 *prompt*    
-The prompt posted to the user when dialog starts. 
+The prompt shown  to the user when the location control is initiated. 
 
 *requiredFields*    
-Determines the required fields. The required fields are: streetAddress, locality, region, postalCode, country
+Required location fields to be collected by the control. Available options include: streetAddress, locality, region, postalCode, country
 
 *useNativeControl*    
-Some of the channels (e.g. Facebook) has a built in location widget. Use this option to indicate if you want the LocationDialog to use it when available.
+Boolean to indicate if the control will use FB Messenger's location picker GUI dialog. It does not have any effect on other messaging channels. 
 
 *reverseGeocode*    
-Use this option if you want the location dialog to reverse lookup geo-coordinates before returning. 
-This can be useful if you depend on the channel location service or native control to get user location
-but still want the control to return to you a full address.
+Boolean to indicate if the control will try to reverse geocode the lat/long coordinates returned by FB Messenger's location picker GUI dialog. It does not have any effect on other messaging channels.
 
 ## Sample Bot
 You can find a sample bot that uses the Bing location control in the [Sample](../sample/app.js) directory. Please note that you need to obtain a Bing Maps API subscription key from [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/) to run the sample.
