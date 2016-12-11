@@ -103,7 +103,7 @@ export interface ILocationPromptOptions {
     reverseGeocode?: boolean
 }
 ````
-### Parameters
+#### Parameters
 
 *prompt*    
 The prompt posted to the user when dialog starts. 
