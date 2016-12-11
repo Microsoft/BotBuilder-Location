@@ -80,5 +80,12 @@ context.Call(locationDialog, (context, result) => {
 }
 ````
 
-## Sample
+## Sample Bot
 You can find a sample bot that uses the Bing location control in the [BotBuilderLocation.Sample](BotBuilderLocation.Sample) directory. Please note that you need to obtain a Bing Maps API subscription key from [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/) to run the sample.
+
+## More Information
+Read these resources for more information about the Microsoft Bot Framework, Bot Builder SDK and Bing Maps REST Services:
+
+* [Microsoft Bot Framework Overview](https://docs.botframework.com/en-us/)
+* [Microsoft Bot Framework Bot Builder SDK](https://github.com/Microsoft/BotBuilder)
+* [Bing Maps REST Services Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
