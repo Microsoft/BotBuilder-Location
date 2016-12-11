@@ -35,7 +35,7 @@ var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, Locat
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-FB Messenger by default returns only the lat/long coordinates for any address selected via the location picker GUI dialog. You can additionally use the `LocationOptions.ReverseGeocode` option to have Bing reverse geo-code the returned coordinates and automatically fill in the remaining address fields. 
+FB Messenger by default returns only the lat/long coordinates for any address selected via the location picker GUI dialog. You can additionally use the `LocationOptions.ReverseGeocode` option to have Bing reverse geocode the returned coordinates and automatically fill in the remaining address fields. 
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
