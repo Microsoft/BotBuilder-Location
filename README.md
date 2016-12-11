@@ -1,3 +1,5 @@
+# Bing Location Control for Microsoft Bot Framework
+
 ## Overview
 The Bing location control for Microsoft Bot Framework makes the process of collecting and validating the user's desired location in a conversation easy and reliable. The control is available for C# and Node.js and works consistently across all channels supported by Bot Framework. 
 
