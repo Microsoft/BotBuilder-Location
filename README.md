@@ -3,17 +3,17 @@ The Bing location control for Microsoft Bot Framework makes the process of colle
 
 ![Basic Scenario](Images/skype_singleaddress_1.png)
 
-## User Scenarios and Features 
-Bots often need the user's location to complete a task. For example, a Taxi bot requires the user's pickup location and destination before requesting a ride. Similarly, a Pizza bot must know the user's address to submit the order, and so on. Normally, bot developers need to use a combination of location or place APIs, and have their bots engage in a multi-turn dialog with users to get their desired location and subsequently validate it. The development steps are usually complicated and error-prone.  
+## Features
+Bots often need the user's location to complete a task. For example, a Taxi bot requires the user's pickup and destination address before requesting a ride. Similarly, a Pizza bot must know the user's delivery address to submit the order, and so on. Normally, bot developers need to use a combination of location or place APIs, and have their bots engage in a multi-turn dialog with users to get their desired location and subsequently validate it. The development steps are usually complicated and error-prone.  
 
 The Bing location control makes this process easy by abstracting away the tedious coding steps to let the user pick a location and reliably validate it. The control offers the following capabilities: 
 
 - Address look up and validation using Bing's Maps REST services. 
-- User location returned as strongly-typed object complying with Schema.org.
+- User location returned as strongly-typed object complying with schema.org.
 - Address disambiguation when more than one address is found.
 - Support for declaring required location fields.
-- Support for Messenger's native location picker dialog.
-- Open-source code (C# and Node.js) with customizable and localizable dialog strings. 
+- Support for FB Messenger's location picker GUI dialog.
+- Open-source code (C# and Node.js) with customizable dialog strings. 
 
 ## Prerequisites
 To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
@@ -22,9 +22,9 @@ To start using the control, you need to obtain a Bing Maps API subscription key.
 Navigate to the [C#](/CSharp) or [Node.js](/Node) folder and follow the guide to add the control to your Bot Framework bot. 
 
 ## Examples
-The examples demostrate different location selection scenarios you can achieve using the Bing location control. 
+The examples demostrate different location selection scenarios supported by the Bing location control. 
 
-**Address selection with single result returned**
+####Address selection with single result returned
 
 ![Single Address](Images/skype_singleaddress_2.png)
 
@@ -36,7 +36,7 @@ The examples demostrate different location selection scenarios you can achieve u
 
 ![Required Fields](Images/skype_requiredaddress_1.png)
 
-**Address selection using FB Messenger's native location picker dialog**
+**Address selection using FB Messenger's native location picker GUI dialog**
 
 ![Messenger Location Dialog](Images/messenger_locationdialog_1.png)
 
