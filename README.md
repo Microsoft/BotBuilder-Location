@@ -24,7 +24,7 @@ Navigate to the [C#](/CSharp) or [Node.js](/Node) folder and follow the guide to
 ## Examples
 The examples demostrate different location selection scenarios supported by the Bing location control. 
 
-####Address selection with single result returned
+###Address selection with single result returned
 
 ![Single Address](Images/skype_singleaddress_2.png)
 
