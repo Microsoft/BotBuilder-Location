@@ -36,7 +36,7 @@ The examples demostrate different location selection scenarios supported by the 
 
 ![Required Fields](Images/skype_requiredaddress_1.png)
 
-### Address selection using FB Messenger's native location picker GUI dialog
+### Address selection using FB Messenger's location picker GUI dialog
 
 ![Messenger Location Dialog](Images/messenger_locationdialog_1.png)
 
