@@ -1,22 +1,17 @@
-# C# Overview
+# Overview
 The following examples demonstrate how to use [LocationDialog.cs](BotBuilderLocation/LocationDialog.cs) to collect and validate the user's  location with your Microsoft Bot Framework C# bot. 
 
 # Prerequisites
 To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
 
-# Sample
-You can find a sample bot that uses the Bing location control in the [BotBuilderLocation.Sample](/BotBuilderLocation.Sample) directory. 
-
 # Code Highlights
 
-#Usage
+##Usage
 Import the BotBuilder-Location library from nuGet and add the following required namespace. 
 
-{% highlight c# %}
-
+````C#
 using Microsoft.Bot.Builder.Location;
-
-{% endhighlight %}
+````
 
 #Code Highlights
 
@@ -82,6 +77,9 @@ context.Call(locationDialog, (context, result) => {
 *UseNativeControl:*
 
 Some of the channels (e.g. Facebook) has a built in location widget. Use this option to indicate if you want the `LocationDialog` to use it when available.
+
+# Sample
+You can find a sample bot that uses the Bing location control in the [BotBuilderLocation.Sample](/BotBuilderLocation.Sample) directory. 
 
 
 *ReverseGeocode:*
