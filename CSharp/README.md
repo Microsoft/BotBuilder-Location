@@ -28,7 +28,7 @@ FB Messenger supports a native GUI widget to let the user select a location. If 
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say and address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.UseNativeControl);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -37,7 +37,7 @@ FB Messenger by default returns only the lat/long coordinates for the location s
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say and address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.UseNativeControl | LocationOptions.ReverseGeocode);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -49,7 +49,7 @@ You can specify required location fields that need to be collected by the contro
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say and address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.None, LocationRequiredFields.StreetAddress | LocationRequiredFields.PostalCode);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -59,7 +59,7 @@ The following examples shows how you can leverage the location object data retur
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say and address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.None, LocationRequiredFields.StreetAddress | LocationRequiredFields.PostalCode);
 context.Call(locationDialog, (context, result) => {
     Place place = await result;
@@ -73,10 +73,10 @@ context.Call(locationDialog, (context, result) => {
     }
     else
     {
-        await context.PostAsync("OK, I won't be shipping it");
+        await context.PostAsync("OK, cancelled");
     }
 }
 ````
 
 ## Sample
-You can find a sample bot that uses the Bing location control in the [BotBuilderLocation.Sample](/BotBuilderLocation.Sample) directory. 
+You can find a sample bot that uses the Bing location control in the [BotBuilderLocation.Sample](BotBuilderLocation.Sample) directory. 
