@@ -15,16 +15,16 @@ Install the BotBuilder and Restify modules using npm.
        
     var locationDialog = require('botbuilder-location');
 
-#### Calling the control with default parameters
-The example calls the location dialog with default parameters and a custom prompt message asking the user to provide an address. 
+### Calling the location control with default parameters
+The example initiates the location control with default parameters, which returns a custom prompt message asking the user to provide an address. 
 
 ````JavaScript
 locationDialog.getLocation(session,
  { prompt: "Where should I ship your order? Type or say and address." });
 ````
 
-#### Using Messenger's native location picker widget
-FB Messenger supports a native GUI widget to let the user select a location. If you prefer to use Messenger's location widget, pass this option in the location control's constructor. 
+### Using FB Messenger's location picker GUI dialog 
+FB Messenger supports a location picker GUI dialog to let the user select an address. If you prefer to use FB Messenger's native dialog,  pass the `useNativeControl: true` option.
 
 ````JavaScript
 var options = {
@@ -34,7 +34,7 @@ var options = {
 locationDialog.getLocation(session, options);
 ````
 
-FB Messenger by default returns only the lat/long coordinates for the location selected in the widget. You can additionally use the following option to have Bing reverse geo-code the returned coordinates and automatically fill in the remaining address fields. 
+FB Messenger by default returns only the lat/long coordinates for any address selected via the location picker GUI dialog. You can additionally use the `reverseGeocode: true` option to have Bing reverse geocode the returned coordinates and automatically fill in the remaining address fields. 
 
 ````JavaScript
 var options = {
@@ -47,8 +47,10 @@ locationDialog.getLocation(session, options);
 
 Note: Due to the inheritably lack of accuracy of reverse geo-coders, we only use it to capture: `PostalAddress.Locality, PostalAddress.Region PostalAddress.Country and PostalAddress.PostalCode`.
 
-#### Specifying required fields 
-You can specify required location fields that need to be collected by the control. If the user does not provide any of the required fields, the control will prompt the user to fill them in. The example specifies that the street address and postal (zip) code are required. 
+**Note**: Reverse geocoding is an inherently imprecise operation. For that reason, when the reverse geocode option is selected, the location control will collect only the `locality`, `region`, `country` and `postalCode` fields and ask the user to provide the desired street address manually. 
+
+### Specifying required fields 
+You can specify required location fields that need to be collected by the control. If the user does not provide values for one or more required fields, the control will prompt him to fill them in. You can specify required fields by passing them in the `requiredFields` parameter. The example specifies the street address and postal (zip) code as required. 
 
 ````JavaScript
 var options = {
@@ -60,8 +62,8 @@ var options = {
 locationDialog.getLocation(session, options);
 ````
 
-#### Handling returned location
-The following examples shows how you can leverage the location object data returned by the location control.
+### Handling returned location
+The following example shows how you can leverage the location object returned by the location control in your bot code. 
 
 ````JavaScript
 locationDialog.create(bot);
@@ -90,7 +92,8 @@ bot.dialog("/", [
 ]);
 ````
 
-## Location Dialog Options
+## Location Control Options
+The following options are supported today by the location control. 
 
 ````JavaScript
 export interface ILocationPromptOptions {
@@ -100,8 +103,7 @@ export interface ILocationPromptOptions {
     reverseGeocode?: boolean
 }
 ````
-
-#### Parameters
+### Parameters
 
 *prompt*    
 The prompt posted to the user when dialog starts. 
@@ -117,6 +119,13 @@ Use this option if you want the location dialog to reverse lookup geo-coordinate
 This can be useful if you depend on the channel location service or native control to get user location
 but still want the control to return to you a full address.
 
-## Sample
-You can find a sample bot that uses the Bing location control in the [Sample](../sample/app.js) directory. 
+## Sample Bot
+You can find a sample bot that uses the Bing location control in the [Sample](../sample/app.js) directory. Please note that you need to obtain a Bing Maps API subscription key from [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/) to run the sample.
+
+## More Information
+Read these resources for more information about the Microsoft Bot Framework, Bot Builder SDK and Bing Maps REST Services:
+
+* [Microsoft Bot Framework Overview](https://docs.botframework.com/en-us/)
+* [Microsoft Bot Framework Bot Builder SDK](https://github.com/Microsoft/BotBuilder)
+* [Bing Maps REST Services Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
 
