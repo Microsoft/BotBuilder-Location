@@ -44,7 +44,7 @@ var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, Locat
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-**Note**: Reverse geocoding is an inherently imprecise operation. For that reason, when the reverse geocode option is selected, the location control will collect only the `PostalAddress.Locality, PostalAddress.Region, PostalAddress.Country and PostalAddress.PostalCode` fields and ask the user to provide the desired street address manually. 
+**Note**: Reverse geocoding is an inherently imprecise operation. For that reason, when the reverse geocode option is selected, the location control will collect only the `PostalAddress.Locality`, `PostalAddress.Region`, `PostalAddress.Country` and `PostalAddress.PostalCode` fields and ask the user to provide the desired street address manually. 
 
 ### Specifying required fields 
 You can specify required location fields that need to be collected by the control. If the user does not provide values for one or more required fields, the control will prompt him to fill them in. You can specify required fields by passing them in the location control's constructor using the `LocationRequiredFields` enumeration. The example specifies the street address and postal (zip) code as required. 
