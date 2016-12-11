@@ -1,8 +1,12 @@
-# Microsoft Bot Builder Location Control
+## Overview
+The following examples demonstrate how to use the Bing location control to collect and validate the user's  location with your Microsoft Bot Framework Node.js bot. 
 
-This dialog provides a location control, powered by Bing's Maps REST Services, to make the process of getting the user's location easy and consistent across all messaging channels supported by the bot framework.
+## Prerequisites
+To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
 
-## Usage
+## Code Highlights
+
+#### Usage
 Get the BotBuilder and Restify modules using npm.
 
     npm install --save botbuilder-location
@@ -11,7 +15,6 @@ From your bot, use the location control
         
     var locationDialog = require('botbuilder-location');
 
-You can refer to [this sample](../sample/app.js) that demonstrates usage.
 
 ## Examples
 
@@ -110,4 +113,7 @@ Some of the channels (e.g. Facebook) has a built in location widget. Use this op
 Use this option if you want the location dialog to reverse lookup geo-coordinates before returning. 
 This can be useful if you depend on the channel location service or native control to get user location
 but still want the control to return to you a full address.
+
+## Sample
+You can find a sample bot that uses the Bing location control in the [Sample](../sample/app.js) directory. 
 
