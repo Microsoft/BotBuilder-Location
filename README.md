@@ -22,17 +22,17 @@ To start using the control, you need to obtain a Bing Maps API subscription key.
 Navigate to the [C#](/CSharp) or [Node.js](/Node) folder and follow the guide to add the control to your Bot Framework bot. 
 
 ## Examples
-The examples demostrate different scenarios you can achieve using the Bing location control. 
+The examples demostrate different location selection scenarios you can achieve using the Bing location control. 
 
-**Address lookup with single result returned**
+**Address selection with single result returned**
 
 ![Single Address](Images/skype_singleaddress_2.png)
 
-**Address lookup with multiple results returned**
+**Address selection with multiple results returned**
 
 ![Multiple Addresses](Images/skype_multiaddress_1.png)
 
-**Address lookup with required fields filling**
+**Address selection with required fields filling**
 
 ![Required Fields](Images/skype_requiredaddress_1.png)
 
