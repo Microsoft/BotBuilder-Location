@@ -15,43 +15,44 @@ From your bot, use the location control
         
     var locationDialog = require('botbuilder-location');
 
-
-## Examples
-
-The following examples demonstrate how to use LocationDialog to achieve different scenarios: 
-
-#### Calling LocationDialog with default parameters 
+#### Calling the control with default parameters
+The example calls the location dialog with default parameters and a custom prompt message asking the user to provide an address. 
 
 ````JavaScript
 locationDialog.getLocation(session,
- { prompt: "Hi, where would you like me to ship to your widget?" });
+ { prompt: "Where should I ship your order? Type or say and address." });
 ````
 
-#### Using channel's native location widget if available (e.g. Facebook) 
+#### Using Messenger's native location picker widget
+FB Messenger supports a native GUI widget to let the user select a location. If you prefer to use Messenger's location widget, pass this option in the location control's constructor. 
 
 ````JavaScript
 var options = {
-    prompt: "Hi, where would you like me to ship to your widget?",
+    prompt: "Where should I ship your order? Type or say and address.",
     useNativeControl: true
 };
 locationDialog.getLocation(session, options);
 ````
 
-#### Using channel's native location widget if available (e.g. Facebook) and having Bing try to reverse geo-code the provided coordinates to automatically fill-in address fields.
+FB Messenger by default returns only the lat/long coordinates for the location selected in the widget. You can additionally use the following option to have Bing reverse geo-code the returned coordinates and automatically fill in the remaining address fields. 
 
 ````JavaScript
 var options = {
-    prompt: "Hi, where would you like me to ship to your widget?",
+    prompt: "Where should I ship your order? Type or say and address.",
     useNativeControl: true,
     reverseGeocode: true
 };
 locationDialog.getLocation(session, options);
 ````
 
-#### Specifying required fields to have the dialog prompt the user for if missing from address.
+Note: Due to the inheritably lack of accuracy of reverse geo-coders, we only use it to capture: `PostalAddress.Locality, PostalAddress.Region PostalAddress.Country and PostalAddress.PostalCode`.
+
+#### Specifying required fields 
+You can specify required location fields that need to be collected by the control. If the user does not provide any of the required fields, the control will prompt the user to fill them in. The example specifies that the street address and postal (zip) code are required. 
+
 ````JavaScript
 var options = {
-    prompt: "Hi, where would you like me to ship to your widget?",
+    prompt: "Where should I ship your order? Type or say and address.",
     requiredFields:
         locationDialog.LocationRequiredFields.streetAddress |
         locationDialog.LocationRequiredFields.postalCode
@@ -59,14 +60,16 @@ var options = {
 locationDialog.getLocation(session, options);
 ````
 
-#### Example on how to handle the returned place. For more info, see [place](src/place.ts)
+#### Handling returned location
+The following examples shows how you can leverage the location object data returned by the location control.
+
 ````JavaScript
 locationDialog.create(bot);
 
 bot.dialog("/", [
     function (session) {
         locationDialog.getLocation(session, {
-            prompt: "Hi, where would you like me to ship to your widget?",
+            prompt: "Where should I ship your order? Type or say and address.",
             requiredFields: 
                 locationDialog.LocationRequiredFields.streetAddress |
                 locationDialog.LocationRequiredFields.locality |
