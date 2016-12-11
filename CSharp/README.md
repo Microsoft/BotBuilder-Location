@@ -56,7 +56,7 @@ var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, Locat
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-#### Handling returned location
+### Handling returned location
 The following example shows how you can leverage the location object returned by the location control in your bot code. 
 
 ````C#
