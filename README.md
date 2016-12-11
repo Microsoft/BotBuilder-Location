@@ -24,19 +24,19 @@ Navigate to the [C#](/CSharp) or [Node.js](/Node) folder and follow the guide to
 ## Examples
 The examples demostrate different location selection scenarios supported by the Bing location control. 
 
-###Address selection with single result returned
+### Address selection with single result returned
 
 ![Single Address](Images/skype_singleaddress_2.png)
 
-**Address selection with multiple results returned**
+### Address selection with multiple results returned
 
 ![Multiple Addresses](Images/skype_multiaddress_1.png)
 
-**Address selection with required fields filling**
+### Address selection with required fields filling
 
 ![Required Fields](Images/skype_requiredaddress_1.png)
 
-**Address selection using FB Messenger's native location picker GUI dialog**
+### Address selection using FB Messenger's native location picker GUI dialog
 
 ![Messenger Location Dialog](Images/messenger_locationdialog_1.png)
 
