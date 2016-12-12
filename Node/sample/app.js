@@ -39,10 +39,7 @@ bot.dialog("/", [
     function (session, results) {
         if (results.response) {
             var place = results.response;
-            // To get a formatted address from the location.
-            // session.send("Thanks, I will ship to " + locationDialog.getFormattedAddressFromPlace(place, ", "));
-        
-            session.send("Bye");
+            session.send("Thanks, I will ship to " + locationDialog.getFormattedAddressFromPlace(place, ", "));
         }
     }
 ]);

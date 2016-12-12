@@ -66,9 +66,6 @@ function getLocationPickerPrompt() {
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }
             else {
-                var separator = session.gettext(consts_1.Strings.AddressSeparator);
-                var promptText = session.gettext(consts_1.Strings.Confirmation, common.getFormattedAddressFromPlace(session.dialogData.place, separator));
-                session.send(promptText);
                 next({ response: session.dialogData.place });
             }
         }

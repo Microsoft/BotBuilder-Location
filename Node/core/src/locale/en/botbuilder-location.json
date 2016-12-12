@@ -4,7 +4,6 @@
     "AskForPrefix": "OK %s.",
     "AskForTemplate": " Please also provide the %s.",
     "CancelPrompt": "OK, cancelled.",
-    "Confirmation": "Thanks, I will ship to %s.",
     "ConfirmationAsk": "OK, I will ship to %s. Is that correct? Enter 'yes' or 'no'.",
     "Country": "country",
     "DefaultPrompt": "Where should I ship your order?",

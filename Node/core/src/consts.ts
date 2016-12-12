@@ -7,7 +7,6 @@ export const Strings = {
     "AskForPrefix": exports.LibraryName + ":AskForPrefix",
     "AskForTemplate": exports.LibraryName + ":AskForTemplate",
     "CancelPrompt": exports.LibraryName + ":CancelPrompt",
-    "Confirmation": exports.LibraryName + ":Confirmation",
     "ConfirmationAsk": exports.LibraryName + ":ConfirmationAsk",
     "Country": exports.LibraryName + ":Country",
     "DefaultPrompt": exports.LibraryName + ":DefaultPrompt",
