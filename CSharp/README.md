@@ -1,50 +1,67 @@
-# Microsoft Bot Builder Location Control
+# Bing Location Control for Microsoft Bot Framework
 
-This dialog provides a location control, powered by Bing's Maps REST Services, to make the process of getting the user's location easy and consistent across all messaging channels supported by the bot framework. 
+## Overview
+The following examples demonstrate how to use the Bing location control to collect and validate the user's location with your Microsoft Bot Framework bot in C#. 
 
-## Examples
+## Prerequisites
+To start using the control, you need to obtain a Bing Maps API subscription key. You can sign up to get a free key with up to 10,000 transactions per month in [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/).
 
-The following examples demonstrate how to use [LocationDialog](BotBuilderLocation/LocationDialog.cs) to achieve different scenarios:
+## Code Highlights
 
-#### Calling with default parameters:
+### Usage
+Import the BotBuilder-Location library from nuGet and add the following namespace. 
+
+````C#
+using Microsoft.Bot.Builder.Location;
+````
+
+### Calling the location control with default parameters
+The example initiates the location control with default parameters, which returns a custom prompt message asking the user to provide an address. 
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-#### Using channel's native location widget if available (e.g. Facebook):
+### Using FB Messenger's location picker GUI dialog 
+FB Messenger supports a location picker GUI dialog to let the user select an address. If you prefer to use FB Messenger's native dialog,  pass the `LocationOptions.UseNativeControl` option in the location control's constructor.  
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.UseNativeControl);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-#### Using channel's native location widget if available (e.g. Facebook) and having Bing try to reverse geo-code the provided coordinates to automatically fill-in address fields:
+FB Messenger by default returns only the lat/long coordinates for any address selected via the location picker GUI dialog. You can additionally use the `LocationOptions.ReverseGeocode` option to have Bing reverse geocode the returned coordinates and automatically fill in the remaining address fields. 
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.UseNativeControl | LocationOptions.ReverseGeocode);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-#### Specifying required fields to have the dialog prompt the user for if missing from address:
+**Note**: Reverse geocoding is an inherently imprecise operation. For that reason, when the reverse geocode option is selected, the location control will collect only the `PostalAddress.Locality`, `PostalAddress.Region`, `PostalAddress.Country` and `PostalAddress.PostalCode` fields and ask the user to provide the desired street address manually. 
+
+### Specifying required fields 
+You can specify required location fields that need to be collected by the control. If the user does not provide values for one or more required fields, the control will prompt him to fill them in. You can specify required fields by passing them in the location control's constructor using the `LocationRequiredFields` enumeration. The example specifies the street address and postal (zip) code as required. 
+
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.None, LocationRequiredFields.StreetAddress | LocationRequiredFields.PostalCode);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
 
-#### Example on how to handle the returned place:
+### Handling returned location
+The following example shows how you can leverage the location object returned by the location control in your bot code. 
+
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Hi, where would you like me to ship to your widget?";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.None, LocationRequiredFields.StreetAddress | LocationRequiredFields.PostalCode);
 context.Call(locationDialog, (context, result) => {
     Place place = await result;
@@ -58,20 +75,18 @@ context.Call(locationDialog, (context, result) => {
     }
     else
     {
-        await context.PostAsync("OK, I won't be shipping it");
+        await context.PostAsync("OK, cancelled");
     }
 }
 ````
 
-## Use [LocationOptions](BotBuilderLocation/LocationOptions.cs) to customize the location experience:
+## Sample Bot
+You can find a sample bot that uses the Bing location control in the [BotBuilderLocation.Sample](BotBuilderLocation.Sample) directory. Please note that you need to obtain a Bing Maps API subscription key from [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/) to run the sample.
 
-*UseNativeControl:*
+## More Information
+Read these resources for more information about the Microsoft Bot Framework, Bot Builder SDK and Bing Maps REST Services:
 
-Some of the channels (e.g. Facebook) has a built in location widget. Use this option to indicate if you want the `LocationDialog` to use it when available.
-
-
-*ReverseGeocode:*
-
-Use this option if you want the location dialog to reverse lookup geo-coordinates before returning. This can be useful if you depend on the channel location service or native control to get user location but still want the control to return to you a full address.
-
-Note: Due to the inheritably lack of accuracy of reverse geo-coders, we only use it to capture: `PostalAddress.Locality, PostalAddress.Region PostalAddress.Country and PostalAddress.PostalCode`.
+* [Microsoft Bot Framework Overview](https://docs.botframework.com/en-us/)
+* [Microsoft Bot Framework Bot Builder SDK](https://github.com/Microsoft/BotBuilder)
+* [Microsoft Bot Framework Samples](https://github.com/Microsoft/BotBuilder-Samples)
+* [Bing Maps REST Services Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
