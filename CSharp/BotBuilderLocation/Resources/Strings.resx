@@ -148,7 +148,7 @@
     <value>help</value>
   </data>
   <data name="HelpMessage" xml:space="preserve">
-    <value>Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If I can't find the address, you can say or type 'other' to provide the address fields manually. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.</value>
+    <value>Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.</value>
   </data>
   <data name="InvalidLocationResponse" xml:space="preserve">
     <value>Type or say a number to choose the address, or enter 'cancel' to exit.</value>
