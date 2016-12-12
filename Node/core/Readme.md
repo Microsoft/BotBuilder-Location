@@ -125,5 +125,5 @@ Read these resources for more information about the Microsoft Bot Framework, Bot
 
 * [Microsoft Bot Framework Overview](https://docs.botframework.com/en-us/)
 * [Microsoft Bot Framework Bot Builder SDK](https://github.com/Microsoft/BotBuilder)
+* [Microsoft Bot Framework Samples](https://github.com/Microsoft/BotBuilder-Samples)
 * [Bing Maps REST Services Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
-
