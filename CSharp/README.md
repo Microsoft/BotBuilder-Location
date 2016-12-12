@@ -20,7 +20,7 @@ The example initiates the location control with default parameters, which return
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Where should I ship your order? Type or say and address.";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -30,7 +30,7 @@ FB Messenger supports a location picker GUI dialog to let the user select an add
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Where should I ship your order? Type or say and address.";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.UseNativeControl);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -39,7 +39,7 @@ FB Messenger by default returns only the lat/long coordinates for any address se
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Where should I ship your order? Type or say and address.";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.UseNativeControl | LocationOptions.ReverseGeocode);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -51,7 +51,7 @@ You can specify required location fields that need to be collected by the contro
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Where should I ship your order? Type or say and address.";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.None, LocationRequiredFields.StreetAddress | LocationRequiredFields.PostalCode);
 context.Call(locationDialog, (dialogContext, result) => {...});
 ````
@@ -61,7 +61,7 @@ The following example shows how you can leverage the location object returned by
 
 ````C#
 var apiKey = WebConfigurationManager.AppSettings["BingMapsApiKey"];
-var prompt = "Where should I ship your order? Type or say and address.";
+var prompt = "Where should I ship your order? Type or say an address.";
 var locationDialog = new LocationDialog(apiKey, message.ChannelId, prompt, LocationOptions.None, LocationRequiredFields.StreetAddress | LocationRequiredFields.PostalCode);
 context.Call(locationDialog, (context, result) => {
     Place place = await result;
