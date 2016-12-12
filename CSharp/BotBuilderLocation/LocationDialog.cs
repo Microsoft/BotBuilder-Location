@@ -215,10 +215,6 @@
                         {
                             if (await answer)
                             {
-                                var confirmation = string.Format(
-                                    this.ResourceManager.Confirmation,
-                                    this.selectedLocation.GetFormattedAddress(this.ResourceManager.AddressSeparator));
-                                await dialogContext.PostAsync(confirmation);
                                 dialogContext.Done(CreatePlace(this.selectedLocation));
                             }
                             else

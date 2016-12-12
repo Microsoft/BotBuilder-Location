@@ -1,15 +1,16 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Configuration;
-using System.Web.Http;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Location;
-using Microsoft.Bot.Connector;
-
-namespace BotBuilderLocation.Sample.Controllers
+﻿namespace BotBuilderLocation.Sample.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using System.Web.Configuration;
+    using System.Web.Http;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Builder.Location;
+    using Microsoft.Bot.Connector;
+
 #if !DEBUG
     [BotAuthentication]
 #endif
@@ -74,7 +75,17 @@ namespace BotBuilderLocation.Sample.Controllers
 
                 if (place != null)
                 {
-                    await context.PostAsync("Bye");
+                    var address = place.GetPostalAddress();
+                    var formatteAddress = string.Join(", ", new[]
+                    {
+                        address.StreetAddress,
+                        address.Locality,
+                        address.Region,
+                        address.PostalCode,
+                        address.Country
+                    }.Where(x => !string.IsNullOrEmpty(x)));
+
+                    await context.PostAsync("Thanks, I will ship it to " + formatteAddress);
                 }
 
                 context.Done<string>(null);

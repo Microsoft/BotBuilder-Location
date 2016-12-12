@@ -110,11 +110,6 @@
         public virtual string TitleSuffixFacebook => this.GetResource(nameof(Strings.TitleSuffixFacebook));
 
         /// <summary>
-        /// The <see cref="Confirmation"/> resource string.
-        /// </summary>
-        public virtual string Confirmation => this.GetResource(nameof(Strings.Confirmation));
-
-        /// <summary>
         /// The <see cref="ConfirmationAsk"/> resource string.
         /// </summary>
         public virtual string ConfirmationAsk => this.GetResource(nameof(Strings.ConfirmationAsk));

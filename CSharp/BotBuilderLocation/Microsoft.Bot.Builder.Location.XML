@@ -497,11 +497,6 @@
             The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook"/> resource string.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Confirmation">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Confirmation"/> resource string.
-            </summary>
-        </member>
         <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationAsk">
             <summary>
             The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationAsk"/> resource string.
@@ -821,11 +816,6 @@
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.CancelPrompt">
             <summary>
               Looks up a localized string similar to OK, cancelled..
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.Confirmation">
-            <summary>
-              Looks up a localized string similar to OK, I will ship to {0}..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.ConfirmationAsk">

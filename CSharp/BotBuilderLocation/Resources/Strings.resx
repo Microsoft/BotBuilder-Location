@@ -135,9 +135,6 @@
   <data name="CancelPrompt" xml:space="preserve">
     <value>OK, cancelled.</value>
   </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>OK, I will ship to {0}.</value>
-  </data>
   <data name="ConfirmationAsk" xml:space="preserve">
     <value>OK, I will ship to {0}. Is that correct? Enter 'yes' or 'no'.</value>
   </data>

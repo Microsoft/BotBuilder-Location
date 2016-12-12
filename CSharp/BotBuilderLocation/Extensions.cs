@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.Location
 {
-using System.Collections.Generic;
+    using System.Linq;
     using Connector;
 
     /// <summary>
@@ -45,34 +45,14 @@ using System.Collections.Generic;
                 return null;
             }
 
-            var addressParts = new List<string>();
-
-            if (!string.IsNullOrEmpty(location.Address.AddressLine))
+            return string.Join(separator, new []
             {
-                addressParts.Add(location.Address.AddressLine);
-            }
-
-            if (!string.IsNullOrEmpty(location.Address.Locality))
-            {
-                addressParts.Add(location.Address.Locality);
-            }
-
-            if (!string.IsNullOrEmpty(location.Address.AdminDistrict))
-            {
-                addressParts.Add(location.Address.AdminDistrict);
-            }
-
-            if (!string.IsNullOrEmpty(location.Address.PostalCode))
-            {
-                addressParts.Add(location.Address.PostalCode);
-            }
-
-            if (!string.IsNullOrEmpty(location.Address.CountryRegion))
-            {
-                addressParts.Add(location.Address.CountryRegion);
-            }
-
-            return string.Join(separator, addressParts);
+                location.Address.AddressLine,
+                location.Address.Locality,
+                location.Address.AdminDistrict,
+                location.Address.PostalCode,
+                location.Address.CountryRegion
+            }.Where(x => !string.IsNullOrEmpty(x)));
         }
     }
 }
