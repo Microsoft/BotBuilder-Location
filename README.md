@@ -5,7 +5,7 @@ The Bing location control for Microsoft Bot Framework makes the process of colle
 
 ![Basic Scenario](Images/skype_singleaddress_1.png)
 
-## Features
+## Use Case and Features
 Bots often need the user's location to complete a task. For example, a Taxi bot requires the user's pickup and destination address before requesting a ride. Similarly, a Pizza bot must know the user's delivery address to submit the order, and so on. Normally, bot developers need to use a combination of location or place APIs, and have their bots engage in a multi-turn dialog with users to get their desired location and subsequently validate it. The development steps are usually complicated and error-prone.  
 
 The Bing location control makes this process easy by abstracting away the tedious coding steps to let the user pick a location and reliably validate it. The control offers the following capabilities: 
@@ -24,7 +24,7 @@ To start using the control, you need to obtain a Bing Maps API subscription key.
 Navigate to the [C#](/CSharp) or [Node.js](/Node) folder and follow the guide to add the control to your Bot Framework bot. 
 
 ## Examples
-The examples demostrate different location selection scenarios supported by the Bing location control. 
+The examples show different location selection scenarios supported by the Bing location control. 
 
 ### Address selection with single result returned
 
@@ -43,8 +43,10 @@ The examples demostrate different location selection scenarios supported by the 
 ![Messenger Location Dialog](Images/messenger_locationdialog_1.png)
 
 ## More Information
-Read these resources to get started with Microsoft Bot Framework, Bot Builder SDK and Bing Maps REST Services:
+Read these resources for more information about the Microsoft Bot Framework, Bot Builder SDK and Bing Maps REST Services:
 
 * [Microsoft Bot Framework Overview](https://docs.botframework.com/en-us/)
 * [Microsoft Bot Framework Bot Builder SDK](https://github.com/Microsoft/BotBuilder)
+* [Microsoft Bot Framework Samples](https://github.com/Microsoft/BotBuilder-Samples)
 * [Bing Maps REST Services Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
+
