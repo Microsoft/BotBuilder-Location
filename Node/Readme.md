@@ -118,7 +118,7 @@ Boolean to indicate if the control will use FB Messenger's location picker GUI d
 Boolean to indicate if the control will try to reverse geocode the lat/long coordinates returned by FB Messenger's location picker GUI dialog. It does not have any effect on other messaging channels.
 
 ## Sample Bot
-You can find a sample bot that uses the Bing location control in the [Sample](../sample/app.js) directory. Please note that you need to obtain a Bing Maps API subscription key from [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/) to run the sample.
+You can find a sample bot that uses the Bing location control in the [Sample](/sample) directory. Please note that you need to obtain a Bing Maps API subscription key from [Azure Portal](https://azure.microsoft.com/en-us/marketplace/partners/bingmaps/mapapis/) to run the sample.
 
 ## More Information
 Read these resources for more information about the Microsoft Bot Framework, Bot Builder SDK and Bing Maps REST Services:
