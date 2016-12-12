@@ -9,6 +9,7 @@ exports.Strings = {
     "ConfirmationAsk": exports.LibraryName + ":ConfirmationAsk",
     "Country": exports.LibraryName + ":Country",
     "DefaultPrompt": exports.LibraryName + ":DefaultPrompt",
+    "HelpMessage": exports.LibraryName + ":HelpMessage",
     "InvalidLocationResponse": exports.LibraryName + ":InvalidLocationResponse",
     "InvalidLocationResponseFacebook": exports.LibraryName + ":InvalidLocationResponseFacebook",
     "LocationNotFound": exports.LibraryName + ":LocationNotFound",

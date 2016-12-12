@@ -10,7 +10,7 @@ function createBaseDialog(options) {
         return;
     })
         .matches(/^help$/i, function (session) {
-        session.send("help message").sendBatch();
+        session.send(consts_1.Strings.HelpMessage).sendBatch();
     })
         .matches(/^reset$/i, function (session) {
         session.endDialogWithResult({ response: { reset: true } });

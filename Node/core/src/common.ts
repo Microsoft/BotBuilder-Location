@@ -10,7 +10,7 @@ export function createBaseDialog(options?: any): IntentDialog {
             return
         })
         .matches(/^help$/i, function (session: Session) {
-            session.send("help message").sendBatch();
+            session.send(Strings.HelpMessage).sendBatch();
         })
         .matches(/^reset$/i, function (session: Session) {
             session.endDialogWithResult({ response: { reset: true } });
