@@ -20,7 +20,7 @@ The example initiates the location control with default parameters, which return
 
 ````JavaScript
 locationDialog.getLocation(session,
- { prompt: "Where should I ship your order? Type or say and address." });
+ { prompt: "Where should I ship your order? Type or say an address." });
 ````
 
 ### Using FB Messenger's location picker GUI dialog 
@@ -28,7 +28,7 @@ FB Messenger supports a location picker GUI dialog to let the user select an add
 
 ````JavaScript
 var options = {
-    prompt: "Where should I ship your order? Type or say and address.",
+    prompt: "Where should I ship your order? Type or say an address.",
     useNativeControl: true
 };
 locationDialog.getLocation(session, options);
@@ -38,7 +38,7 @@ FB Messenger by default returns only the lat/long coordinates for any address se
 
 ````JavaScript
 var options = {
-    prompt: "Where should I ship your order? Type or say and address.",
+    prompt: "Where should I ship your order? Type or say an address.",
     useNativeControl: true,
     reverseGeocode: true
 };
@@ -54,7 +54,7 @@ You can specify required location fields that need to be collected by the contro
 
 ````JavaScript
 var options = {
-    prompt: "Where should I ship your order? Type or say and address.",
+    prompt: "Where should I ship your order? Type or say an address.",
     requiredFields:
         locationDialog.LocationRequiredFields.streetAddress |
         locationDialog.LocationRequiredFields.postalCode
@@ -71,7 +71,7 @@ locationDialog.create(bot);
 bot.dialog("/", [
     function (session) {
         locationDialog.getLocation(session, {
-            prompt: "Where should I ship your order? Type or say and address.",
+            prompt: "Where should I ship your order? Type or say an address.",
             requiredFields: 
                 locationDialog.LocationRequiredFields.streetAddress |
                 locationDialog.LocationRequiredFields.locality |
