@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/Microsoft/BotBuilder-Location</projectUrl>
     <iconUrl>http://docs.botframework.com/images/bot_icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Microsoft Bot Builder Location provides a control powered by Bing GeoSpatial API that make the process of getting the user's location easy and consistent across all messaging channels supported by bot framework.</description>
+    <description>An open-source location picker control for Microsoft Bot Framework powered by Bing's Maps REST services. This control makes the process of collecting and validating the user's desired location in a conversation easy and reliable.</description>
     <copyright>Copyright 2016</copyright>
   </metadata>
 </package>
