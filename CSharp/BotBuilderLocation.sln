@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE88BB70-7CF5-4F26-8AAA-DAB8B555CF06}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBuilderLocation", "BotBuilderLocation\BotBuilderLocation.csproj", "{3CC3A7F1-CB7C-4C05-86EA-70B99C113FAD}"
