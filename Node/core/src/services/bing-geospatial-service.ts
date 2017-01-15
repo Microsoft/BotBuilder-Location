@@ -23,7 +23,7 @@ export function GetLocationMapImageUrl(apiKey: string, location: any, index?: nu
 
         var point = location.point;
         var url: string;
-        var sIndex = index === undefined ? "" : index.toString();
+        var sIndex = typeof index === "undefined" ? "" : index.toString();
 
         if (location.bbox && location.bbox.length == 4) {
             url = sprintf(findImageByBBoxUrl, location.bbox[0], location.bbox[1], location.bbox[2], location.bbox[3], point.coordinates[0], point.coordinates[1], sIndex)
