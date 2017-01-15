@@ -1,7 +1,7 @@
 "use strict";
-var common = require('../common');
-var consts_1 = require('../consts');
-var place_1 = require('../place');
+var common = require("../common");
+var consts_1 = require("../consts");
+var place_1 = require("../place");
 function register(library) {
     library.dialog('choice-dialog', createDialog());
 }

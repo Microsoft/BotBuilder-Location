@@ -4,7 +4,7 @@ import * as locationService from './services/bing-geospatial-service';
 
 export class MapCard extends HeroCard {
     // Todo: remove private session. https://github.com/Microsoft/BotBuilder/pull/1790
-    constructor(private apiKey: string, private session?: Session) {
+    constructor(private apiKey: string, session?: Session) {
         super(session);
     }
 

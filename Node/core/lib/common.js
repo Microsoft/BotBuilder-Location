@@ -1,7 +1,7 @@
 "use strict";
-var botbuilder_1 = require('botbuilder');
-var consts_1 = require('./consts');
-var place_1 = require('./place');
+var botbuilder_1 = require("botbuilder");
+var consts_1 = require("./consts");
+var place_1 = require("./place");
 function createBaseDialog(options) {
     return new botbuilder_1.IntentDialog(options)
         .matches(/^cancel$/i, function (session) {

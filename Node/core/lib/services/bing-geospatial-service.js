@@ -1,6 +1,6 @@
 "use strict";
-var rp = require('request-promise');
-var sprintf_js_1 = require('sprintf-js');
+var rp = require("request-promise");
+var sprintf_js_1 = require("sprintf-js");
 var formAugmentation = "&form=BTCTRL";
 var findLocationByQueryUrl = "https://dev.virtualearth.net/REST/v1/Locations?" + formAugmentation;
 var findLocationByPointUrl = "https://dev.virtualearth.net/REST/v1/Locations/%1$s,%2$s?" + formAugmentation;

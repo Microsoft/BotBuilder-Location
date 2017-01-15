@@ -1,11 +1,11 @@
 "use strict";
-var common = require('../common');
-var consts_1 = require('../consts');
-var botbuilder_1 = require('botbuilder');
-var map_card_1 = require('../map-card');
-var locationService = require('../services/bing-geospatial-service');
-var confirmDialog = require('./confirm-dialog');
-var choiceDialog = require('./choice-dialog');
+var common = require("../common");
+var consts_1 = require("../consts");
+var botbuilder_1 = require("botbuilder");
+var map_card_1 = require("../map-card");
+var locationService = require("../services/bing-geospatial-service");
+var confirmDialog = require("./confirm-dialog");
+var choiceDialog = require("./choice-dialog");
 function register(library, apiKey) {
     confirmDialog.register(library);
     choiceDialog.register(library);

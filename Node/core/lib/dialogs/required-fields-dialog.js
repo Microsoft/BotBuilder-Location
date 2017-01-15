@@ -1,7 +1,8 @@
 "use strict";
-var common = require('../common');
-var consts_1 = require('../consts');
-var botbuilder_1 = require('botbuilder');
+var common = require("../common");
+var consts_1 = require("../consts");
+var botbuilder_1 = require("botbuilder");
+var LocationRequiredFields;
 (function (LocationRequiredFields) {
     LocationRequiredFields[LocationRequiredFields["none"] = 0] = "none";
     LocationRequiredFields[LocationRequiredFields["streetAddress"] = 1] = "streetAddress";
@@ -9,8 +10,7 @@ var botbuilder_1 = require('botbuilder');
     LocationRequiredFields[LocationRequiredFields["region"] = 4] = "region";
     LocationRequiredFields[LocationRequiredFields["postalCode"] = 8] = "postalCode";
     LocationRequiredFields[LocationRequiredFields["country"] = 16] = "country";
-})(exports.LocationRequiredFields || (exports.LocationRequiredFields = {}));
-var LocationRequiredFields = exports.LocationRequiredFields;
+})(LocationRequiredFields = exports.LocationRequiredFields || (exports.LocationRequiredFields = {}));
 function register(library) {
     library.dialog('required-fields-dialog', createDialog());
 }

@@ -1,6 +1,6 @@
 "use strict";
-var common = require('../common');
-var consts_1 = require('../consts');
+var common = require("../common");
+var consts_1 = require("../consts");
 function register(library) {
     library.dialog('confirm-dialog', createDialog());
 }

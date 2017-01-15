@@ -19,7 +19,7 @@
   },
   "main": "./lib/botbuilder-location.js",
   "dependencies": {
-    "botbuilder": "^3.4.4",
+    "botbuilder": "^3.5.3",
     "request-promise": "^4.1.1",
     "sprintf-js": "^1.0.3"
   },
