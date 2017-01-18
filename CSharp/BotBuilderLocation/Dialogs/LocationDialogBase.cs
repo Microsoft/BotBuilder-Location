@@ -1,7 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.Location.Dialogs
 {
     using System;
-    using System.Reflection;
     using System.Threading.Tasks;
     using Builder.Dialogs;
     using Connector;

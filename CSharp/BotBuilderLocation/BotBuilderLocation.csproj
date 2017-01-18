@@ -86,6 +86,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientLocationListManagerBase.cs" />
+    <Compile Include="Dialogs\FavoriteLocationsDialog.cs" />
+    <Compile Include="FavoritesManager.cs" />
+    <Compile Include="IFavoritesManager.cs" />
     <Compile Include="LocationCard.cs" />
     <Compile Include="Dialogs\LocationDialogFactory.cs" />
     <Compile Include="Dialogs\RichLocationRetrieverDialog.cs" />

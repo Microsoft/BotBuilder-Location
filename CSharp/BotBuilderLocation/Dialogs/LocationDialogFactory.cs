@@ -11,21 +11,33 @@
             string channelId,
             string prompt,
             bool useNativeControl,
-            LocationResourceManager resourceManager)
+            LocationResourceManager resourceManager,
+            string branch)
         {
             bool isFacebookChannel = StringComparer.OrdinalIgnoreCase.Equals(channelId, "facebook");
 
-            if (useNativeControl && isFacebookChannel)
+            if (StringComparer.OrdinalIgnoreCase.Equals(branch, resourceManager.OtherLocation))
             {
-                return new FacebookNativeLocationRetrieverDialog(prompt, resourceManager);
-            }
+                if (useNativeControl && isFacebookChannel)
+                {
+                    return new FacebookNativeLocationRetrieverDialog(prompt, resourceManager);
+                }
 
-            return new RichLocationRetrieverDialog(
-                geoSpatialService: new BingGeoSpatialService(),
-                apiKey: apiKey,
-                prompt: prompt,
-                supportsKeyboard: isFacebookChannel,
-                resourceManager: resourceManager);
+                return new RichLocationRetrieverDialog(
+                    geoSpatialService: new BingGeoSpatialService(),
+                    apiKey: apiKey,
+                    prompt: prompt,
+                    supportsKeyboard: isFacebookChannel,
+                    resourceManager: resourceManager);
+            }
+            else if (StringComparer.OrdinalIgnoreCase.Equals(branch, resourceManager.FavoriteLocation))
+            {
+                return new FavoriteLocationsDialog(apiKey, supportsKeyboard: isFacebookChannel, resourceManager: resourceManager);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid branch value.");
+            }
         }
     }
 }

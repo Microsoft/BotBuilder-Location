@@ -4,27 +4,6 @@
         <name>Microsoft.Bot.Builder.Location</name>
     </assembly>
     <members>
-        <member name="T:Microsoft.Bot.Builder.Location.LocationCard">
-            <summary>
-            A static class for creating location cards.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.LocationCard.CreateLocationHeroCard(System.String,System.Collections.Generic.IList{Microsoft.Bot.Builder.Location.Bing.Location})">
-            <summary>
-            Creates locations hero cards (carousel).
-            </summary>
-            <param name="apiKey">The geo spatial API key.</param>
-            <param name="locations">List of the locations.</param>
-            <returns>The locations card as attachments.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.LocationCard.CreateLocationKeyboardCard(System.Collections.Generic.IEnumerable{Microsoft.Bot.Builder.Location.Bing.Location},System.String)">
-            <summary>
-            Creates location keyboard cards (buttons).
-            </summary>
-            <param name="locations">The list of locations.</param>
-            <param name="selectText">The card prompt.</param>
-            <returns>The keyboard cards.</returns>
-        </member>
         <member name="M:Microsoft.Bot.Builder.Location.Dialogs.RichLocationRetrieverDialog.#ctor(Microsoft.Bot.Builder.Location.Bing.IGeoSpatialService,System.String,System.String,System.Boolean,Microsoft.Bot.Builder.Location.LocationResourceManager)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> class.
@@ -181,6 +160,51 @@
             <summary>
             Represents a dialog that prompts the user for any missing location fields.
             </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Location.IFavoritesManager">
+            <summary>
+            Represents the interface that defines how the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> will
+            store and retrieve favorite locations for its users.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavorites(Microsoft.Bot.Builder.Dialogs.IDialogContext)">
+            <summary>
+            Looks up the favorite locations value for the user inferred from the
+            given dialog context.
+            </summary>
+            <param name="context">The dialog context.</param>
+            <returns>A list of favorite locations.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.AddToFavorites(Microsoft.Bot.Builder.Dialogs.IDialogContext,Microsoft.Bot.Builder.Location.Bing.Location)">
+            <summary>
+            Adds the given location to the favorites of the user inferred from the
+            given dialog context.
+            </summary>
+            <param name="context">The dialog context.</param>
+            <param name="value">The new favorite location value.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Location.LocationCard">
+            <summary>
+            A static class for creating location cards.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.LocationCard.CreateLocationHeroCard(System.String,System.Collections.Generic.IList{Microsoft.Bot.Builder.Location.Bing.Location},System.Boolean)">
+            <summary>
+            Creates locations hero cards (carousel).
+            </summary>
+            <param name="apiKey">The geo spatial API key.</param>
+            <param name="locations">List of the locations.</param>
+            <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
+            <returns>The locations card as attachments.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.LocationCard.CreateLocationKeyboardCard(System.String,System.Int32,System.String[])">
+            <summary>
+            Creates location keyboard cards (buttons) with numbers and/or additional labels.
+            </summary>
+            <param name="optionsCount">The number of options for which buttons should be made.</param>
+            <param name="selectText">The card prompt.</param>
+            <param name="additionalOptionLabels">additional buttons labels.</param>
+            <returns>The keyboard cards.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Location.Bing.IGeoSpatialService">
             <summary>
@@ -402,119 +426,14 @@
             some or all the prompt strings.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Country">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Country"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Locality">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Locality"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.PostalCode">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.PostalCode"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Region">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Region"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.StreetAddress">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.StreetAddress"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelCommand">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelCommand"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpCommand">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpCommand"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpMessage">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpMessage"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponse">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponse"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponseFacebook">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponseFacebook"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.LocationNotFound">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.LocationNotFound"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.MultipleResultsFound">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.MultipleResultsFound"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetCommand">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetCommand"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetPrompt">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetPrompt"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelPrompt">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelPrompt"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SelectLocation">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SelectLocation"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SingleResultFound">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SingleResultFound"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffix">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffix"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationAsk">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationAsk"/> resource string.
-            </summary>
-        </member>
         <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AddressSeparator">
             <summary>
             The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AddressSeparator"/> resource string.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.OtherComand">
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AskForEmptyAddressTemplate">
             <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.OtherComand"/> resource string.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationInvalidResponse">
-            <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationInvalidResponse"/> resource string.
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AskForEmptyAddressTemplate"/> resource string.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AskForPrefix">
@@ -527,9 +446,164 @@
             The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AskForTemplate"/> resource string.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AskForEmptyAddressTemplate">
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelCommand">
             <summary>
-            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.AskForEmptyAddressTemplate"/> resource string.
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelCommand"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelPrompt">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.CancelPrompt"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationAsk">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationAsk"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationInvalidResponse">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ConfirmationInvalidResponse"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Country">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Country"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.DialogStartBranchAsk">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.DialogStartBranchAsk"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.FavoriteAdditionConfirmation">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.FavoriteAdditionConfirmation"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.FavoriteLocation">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.FavoriteLocation"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.FavoriteLocationsFound">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.FavoriteLocationsFound" /> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpCommand">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpCommand"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpMessage">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.HelpMessage"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidFavoriteLocationResponse">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidFavoriteLocationResponse"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidEmptyFavoriteLocationsResponse">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidEmptyFavoriteLocationsResponse"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponse">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponse"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponseFacebook">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidLocationResponseFacebook"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidStartBranchResponse">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.InvalidStartBranchResponse"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.LocationNotFound">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.LocationNotFound"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Locality">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Locality"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.MultipleResultsFound">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.MultipleResultsFound"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.NewCommand">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.NewCommand"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.NoFavoriteLocationsFound">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.NoFavoriteLocationsFound"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.OtherComand">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.OtherComand"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.OtherLocation">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.OtherLocation"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.PostalCode">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.PostalCode"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Region">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.Region"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetCommand">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetCommand"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetPrompt">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.ResetPrompt"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SelectLocation">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SelectLocation"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SingleResultFound">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SingleResultFound"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.StreetAddress">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.StreetAddress"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffix">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffix"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook"/> resource string.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Builder.Location.LocationResourceManager.#ctor">
@@ -622,10 +696,16 @@
             but still want the control to return to you a full address.
             </summary>
             <remarks>
-            Due to the accuracy of reverse geo-coders, we only use it to capture
+            Due to the accuracy limitations of reverse geo-coders, we only use it to capture
             <see cref="P:Microsoft.Bot.Builder.Location.PostalAddress.Locality"/>, <see cref="P:Microsoft.Bot.Builder.Location.PostalAddress.Region"/>,
             <see cref="P:Microsoft.Bot.Builder.Location.PostalAddress.Country"/>, and <see cref="P:Microsoft.Bot.Builder.Location.PostalAddress.PostalCode"/>
             </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.LocationOptions.OptOutOfFavorites">
+            <summary>
+            Use this option if you do not want the <c>LocationDialog</c> to offer
+            keeping track of the user's favorite locations.
+            </summary>
         </member>
         <member name="T:Microsoft.Bot.Builder.Location.LocationDialog">
             <summary>
@@ -838,6 +918,26 @@
               Looks up a localized string similar to country.
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.DialogStartBranchAsk">
+            <summary>
+              Looks up a localized string similar to How would you like to pick a location?.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteAdditionConfirmation">
+            <summary>
+              Looks up a localized string similar to Your new location has been added to your favorites list!.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteLocation">
+            <summary>
+              Looks up a localized string similar to Favorite Locations.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteLocationsFound">
+            <summary>
+              Looks up a localized string similar to I found these locations in your favorites. Type or say a number to choose the address, or enter &apos;new&apos; to create a new favorite location..
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.HelpCommand">
             <summary>
               Looks up a localized string similar to help.
@@ -845,7 +945,17 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.HelpMessage">
             <summary>
-              Looks up a localized string similar to The help message.
+              Looks up a localized string similar to Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type &apos;reset&apos;. Finally, say or type &apos;cancel&apos; to exit without providing an address..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidEmptyFavoriteLocationsResponse">
+            <summary>
+              Looks up a localized string similar to I didn&apos;t understand. Enter &apos;new&apos; to create a new favorite location, or enter &apos;cancel&apos; to exit..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidFavoriteLocationResponse">
+            <summary>
+              Looks up a localized string similar to Type or say a number to choose the address, enter &apos;new&apos; to create a new favorite location, or enter &apos;cancel&apos; to exit..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidLocationResponse">
@@ -856,6 +966,11 @@
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidLocationResponseFacebook">
             <summary>
               Looks up a localized string similar to Tap on Send Location to proceed; type or say cancel to exit..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidStartBranchResponse">
+            <summary>
+              Looks up a localized string similar to Tap one of the options to proceed; type or say cancel to exit..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.Locality">
@@ -873,9 +988,24 @@
               Looks up a localized string similar to I found these results. Type or say a number to choose the address, or enter &apos;other&apos; to select another address..
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.NewCommand">
+            <summary>
+              Looks up a localized string similar to New.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.NoFavoriteLocationsFound">
+            <summary>
+              Looks up a localized string similar to You do not seem to have any favorite locations at the moment. Enter &apos;new&apos; to enter an address and save it to your favorite locations..
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.OtherComand">
             <summary>
               Looks up a localized string similar to other.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.OtherLocation">
+            <summary>
+              Looks up a localized string similar to Other Location.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.PostalCode">

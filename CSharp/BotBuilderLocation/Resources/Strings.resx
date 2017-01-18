@@ -144,17 +144,38 @@
   <data name="Country" xml:space="preserve">
     <value>country</value>
   </data>
+  <data name="DialogStartBranchAsk" xml:space="preserve">
+    <value>How would you like to pick a location?</value>
+  </data>
+  <data name="FavoriteAdditionConfirmation" xml:space="preserve">
+    <value>Your new location has been added to your favorites list!</value>
+  </data>
+  <data name="FavoriteLocation" xml:space="preserve">
+    <value>Favorite Locations</value>
+  </data>
+  <data name="FavoriteLocationsFound" xml:space="preserve">
+    <value>I found these locations in your favorites. Type or say a number to choose the address, or enter 'new' to create a new favorite location.</value>
+  </data>
   <data name="HelpCommand" xml:space="preserve">
     <value>help</value>
   </data>
   <data name="HelpMessage" xml:space="preserve">
     <value>Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.</value>
   </data>
+  <data name="InvalidEmptyFavoriteLocationsResponse" xml:space="preserve">
+    <value>I didn't understand. Enter 'new' to create a new favorite location, or enter 'cancel' to exit.</value>
+  </data>
+  <data name="InvalidFavoriteLocationResponse" xml:space="preserve">
+    <value>Type or say a number to choose the address, enter 'new' to create a new favorite location, or enter 'cancel' to exit.</value>
+  </data>
   <data name="InvalidLocationResponse" xml:space="preserve">
     <value>Type or say a number to choose the address, or enter 'cancel' to exit.</value>
   </data>
   <data name="InvalidLocationResponseFacebook" xml:space="preserve">
     <value>Tap on Send Location to proceed; type or say cancel to exit.</value>
+  </data>
+  <data name="InvalidStartBranchResponse" xml:space="preserve">
+    <value>Tap one of the options to proceed; type or say cancel to exit.</value>
   </data>
   <data name="Locality" xml:space="preserve">
     <value>city or locality</value>
@@ -165,8 +186,17 @@
   <data name="MultipleResultsFound" xml:space="preserve">
     <value>I found these results. Type or say a number to choose the address, or enter 'other' to select another address.</value>
   </data>
+  <data name="NewCommand" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="NoFavoriteLocationsFound" xml:space="preserve">
+    <value>You do not seem to have any favorite locations at the moment. Enter 'new' to enter an address and save it to your favorite locations.</value>
+  </data>
   <data name="OtherComand" xml:space="preserve">
     <value>other</value>
+  </data>
+  <data name="OtherLocation" xml:space="preserve">
+    <value>Other Location</value>
   </data>
   <data name="PostalCode" xml:space="preserve">
     <value>zip or postal code</value>
