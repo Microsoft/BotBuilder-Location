@@ -1,6 +1,7 @@
 ﻿namespace Microsoft.Bot.Builder.Location
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Bing;
@@ -104,9 +105,13 @@
         private readonly LocationOptions options;
         private readonly LocationRequiredFields requiredFields;
         private readonly IGeoSpatialService geoSpatialService;
+        private readonly IFavoritesManager favoritesManager;
         private readonly string apiKey;
         private bool requiredDialogCalled;
+        private bool shouldFavoriteSelectedLocation;
         private Location selectedLocation;
+        private string currentBranch;
+        private string[] branches;
 
         /// <summary>
         /// Determines whether this is the root dialog or not.
@@ -135,6 +140,8 @@
             LocationResourceManager resourceManager = null)
             : this(apiKey, channelId, prompt, new BingGeoSpatialService(), options, requiredFields, resourceManager)
         {
+            this.branches = new string[] { this.ResourceManager.FavoriteLocation, this.ResourceManager.OtherLocation };
+            this.favoritesManager = new FavoritesManager();
         }
 
         /// <summary>
@@ -173,6 +180,24 @@
         public override async Task StartAsync(IDialogContext context)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
+            // this is the default branch
+            this.currentBranch = this.ResourceManager.OtherLocation;
+            this.shouldFavoriteSelectedLocation = false;
+
+            // examine settings to determine if another branch is to be taken
+            if (this.options.HasFlag(LocationOptions.OptOutOfFavorites))
+            {
+                this.StartCurrentBranch(context);
+            }
+            else
+            {
+                await context.PostAsync(this.CreateDialogStartHeroCard(context));
+                context.Wait(this.MessageReceivedAsync);
+            }
+        }
+
+        private void StartCurrentBranch(IDialogContext context)
+        {
             this.requiredDialogCalled = false;
 
             var dialog = LocationDialogFactory.CreateLocationRetrieverDialog(
@@ -180,9 +205,26 @@
                 this.channelId,
                 this.prompt,
                 this.options.HasFlag(LocationOptions.UseNativeControl),
-                this.ResourceManager);
+                this.ResourceManager,
+                this.currentBranch);
 
             context.Call(dialog, this.ResumeAfterChildDialogAsync);
+        }
+
+        protected override async Task MessageReceivedInternalAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var messageText = (await result).Text.Trim();
+
+           if (this.branches.Contains(messageText))
+            {
+                this.currentBranch = messageText;
+                this.StartCurrentBranch(context);
+            }
+            else
+            {
+                await context.PostAsync(this.ResourceManager.InvalidStartBranchResponse);
+                context.Wait(this.MessageReceivedAsync);
+            }
         }
 
         /// <summary>
@@ -193,39 +235,64 @@
         /// <returns>The asynchronous task.</returns>
         internal override async Task ResumeAfterChildDialogInternalAsync(IDialogContext context, IAwaitable<LocationDialogResponse> result)
         {
-            this.selectedLocation = (await result).Location;
+            var response = await result;
 
-            await this.TryReverseGeocodeAddress(this.selectedLocation);
-
-            if (!this.requiredDialogCalled && this.requiredFields != LocationRequiredFields.None)
+            if (response.Location == null && StringComparer.OrdinalIgnoreCase.Equals(response.Message, this.ResourceManager.NewCommand))
             {
-                this.requiredDialogCalled = true;
-                var requiredDialog = new LocationRequiredFieldsDialog(this.selectedLocation, this.requiredFields, this.ResourceManager);
-                context.Call(requiredDialog, this.ResumeAfterChildDialogAsync);
+                this.shouldFavoriteSelectedLocation = true;
+                this.currentBranch = this.ResourceManager.OtherLocation;
+                this.StartCurrentBranch(context);
             }
             else
             {
-                var confirmationAsk = string.Format(
-                    this.ResourceManager.ConfirmationAsk,
-                    this.selectedLocation.GetFormattedAddress(this.ResourceManager.AddressSeparator));
+                this.selectedLocation = response.Location;
+                await this.TryReverseGeocodeAddress(this.selectedLocation);
 
-                PromptDialog.Confirm(
-                        context,
-                        async (dialogContext, answer) =>
+                if (!this.requiredDialogCalled && this.requiredFields != LocationRequiredFields.None)
+                {
+                    this.requiredDialogCalled = true;
+                    var requiredDialog = new LocationRequiredFieldsDialog(this.selectedLocation, this.requiredFields, this.ResourceManager);
+                    context.Call(requiredDialog, this.ResumeAfterChildDialogAsync);
+                }
+                else
+                {
+                    this.MakeFinalConfirmation(context);  
+                }
+            }
+        }
+
+        private void MakeFinalConfirmation(IDialogContext context)
+        {
+            var confirmationAsk = string.Format(
+                       this.ResourceManager.ConfirmationAsk,
+                       this.selectedLocation.GetFormattedAddress(this.ResourceManager.AddressSeparator));
+
+            PromptDialog.Confirm(
+                    context,
+                    async (dialogContext, answer) =>
+                    {
+                        if (await answer)
                         {
-                            if (await answer)
-                            {
-                                dialogContext.Done(CreatePlace(this.selectedLocation));
-                            }
-                            else
-                            {
-                                await dialogContext.PostAsync(this.ResourceManager.ResetPrompt);
-                                await this.StartAsync(dialogContext);
-                            }
-                        },
-                        confirmationAsk,
-                        retry: this.ResourceManager.ConfirmationInvalidResponse,
-                        promptStyle: PromptStyle.None);
+                            this.PostProcessSelectedLocation(dialogContext);
+                            dialogContext.Done(CreatePlace(this.selectedLocation));
+                        }
+                        else
+                        {
+                            await dialogContext.PostAsync(this.ResourceManager.ResetPrompt);
+                            await this.StartAsync(dialogContext);
+                        }
+                    },
+                    confirmationAsk,
+                    retry: this.ResourceManager.ConfirmationInvalidResponse,
+                    promptStyle: PromptStyle.None);
+        }
+
+        private async Task PostProcessSelectedLocation(IDialogContext context)
+        {
+            if (this.shouldFavoriteSelectedLocation)
+            {
+                this.favoritesManager.AddToFavorites(context, this.selectedLocation);
+                await context.PostAsync(this.ResourceManager.FavoriteAdditionConfirmation);
             }
         }
 
@@ -257,6 +324,36 @@
                     };
                 }
             }
+        }
+
+        private IMessageActivity CreateDialogStartHeroCard(IDialogContext context)
+        {
+            // TODO: This should be the default template maps screenshot or the user's current location if possible
+            //var image = new CardImage(url: "");
+            var dialogStartCard = context.MakeMessage();
+            var buttons = new List<CardAction>();
+
+            foreach (var possibleBranch in this.branches)
+            {
+                buttons.Add(new CardAction
+                {
+                    Type = "imBack",
+                    Title = possibleBranch,
+                    Value = possibleBranch
+                });
+            }
+
+            var heroCard = new HeroCard
+            {
+                Subtitle = this.ResourceManager.DialogStartBranchAsk,
+                //Images = new[] { image },
+                Buttons = buttons
+            };
+
+            dialogStartCard.Attachments = new List<Attachment> { heroCard.ToAttachment() };
+            dialogStartCard.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+
+            return dialogStartCard;
         }
 
         /// <summary>

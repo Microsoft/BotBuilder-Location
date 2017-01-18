@@ -27,10 +27,16 @@
         /// but still want the control to return to you a full address.
         /// </summary>
         /// <remarks>
-        /// Due to the accuracy of reverse geo-coders, we only use it to capture
+        /// Due to the accuracy limitations of reverse geo-coders, we only use it to capture
         /// <see cref="PostalAddress.Locality"/>, <see cref="PostalAddress.Region"/>,
         /// <see cref="PostalAddress.Country"/>, and <see cref="PostalAddress.PostalCode"/>
         /// </remarks>
-        ReverseGeocode = 2
+        ReverseGeocode = 2,
+
+        /// <summary>
+        /// Use this option if you do not want the <c>LocationDialog</c> to offer
+        /// keeping track of the user's favorite locations.
+        /// </summary>
+        OptOutOfFavorites = 4
     }
 }

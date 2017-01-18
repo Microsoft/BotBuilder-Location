@@ -142,6 +142,42 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How would you like to pick a location?.
+        /// </summary>
+        internal static string DialogStartBranchAsk {
+            get {
+                return ResourceManager.GetString("DialogStartBranchAsk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your new location has been added to your favorites list!.
+        /// </summary>
+        internal static string FavoriteAdditionConfirmation {
+            get {
+                return ResourceManager.GetString("FavoriteAdditionConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite Locations.
+        /// </summary>
+        internal static string FavoriteLocation {
+            get {
+                return ResourceManager.GetString("FavoriteLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I found these locations in your favorites. Type or say a number to choose the address, or enter &apos;new&apos; to create a new favorite location..
+        /// </summary>
+        internal static string FavoriteLocationsFound {
+            get {
+                return ResourceManager.GetString("FavoriteLocationsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to help.
         /// </summary>
         internal static string HelpCommand {
@@ -160,6 +196,24 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I didn&apos;t understand. Enter &apos;new&apos; to create a new favorite location, or enter &apos;cancel&apos; to exit..
+        /// </summary>
+        internal static string InvalidEmptyFavoriteLocationsResponse {
+            get {
+                return ResourceManager.GetString("InvalidEmptyFavoriteLocationsResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type or say a number to choose the address, enter &apos;new&apos; to create a new favorite location, or enter &apos;cancel&apos; to exit..
+        /// </summary>
+        internal static string InvalidFavoriteLocationResponse {
+            get {
+                return ResourceManager.GetString("InvalidFavoriteLocationResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type or say a number to choose the address, or enter &apos;cancel&apos; to exit..
         /// </summary>
         internal static string InvalidLocationResponse {
@@ -174,6 +228,15 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         internal static string InvalidLocationResponseFacebook {
             get {
                 return ResourceManager.GetString("InvalidLocationResponseFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap one of the options to proceed; type or say cancel to exit..
+        /// </summary>
+        internal static string InvalidStartBranchResponse {
+            get {
+                return ResourceManager.GetString("InvalidStartBranchResponse", resourceCulture);
             }
         }
         
@@ -205,11 +268,38 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        internal static string NewCommand {
+            get {
+                return ResourceManager.GetString("NewCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You do not seem to have any favorite locations at the moment. Enter &apos;new&apos; to enter an address and save it to your favorite locations..
+        /// </summary>
+        internal static string NoFavoriteLocationsFound {
+            get {
+                return ResourceManager.GetString("NoFavoriteLocationsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to other.
         /// </summary>
         internal static string OtherComand {
             get {
                 return ResourceManager.GetString("OtherComand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other Location.
+        /// </summary>
+        internal static string OtherLocation {
+            get {
+                return ResourceManager.GetString("OtherLocation", resourceCulture);
             }
         }
         

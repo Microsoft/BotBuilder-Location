@@ -163,7 +163,7 @@
             if (this.supportsKeyboard)
             {
                 var keyboardCardReply = context.MakeMessage();
-                keyboardCardReply.Attachments = LocationCard.CreateLocationKeyboardCard(this.locations, this.ResourceManager.MultipleResultsFound);
+                keyboardCardReply.Attachments = LocationCard.CreateLocationKeyboardCard(this.ResourceManager.MultipleResultsFound, this.locations.Count);
                 keyboardCardReply.AttachmentLayout = AttachmentLayoutTypes.List;
                 await context.PostAsync(keyboardCardReply);
             }
