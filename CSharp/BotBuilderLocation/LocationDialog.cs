@@ -205,27 +205,7 @@
             }
             else
             {
-                var confirmationAsk = string.Format(
-                    this.ResourceManager.ConfirmationAsk,
-                    this.selectedLocation.GetFormattedAddress(this.ResourceManager.AddressSeparator));
-
-                PromptDialog.Confirm(
-                        context,
-                        async (dialogContext, answer) =>
-                        {
-                            if (await answer)
-                            {
-                                dialogContext.Done(CreatePlace(this.selectedLocation));
-                            }
-                            else
-                            {
-                                await dialogContext.PostAsync(this.ResourceManager.ResetPrompt);
-                                await this.StartAsync(dialogContext);
-                            }
-                        },
-                        confirmationAsk,
-                        retry: this.ResourceManager.ConfirmationInvalidResponse,
-                        promptStyle: PromptStyle.None);
+                context.Done(CreatePlace(this.selectedLocation));
             }
         }
 
