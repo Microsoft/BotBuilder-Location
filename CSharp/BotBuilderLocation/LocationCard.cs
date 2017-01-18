@@ -1,7 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.Location
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Bing;
     using Connector;
     using ConnectorEx;
@@ -16,8 +15,9 @@
         /// </summary>
         /// <param name="apiKey">The geo spatial API key.</param>
         /// <param name="locations">List of the locations.</param>
+        /// <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
         /// <returns>The locations card as attachments.</returns>
-        public static List<Attachment> CreateLocationHeroCard(string apiKey, IList<Location> locations)
+        public static List<Attachment> CreateLocationHeroCard(string apiKey, IList<Location> locations, bool alwaysShowNumericPrefix = false)
         {
             var attachments = new List<Attachment>();
 
@@ -25,7 +25,7 @@
 
             foreach (var location in locations)
             {
-                string address = locations.Count > 1 ? $"{i}. {location.Address.FormattedAddress}" : location.Address.FormattedAddress;
+                string address = alwaysShowNumericPrefix || locations.Count > 1 ? $"{i}. {location.Address.FormattedAddress}" : location.Address.FormattedAddress;
 
                 var heroCard = new HeroCard
                 {
@@ -50,22 +50,37 @@
         }
 
         /// <summary>
-        /// Creates location keyboard cards (buttons).
+        /// Creates location keyboard cards (buttons) with numbers and/or additional labels.
         /// </summary>
-        /// <param name="locations">The list of locations.</param>
+        /// <param name="optionsCount">The number of options for which buttons should be made.</param>
         /// <param name="selectText">The card prompt.</param>
+        /// <param name="additionalOptionLabels">additional buttons labels.</param>
         /// <returns>The keyboard cards.</returns>
-        public static List<Attachment> CreateLocationKeyboardCard(IEnumerable<Location> locations, string selectText)
+        public static List<Attachment> CreateLocationKeyboardCard(string selectText, int optionsCount = 0, params string[] additionalOptionLabels)
         {
-            int i = 1;
-            var keyboardCard = new KeyboardCard(
-                selectText,
-                locations.Select(a => new CardAction
+            var buttons = new List<CardAction>();
+
+            for (int i = 1; i <= optionsCount; i++)
+            {
+                buttons.Add(new CardAction
                 {
                     Type = "imBack",
                     Title = i.ToString(),
                     Value = (i++).ToString()
-                }).ToList());
+                });
+            }
+
+            foreach (var label in additionalOptionLabels)
+            {
+                buttons.Add(new CardAction
+                {
+                    Type = "imBack",
+                    Title = label,
+                    Value = label
+                });
+            }
+
+            var keyboardCard = new KeyboardCard(selectText, buttons);
 
             return new List<Attachment> { keyboardCard.ToAttachment() };
         }
