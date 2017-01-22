@@ -10,14 +10,12 @@
     using Internals.Fibers;
 
     [Serializable]
-    class RichLocationRetrieverDialog : LocationDialogBase<LocationDialogResponse>
+    class RichLocationRetrieverDialog : LocationRetrieverDialogBase
     {
         private const int MaxLocationCount = 5;
         private readonly string prompt;
         private readonly bool supportsKeyboard;
         private readonly List<Location> locations = new List<Location>();
-        private readonly IGeoSpatialService geoSpatialService;
-        private readonly string apiKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LocationDialog"/> class.
@@ -26,16 +24,19 @@
         /// <param name="apiKey">The geo spatial service API key.</param>
         /// <param name="prompt">The prompt posted to the user when dialog starts.</param>
         /// <param name="supportsKeyboard">Indicates whether channel supports keyboard buttons or not.</param>
+        /// <param name="options">The location options used to customize the experience.</param>
+        /// <param name="requiredFields">The location required fields.</param>
         /// <param name="resourceManager">The resource manager.</param>
         internal RichLocationRetrieverDialog(
-            IGeoSpatialService geoSpatialService,
-            string apiKey,
             string prompt,
             bool supportsKeyboard,
-            LocationResourceManager resourceManager) : base(resourceManager)
+            string apiKey,
+            IGeoSpatialService geoSpatialService,
+            LocationOptions options,
+            LocationRequiredFields requiredFields,
+            LocationResourceManager resourceManager)
+            : base(apiKey, geoSpatialService, options, requiredFields, resourceManager)
         {
-            SetField.NotNull(out this.geoSpatialService, nameof(geoSpatialService), geoSpatialService);
-            SetField.NotNull(out this.apiKey, nameof(apiKey), apiKey);
             this.prompt = prompt;
             this.supportsKeyboard = supportsKeyboard;
         }
@@ -55,7 +56,7 @@
             {
                 await this.TryResolveAddressAsync(context, message);
             }
-            else if (!this.TryResolveAddressSelectionAsync(context, message))
+            else if (! (await this.TryResolveAddressSelectionAsync(context, message)))
             {
                 await context.PostAsync(this.ResourceManager.InvalidLocationResponse);
                 context.Wait(this.MessageReceivedAsync);
@@ -105,19 +106,19 @@
         /// <param name="context">The context.</param>
         /// <param name="message">The message.</param>
         /// <returns>The asynchronous task.</returns>
-        private bool TryResolveAddressSelectionAsync(IDialogContext context, IMessageActivity message)
+        private async Task<bool> TryResolveAddressSelectionAsync(IDialogContext context, IMessageActivity message)
         {
             int value;
             if (int.TryParse(message.Text, out value) && value > 0 && value <= this.locations.Count)
             {
-                context.Done(new LocationDialogResponse(this.locations[value - 1]));
+                await this.ProcessRetrievedLocation(context, this.locations[value - 1]);
                 return true;
             }
 
             if (StringComparer.OrdinalIgnoreCase.Equals(message.Text, this.ResourceManager.OtherComand))
             {
                 // Return new empty location to be filled by the required fields dialog.
-                context.Done(new LocationDialogResponse(new Location()));
+                await this.ProcessRetrievedLocation(context, new Location());
                 return true;
             }
 
@@ -140,7 +141,7 @@
                     {
                         if (await answer)
                         {
-                            dialogContext.Done(new LocationDialogResponse(this.locations.First()));
+                            await this.ProcessRetrievedLocation(dialogContext, this.locations.First());
                         }
                         else
                         {
@@ -163,7 +164,7 @@
             if (this.supportsKeyboard)
             {
                 var keyboardCardReply = context.MakeMessage();
-                keyboardCardReply.Attachments = LocationCard.CreateLocationKeyboardCard(this.locations, this.ResourceManager.MultipleResultsFound);
+                keyboardCardReply.Attachments = LocationCard.CreateLocationKeyboardCard(this.ResourceManager.MultipleResultsFound, this.locations.Count);
                 keyboardCardReply.AttachmentLayout = AttachmentLayoutTypes.List;
                 await context.PostAsync(keyboardCardReply);
             }
