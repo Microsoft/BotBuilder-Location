@@ -31,6 +31,12 @@
         /// <see cref="PostalAddress.Locality"/>, <see cref="PostalAddress.Region"/>,
         /// <see cref="PostalAddress.Country"/>, and <see cref="PostalAddress.PostalCode"/>
         /// </remarks>
-        ReverseGeocode = 2
+        ReverseGeocode = 2,
+
+        /// <summary>
+        /// Use this option if you do not want the <c>LocationDialog</c> to offer
+        /// keeping track of the user's favorite locations.
+        /// </summary>
+        SkipFavorites = 4
     }
 }

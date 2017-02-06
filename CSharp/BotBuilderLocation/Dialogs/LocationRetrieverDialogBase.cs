@@ -44,17 +44,15 @@
         }
 
         /// <summary>
-        /// Resumes after required fields dialog returns.
+        /// Resumes after a required fields dialog returns (in case of the rich and Facebook retrievers).
+        /// Resumes after a location retriever dialog returns or an edit favorite location dialog returns (in case of the favorite retriever).
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="result">The result.</param>
         /// <returns>The asynchronous task.</returns>
         internal override async Task ResumeAfterChildDialogInternalAsync(IDialogContext context, IAwaitable<LocationDialogResponse> result)
         {
-            // required fields have potentially changed after the child required fields dialog
-            // hence, re-assign the value of the selected location
-            this.selectedLocation = (await result).Location;
-            context.Done(new LocationDialogResponse(this.selectedLocation));
+            context.Done(new LocationDialogResponse((await result).Location));
         }
 
         /// <summary>

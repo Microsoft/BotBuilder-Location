@@ -1,6 +1,8 @@
 ﻿namespace Microsoft.Bot.Builder.Location
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Bing;
     using Builder.Dialogs;
@@ -98,9 +100,10 @@
     [Serializable]
     public sealed class LocationDialog : LocationDialogBase<Place>
     {
+        private readonly LocationOptions options;
         private readonly ILocationDialogFactory locationDialogFactory;
+        private bool selectedLocationConfirmed;
         private Location selectedLocation;
-        private BranchType currentBranch;
 
         /// <summary>
         /// Determines whether this is the root dialog or not.
@@ -129,6 +132,7 @@
             LocationResourceManager resourceManager = null)
             : this(new LocationDialogFactory(apiKey, channelId, prompt, new BingGeoSpatialService(apiKey), options, requiredFields, resourceManager), resourceManager)
         {
+            this.options = options;
         }
 
         /// <summary>
@@ -152,22 +156,66 @@
         public override async Task StartAsync(IDialogContext context)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            // this is the default branch
-            this.currentBranch = BranchType.LocationRetriever;
-            var dialog = this.locationDialogFactory.CreateDialog(this.currentBranch);
+            this.selectedLocationConfirmed = false;
+
+            if (this.options.HasFlag(LocationOptions.SkipFavorites))
+            {
+                // this is the default branch
+                this.StartBranch(context, BranchType.LocationRetriever);
+            }
+            else
+            {
+                // TODO : Should we always start this way even if the user currently has no fav locations?
+                await context.PostAsync(this.CreateDialogStartHeroCard(context));
+                context.Wait(this.MessageReceivedAsync);
+            }
+        }
+
+        private void StartBranch(IDialogContext context, BranchType branch)
+        {
+            var dialog = this.locationDialogFactory.CreateDialog(branch);
             context.Call(dialog, this.ResumeAfterChildDialogAsync);
         }
 
+        protected override async Task MessageReceivedInternalAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var messageText = (await result).Text.Trim();
+
+            if (messageText == this.ResourceManager.FavoriteLocations)
+            {
+                this.StartBranch(context, BranchType.FavoriteLocationRetriever);
+            }
+            else if (messageText == this.ResourceManager.OtherLocation)
+            {
+                this.StartBranch(context, BranchType.LocationRetriever);
+            }
+            else
+            {
+                await context.PostAsync(this.ResourceManager.InvalidStartBranchResponse);
+                context.Wait(this.MessageReceivedAsync);
+            }
+        }
+
         /// <summary>
-        /// Resumes after native location dialog returns.
+        /// Resumes after:
+        /// 1- Any of the location retriever dialogs returns.
+        /// Or
+        /// 2- The add to favoritesDialog returns.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="result">The result.</param>
         /// <returns>The asynchronous task.</returns>
         internal override async Task ResumeAfterChildDialogInternalAsync(IDialogContext context, IAwaitable<LocationDialogResponse> result)
         {
-            this.selectedLocation = (await result).Location;
-            this.MakeFinalConfirmation(context);
+            if (this.selectedLocationConfirmed)
+            {
+                context.Done(CreatePlace(this.selectedLocation));
+            }
+            else
+            {
+                this.selectedLocation = (await result).Location;
+                this.MakeFinalConfirmation(context);
+            }
         }
 
         private void MakeFinalConfirmation(IDialogContext context)
@@ -182,7 +230,8 @@
                     {
                         if (await answer)
                         {
-                            dialogContext.Done(CreatePlace(selectedLocation));
+                            this.selectedLocationConfirmed = true;
+                            this.OfferAddToFavorites(dialogContext);
                         }
                         else
                         {
@@ -193,6 +242,19 @@
                     confirmationAsk,
                     retry: this.ResourceManager.ConfirmationInvalidResponse,
                     promptStyle: PromptStyle.None);
+        }
+
+        private void OfferAddToFavorites(IDialogContext context)
+        {
+            if (!this.options.HasFlag(LocationOptions.SkipFavorites))
+            {
+                var addToFavoritesDialog = this.locationDialogFactory.CreateDialog(BranchType.AddToFavorites, this.selectedLocation);
+                context.Call(addToFavoritesDialog, this.ResumeAfterChildDialogAsync);
+            }
+            else
+            {
+                context.Done(CreatePlace(this.selectedLocation));
+            }
         }
 
         /// <summary>
@@ -231,6 +293,35 @@
             }
 
             return place;
+        }
+
+        private IMessageActivity CreateDialogStartHeroCard(IDialogContext context)
+        {
+            var dialogStartCard = context.MakeMessage();
+            var buttons = new List<CardAction>();
+
+            var branches = new string[] { this.ResourceManager.FavoriteLocations, this.ResourceManager.OtherLocation };
+
+            foreach (var possibleBranch in branches)
+            {
+                buttons.Add(new CardAction
+                {
+                    Type = "imBack",
+                    Title = possibleBranch,
+                    Value = possibleBranch
+                });
+            }
+
+            var heroCard = new HeroCard
+            {
+                Subtitle = this.ResourceManager.DialogStartBranchAsk,
+                Buttons = buttons
+            };
+
+            dialogStartCard.Attachments = new List<Attachment> { heroCard.ToAttachment() };
+            dialogStartCard.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+
+            return dialogStartCard;
         }
     }
 }

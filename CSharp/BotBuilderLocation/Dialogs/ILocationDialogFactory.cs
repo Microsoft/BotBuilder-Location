@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.Location.Dialogs
 {
+    using Bing;
     using Builder.Dialogs;
 
     /// <summary>
@@ -11,7 +12,9 @@
         /// Given a branch parameter, creates the appropriate corresponding dialog that should run.
         /// </summary>
         /// <param name="branch">The location dialog branch.</param>
+        /// <param name="location">The location to be passed to the new dialog, if applicable.</param>
+        /// <param name="locationName">The location name to be passed to the new dialog, if applicable.</param>
         /// <returns>The dialog.</returns>
-        IDialog<LocationDialogResponse> CreateDialog(BranchType branch);
+        IDialog<LocationDialogResponse> CreateDialog(BranchType branch, Location location = null, string locationName = null);
     }
 }

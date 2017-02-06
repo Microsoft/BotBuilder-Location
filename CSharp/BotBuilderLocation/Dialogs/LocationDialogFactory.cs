@@ -34,7 +34,7 @@
             this.resourceManager = resourceManager;
         }
 
-       public IDialog<LocationDialogResponse> CreateDialog(BranchType branch)
+       public IDialog<LocationDialogResponse> CreateDialog(BranchType branch, Location location = null, string locationName = null)
         {
             bool isFacebookChannel = StringComparer.OrdinalIgnoreCase.Equals(this.channelId, "facebook");
 
@@ -58,6 +58,26 @@
                     options: this.options,
                     requiredFields: this.requiredFields,
                     resourceManager: this.resourceManager);
+            }
+            else if (branch == BranchType.FavoriteLocationRetriever)
+            {
+                return new FavoriteLocationRetrieverDialog(
+                    isFacebookChannel,
+                    new FavoritesManager(),
+                    this,
+                    new LocationCardBuilder(this.apiKey),
+                    new BingGeoSpatialService(this.apiKey),
+                    this.options,
+                    this.requiredFields,
+                    this.resourceManager);
+            }
+            else if (branch == BranchType.AddToFavorites)
+            {
+                return new AddFavoriteLocationDialog(new FavoritesManager(), location, this.resourceManager);
+            }
+            else if (branch == BranchType.EditFavoriteLocation)
+            {
+                return new EditFavoriteLocationDialog(this, new FavoritesManager(), locationName, location, this.resourceManager);
             }
             else
             {

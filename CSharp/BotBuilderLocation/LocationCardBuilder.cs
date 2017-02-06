@@ -31,8 +31,9 @@
         /// </summary>
         /// <param name="locations">List of the locations.</param>
         /// <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
+        /// <param name="locationNames">List of strings that can be used as names or labels for the locations.</param>
         /// <returns>The locations card as a list.</returns>
-        public IEnumerable<HeroCard> CreateHeroCards(IList<Location> locations, bool alwaysShowNumericPrefix = false)
+        public IEnumerable<HeroCard> CreateHeroCards(IList<Location> locations, bool alwaysShowNumericPrefix = false, IList<string> locationNames = null)
         {
             var cards = new List<HeroCard>();
 
@@ -40,7 +41,9 @@
 
             foreach (var location in locations)
             {
-                string address = alwaysShowNumericPrefix || locations.Count > 1 ? $"{i}. {location.Address.FormattedAddress}" : location.Address.FormattedAddress;
+                string nameString = locationNames == null ? string.Empty : $"{locationNames[i-1]}: ";
+                string locationString = $"{nameString}{location.Address.FormattedAddress}";
+                string address = alwaysShowNumericPrefix || locations.Count > 1 ? $"{i}. {locationString}" : locationString;
 
                 var heroCard = new HeroCard
                 {
