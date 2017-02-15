@@ -854,6 +854,12 @@
             keeping track of the user's favorite locations.
             </summary>
         </member>
+        <member name="F:Microsoft.Bot.Builder.Location.LocationOptions.SkipFinalConfirmation">
+            <summary>
+            Use this option if you want the location dialog to skip the final 
+            confirmation before returning the location
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Builder.Location.LocationDialog">
             <summary>
             Represents a dialog that handles retrieving a location from the user.

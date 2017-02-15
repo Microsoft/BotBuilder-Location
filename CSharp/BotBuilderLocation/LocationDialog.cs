@@ -214,7 +214,15 @@
             else
             {
                 this.selectedLocation = (await result).Location;
-                this.MakeFinalConfirmation(context);
+
+                if (this.options.HasFlag(LocationOptions.SkipFinalConfirmation))
+                {
+                    context.Done(CreatePlace(this.selectedLocation));
+                }
+                else
+                {
+                    this.MakeFinalConfirmation(context);
+                }
             }
         }
 
