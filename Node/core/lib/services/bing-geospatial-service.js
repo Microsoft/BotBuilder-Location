@@ -21,11 +21,12 @@ function GetLocationMapImageUrl(apiKey, location, index) {
     if (location && location.point && location.point.coordinates && location.point.coordinates.length == 2) {
         var point = location.point;
         var url;
+        var sIndex = typeof index === "undefined" ? "" : index.toString();
         if (location.bbox && location.bbox.length == 4) {
-            url = sprintf_js_1.sprintf(findImageByBBoxUrl, location.bbox[0], location.bbox[1], location.bbox[2], location.bbox[3], point.coordinates[0], point.coordinates[1], index);
+            url = sprintf_js_1.sprintf(findImageByBBoxUrl, location.bbox[0], location.bbox[1], location.bbox[2], location.bbox[3], point.coordinates[0], point.coordinates[1], sIndex);
         }
         else {
-            url = sprintf_js_1.sprintf(findImageByPointUrl, point.coordinates[0], point.coordinates[1], index);
+            url = sprintf_js_1.sprintf(findImageByPointUrl, point.coordinates[0], point.coordinates[1], sIndex);
         }
         url = addKeyToUrl(url, apiKey);
         return url;
