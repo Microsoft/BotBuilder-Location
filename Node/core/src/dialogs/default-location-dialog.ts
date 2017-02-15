@@ -4,11 +4,11 @@ import { Session, IDialogResult, Library, AttachmentLayout, HeroCard, CardImage,
 import { Place } from '../Place';
 import { MapCard } from '../map-card'
 import * as locationService from '../services/bing-geospatial-service';
-import * as confirmDialog from './confirm-dialog';
+import * as singleLocationConfirmDialog from './single-location-confirm-dialog';
 import * as choiceDialog from './choice-dialog';
 
 export function register(library: Library, apiKey: string): void {
-    confirmDialog.register(library);
+    singleLocationConfirmDialog.register(library);
     choiceDialog.register(library);
     library.dialog('default-location-dialog', createDialog());
     library.dialog('location-resolve-dialog', createLocationResolveDialog(apiKey));
@@ -25,7 +25,7 @@ function createDialog() {
                 var locations = results.response.locations;
 
                 if (locations.length == 1) {
-                    session.beginDialog('confirm-dialog', { locations: locations });
+                    session.beginDialog('single-location-confirm-dialog', { locations: locations });
                 } else {
                     session.beginDialog('choice-dialog', { locations: locations });
                 }

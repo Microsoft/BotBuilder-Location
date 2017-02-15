@@ -8,19 +8,18 @@ exports.register = register;
 function createDialog() {
     return common.createBaseDialog()
         .onBegin(function (session, args) {
-        session.dialogData.locations = args.locations;
-        session.send(consts_1.Strings.SingleResultFound).sendBatch();
+        var confirmationPrompt = args.confirmationPrompt;
+        session.send(confirmationPrompt).sendBatch();
     })
         .onDefault(function (session) {
         var message = parseBoolean(session.message.text);
         if (typeof message == 'boolean') {
             var result;
             if (message == true) {
-                var place = common.processLocation(session.dialogData.locations[0], true);
-                result = { response: { place: place } };
+                result = { response: { confirmed: true } };
             }
             else {
-                result = { response: { reset: true } };
+                result = { response: { confirmed: false } };
             }
             session.endDialogWithResult(result);
             return;

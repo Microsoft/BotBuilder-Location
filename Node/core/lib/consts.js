@@ -2,6 +2,7 @@
 exports.LibraryName = "botbuilder-location";
 exports.Strings = {
     "AddressSeparator": "AddressSeparator",
+    "AddToFavoritesAsk": "AddToFavoritesAsk",
     "AskForEmptyAddressTemplate": "AskForEmptyAddressTemplate",
     "AskForPrefix": "AskForPrefix",
     "AskForTemplate": "AskForTemplate",
@@ -9,6 +10,8 @@ exports.Strings = {
     "ConfirmationAsk": "ConfirmationAsk",
     "Country": "Country",
     "DefaultPrompt": "DefaultPrompt",
+    "EnterNewFavoriteLocationName": "EnterNewFavoriteLocationName",
+    "FavoriteAddedConfirmation": "FavoriteAddedConfirmation",
     "HelpMessage": "HelpMessage",
     "InvalidLocationResponse": "InvalidLocationResponse",
     "InvalidLocationResponseFacebook": "InvalidLocationResponseFacebook",
