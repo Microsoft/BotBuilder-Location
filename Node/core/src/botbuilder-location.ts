@@ -6,6 +6,7 @@ import { Place } from './place';
 import * as defaultLocationDialog from './dialogs/default-location-dialog';
 import * as facebookLocationDialog from './dialogs/facebook-location-dialog'
 import * as requiredFieldsDialog from './dialogs/required-fields-dialog';
+import * as addFavoriteLocationDialog from './dialogs/add-favorite-location-dialog';
 
 export interface ILocationPromptOptions {
     prompt: string;
@@ -33,6 +34,7 @@ exports.createLibrary = (apiKey: string): Library => {
     requiredFieldsDialog.register(lib);
     defaultLocationDialog.register(lib, apiKey);
     facebookLocationDialog.register(lib, apiKey);
+    addFavoriteLocationDialog.register(lib);
     lib.localePath(path.join(__dirname, 'locale/'));
 
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
@@ -55,6 +57,7 @@ exports.getLocation = function (session: Session, options: ILocationPromptOption
 
 function getLocationPickerPrompt() {
     return [
+        // retrieve the location
         (session: Session, args: ILocationPromptOptions) => {
             session.dialogData.args = args;
             if (args.useNativeControl && session.message.address.channelId == 'facebook') {
@@ -64,6 +67,7 @@ function getLocationPickerPrompt() {
                 session.beginDialog('default-location-dialog', args);
             }
         },
+        // complete required fields, if applicable
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
             if (results.response && results.response.place) {
                 session.beginDialog('required-fields-dialog', {
@@ -74,6 +78,7 @@ function getLocationPickerPrompt() {
                 next(results);
             }
         },
+        // make final confirmation
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
             if (results.response && results.response.place) {
                 var separator = session.gettext(Strings.AddressSeparator);
@@ -84,8 +89,17 @@ function getLocationPickerPrompt() {
                 next(results);
             }
         },
+        // offer add to favorites, if applicable
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
-            if (!results.response || results.response.reset) {
+            if(!session.dialogData.args.skipFavorites && results.response && !results.response.reset) {
+                session.beginDialog('add-favorite-location-dialog', { place : session.dialogData.place });
+            }
+            else {
+                 next(results);
+            }
+        },
+        (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
+            if (results.response && results.response.reset) {
                 session.send(Strings.ResetPrompt)
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }

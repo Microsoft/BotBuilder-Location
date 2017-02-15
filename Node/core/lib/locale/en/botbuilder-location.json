@@ -1,5 +1,6 @@
 {
     "AddressSeparator": ", ",
+	"AddToFavoritesAsk": "Do you want me to add this address to your favorite locations?",
     "AskForEmptyAddressTemplate": "Please provide the %s.",
     "AskForPrefix": "OK %s.",
     "AskForTemplate": " Please also provide the %s.",
@@ -7,7 +8,9 @@
     "ConfirmationAsk": "OK, I will ship to %s. Is that correct? Enter 'yes' or 'no'.",
     "Country": "country",
     "DefaultPrompt": "Where should I ship your order?",
-    "HelpMessage": "Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.",
+    "EnterNewFavoriteLocationName": "OK, please enter a friendly name for this address. You can use 'home', 'work' or any other name you prefer.",
+    "FavoriteAddedConfirmation": "OK, I added %s to your favorite locations.",
+	"HelpMessage": "Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.",
     "InvalidLocationResponse": "Didn't get that. Choose a location or cancel.",
     "InvalidLocationResponseFacebook": "Tap on Send Location to proceed; type or say cancel to exit.",
     "LocationNotFound": "I could not find this address. Please try again.",

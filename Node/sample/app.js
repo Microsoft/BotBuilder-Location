@@ -26,6 +26,7 @@ bot.dialog("/", [
             prompt: "Where should I ship your order?",
             useNativeControl: true,
             reverseGeocode: true,
+			skipFavorites: false,
             requiredFields:
                 locationDialog.LocationRequiredFields.streetAddress |
                 locationDialog.LocationRequiredFields.locality |

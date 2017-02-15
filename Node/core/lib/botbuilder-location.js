@@ -7,6 +7,7 @@ var place_1 = require("./place");
 var defaultLocationDialog = require("./dialogs/default-location-dialog");
 var facebookLocationDialog = require("./dialogs/facebook-location-dialog");
 var requiredFieldsDialog = require("./dialogs/required-fields-dialog");
+var addFavoriteLocationDialog = require("./dialogs/add-favorite-location-dialog");
 exports.LocationRequiredFields = requiredFieldsDialog.LocationRequiredFields;
 exports.getFormattedAddressFromPlace = common.getFormattedAddressFromPlace;
 exports.Place = place_1.Place;
@@ -18,6 +19,7 @@ exports.createLibrary = function (apiKey) {
     requiredFieldsDialog.register(lib);
     defaultLocationDialog.register(lib, apiKey);
     facebookLocationDialog.register(lib, apiKey);
+    addFavoriteLocationDialog.register(lib);
     lib.localePath(path.join(__dirname, 'locale/'));
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
     return lib;
@@ -63,7 +65,15 @@ function getLocationPickerPrompt() {
             }
         },
         function (session, results, next) {
-            if (!results.response || results.response.reset) {
+            if (!session.dialogData.args.skipFavorites && results.response && !results.response.reset) {
+                session.beginDialog('add-favorite-location-dialog', { place: session.dialogData.place });
+            }
+            else {
+                next(results);
+            }
+        },
+        function (session, results, next) {
+            if (results.response && results.response.reset) {
                 session.send(consts_1.Strings.ResetPrompt);
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }

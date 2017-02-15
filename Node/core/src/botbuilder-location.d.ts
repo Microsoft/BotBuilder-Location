@@ -29,7 +29,12 @@ export interface ILocationPromptOptions {
     /**
      * Boolean to indicate if the control will try to reverse geocode the lat/long coordinates returned by FB Messenger's location picker GUI dialog. It does not have any effect on other messaging channels.
      */
-    reverseGeocode?: boolean
+    reverseGeocode?: boolean,
+
+    /**
+     * Use this option if you do not want the control to offer keeping track of the user's favorite locations.
+     */
+    skipFavorites?: boolean
 }
 
 //=============================================================================

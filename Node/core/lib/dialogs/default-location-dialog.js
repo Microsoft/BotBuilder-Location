@@ -4,10 +4,10 @@ var consts_1 = require("../consts");
 var botbuilder_1 = require("botbuilder");
 var map_card_1 = require("../map-card");
 var locationService = require("../services/bing-geospatial-service");
-var confirmDialog = require("./confirm-dialog");
+var singleLocationConfirmDialog = require("./single-location-confirm-dialog");
 var choiceDialog = require("./choice-dialog");
 function register(library, apiKey) {
-    confirmDialog.register(library);
+    singleLocationConfirmDialog.register(library);
     choiceDialog.register(library);
     library.dialog('default-location-dialog', createDialog());
     library.dialog('location-resolve-dialog', createLocationResolveDialog(apiKey));
@@ -23,7 +23,7 @@ function createDialog() {
             if (results.response && results.response.locations) {
                 var locations = results.response.locations;
                 if (locations.length == 1) {
-                    session.beginDialog('confirm-dialog', { locations: locations });
+                    session.beginDialog('single-location-confirm-dialog', { locations: locations });
                 }
                 else {
                     session.beginDialog('choice-dialog', { locations: locations });

@@ -9,20 +9,18 @@ export function register(library: Library): void {
 function createDialog() {
     return common.createBaseDialog()
         .onBegin((session, args) => {
-            session.dialogData.locations = args.locations;
-
-            session.send(Strings.SingleResultFound).sendBatch();
+            var confirmationPrompt = args.confirmationPrompt;
+            session.send(confirmationPrompt).sendBatch();
         })
         .onDefault((session) => {
             var message = parseBoolean(session.message.text);
             if (typeof message == 'boolean') {
                 var result: any;
                 if (message == true) {
-                    var place = common.processLocation(session.dialogData.locations[0], true);
-                    result = { response: { place: place } };
+                    result = { response: { confirmed: true } };
                 }
                 else {
-                    result = { response: { reset: true } }
+                   result = { response: { confirmed: false } };
                 }
 
                 session.endDialogWithResult(result)
