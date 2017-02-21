@@ -1,23 +1,23 @@
 import { FavoriteLocation } from '../favorite-location';
-import { Place } from '../place';
+import { RawLocation } from '../rawLocation';
 
 export class FavoritesManager {
 
-    readonly MAX_FAVORITE_COUNT = 5;
-    readonly FAVORITES_KEY = 'favorites';
+    readonly maxFavoriteCount = 5;
+    readonly favoritesKey = 'favorites';
 
     constructor (private userData : any) {
     }
 
     public maxCapacityReached(): boolean {
-        return  this.getFavorites().length >= this.MAX_FAVORITE_COUNT;
+        return  this.getFavorites().length >= this.maxFavoriteCount;
     } 
 
-    public isFavorite(location: Place) : boolean {
+    public isFavorite(location: RawLocation) : boolean {
         let favorites = this.getFavorites();
 
         for (let i = 0; i < favorites.length; i++) {
-            if (favorites[i].location.formattedAddress === location.formattedAddress) {
+            if (this.areEqual(favorites[i].location, location)) {
                 return true;
             }
         }
@@ -28,16 +28,45 @@ export class FavoritesManager {
     public add(favoriteLocation: FavoriteLocation): void {
         let favorites = this.getFavorites();
 
-        if (favorites.length >=  this.MAX_FAVORITE_COUNT) {
+        if (favorites.length >=  this.maxFavoriteCount) {
             throw ('The max allowed number of favorite locations has already been reached.');
         }
 
         favorites.push(favoriteLocation);
-        this.userData[this.FAVORITES_KEY] = favorites;
+        this.userData[this.favoritesKey] = favorites;
+    }
+
+    public delete(favoriteLocation: FavoriteLocation): void {
+        let favorites = this.getFavorites();
+        let newFavorites = [];
+
+        for (let i = 0; i < favorites.length; i++) {
+            if ( !this.areEqual(favorites[i].location, favoriteLocation.location)) {
+                newFavorites.push(favorites[i]);
+            }
+        }
+
+        this.userData[this.favoritesKey] = newFavorites;
+    }
+
+    public update(currentValue: FavoriteLocation, newValue: FavoriteLocation): void {
+        let favorites = this.getFavorites();
+        let newFavorites = [];
+
+        for (let i = 0; i < favorites.length; i++) {
+            if ( this.areEqual(favorites[i].location, currentValue.location)) {
+                newFavorites.push(newValue);
+            }
+            else {
+                newFavorites.push(favorites[i]);
+            }
+        }
+
+        this.userData[this.favoritesKey] = newFavorites;
     }
 
     public getFavorites(): FavoriteLocation[] {
-        let storedFavorites = this.userData[this.FAVORITES_KEY];
+        let storedFavorites = this.userData[this.favoritesKey];
     
         if (storedFavorites) {
             return storedFavorites;
@@ -46,5 +75,13 @@ export class FavoritesManager {
             // User currently has no favorite locations. Return an empty list.
             return [];
         }
+    }
+
+    private areEqual(location0: RawLocation, location1: RawLocation): boolean {
+        // Other attributes of a location such as its Confidence, BoundaryBox, etc
+        // should not be considered as distinguishing factors.
+        // On the other hand, attributes of a location that are shown to the users
+        // are what distinguishes one location from another. 
+        return location0.address.formattedAddress === location1.address.formattedAddress;
     }
 }

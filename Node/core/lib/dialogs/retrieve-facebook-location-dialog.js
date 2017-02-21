@@ -4,7 +4,7 @@ var common = require("../common");
 var botbuilder_1 = require("botbuilder");
 var locationService = require("../services/bing-geospatial-service");
 function register(library, apiKey) {
-    library.dialog('facebook-location-dialog', createDialog(apiKey));
+    library.dialog('retrive-facebook-location-dialog', createDialog(apiKey));
     library.dialog('facebook-location-resolve-dialog', createLocationResolveDialog());
 }
 exports.register = register;
@@ -16,11 +16,11 @@ function createDialog(apiKey) {
         },
         function (session, results, next) {
             if (session.dialogData.args.reverseGeocode && results.response && results.response.place) {
-                locationService.getLocationByPoint(apiKey, results.response.place.geo.latitude, results.response.place.geo.longitude)
+                locationService.getLocationByPoint(apiKey, results.response.place.point.coordinates[0], results.response.place.point.coordinates[1])
                     .then(function (locations) {
                     var place;
                     if (locations.length) {
-                        place = common.processLocation(locations[0], false);
+                        place = locations[0];
                     }
                     else {
                         place = results.response.place;
@@ -46,7 +46,7 @@ function createLocationResolveDialog() {
         var entities = session.message.entities;
         for (var i = 0; i < entities.length; i++) {
             if (entities[i].type == "Place" && entities[i].geo && entities[i].geo.latitude && entities[i].geo.longitude) {
-                session.endDialogWithResult({ response: { place: common.buildPlaceFromGeo(entities[i].geo.latitude, entities[i].geo.longitude) } });
+                session.endDialogWithResult({ response: { place: buildLocationFromGeo(entities[i].geo.latitude, entities[i].geo.longitude) } });
                 return;
             }
         }
@@ -65,4 +65,8 @@ function sendLocationPrompt(session, prompt) {
         }
     });
     return session.send(message);
+}
+function buildLocationFromGeo(latitude, longitude) {
+    var coordinates = [latitude, longitude];
+    return { point: { coordinates: coordinates } };
 }

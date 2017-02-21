@@ -1,4 +1,5 @@
 import * as builder from "botbuilder";
+import { RawLocation } from "./rawLocation";
 
 //=============================================================================
 //
@@ -125,7 +126,7 @@ export function getLocation(session: builder.Session, options: ILocationPromptOp
 
 /**
  * Gets a formatted address string.
- * @param place Place object containing the address.
+ * @param location object containing the address.
  * @param separator The string separating the address parts.  
  */
-export function getFormattedAddressFromPlace(place: Place, separator: string): string;
+export function getFormattedAddressFromLocation(location: RawLocation, separator: string): string;

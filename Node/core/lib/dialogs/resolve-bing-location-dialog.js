@@ -1,15 +1,14 @@
 "use strict";
 var common = require("../common");
 var consts_1 = require("../consts");
-var botbuilder_1 = require("botbuilder");
-var map_card_1 = require("../map-card");
 var locationService = require("../services/bing-geospatial-service");
-var singleLocationConfirmDialog = require("./single-location-confirm-dialog");
-var choiceDialog = require("./choice-dialog");
+var confirmSingleLocationDialog = require("./confirm-single-location-dialog");
+var chooseLocationDialog = require("./choose-location-dialog");
+var location_card_builder_1 = require("../services/location-card-builder");
 function register(library, apiKey) {
-    singleLocationConfirmDialog.register(library);
-    choiceDialog.register(library);
-    library.dialog('default-location-dialog', createDialog());
+    confirmSingleLocationDialog.register(library);
+    chooseLocationDialog.register(library);
+    library.dialog('resolve-bing-location-dialog', createDialog());
     library.dialog('location-resolve-dialog', createLocationResolveDialog(apiKey));
 }
 exports.register = register;
@@ -23,10 +22,10 @@ function createDialog() {
             if (results.response && results.response.locations) {
                 var locations = results.response.locations;
                 if (locations.length == 1) {
-                    session.beginDialog('single-location-confirm-dialog', { locations: locations });
+                    session.beginDialog('confirm-single-location-dialog', { locations: locations });
                 }
                 else {
-                    session.beginDialog('choice-dialog', { locations: locations });
+                    session.beginDialog('choose-location-dialog', { locations: locations });
                 }
             }
             else {
@@ -50,30 +49,10 @@ function createLocationResolveDialog(apiKey) {
             }
             var locationCount = Math.min(MAX_CARD_COUNT, locations.length);
             locations = locations.slice(0, locationCount);
-            var reply = createLocationsCard(apiKey, session, locations);
+            var reply = new location_card_builder_1.LocationCardBuilder(apiKey).createHeroCards(session, locations);
             session.send(reply);
             session.endDialogWithResult({ response: { locations: locations } });
         })
             .catch(function (error) { return session.error(error); });
     });
-}
-function createLocationsCard(apiKey, session, locations) {
-    var cards = new Array();
-    for (var i = 0; i < locations.length; i++) {
-        cards.push(constructCard(apiKey, session, locations, i));
-    }
-    return new botbuilder_1.Message(session)
-        .attachmentLayout(botbuilder_1.AttachmentLayout.carousel)
-        .attachments(cards);
-}
-function constructCard(apiKey, session, locations, index) {
-    var location = locations[index];
-    var card = new map_card_1.MapCard(apiKey, session);
-    if (locations.length > 1) {
-        card.location(location, index + 1);
-    }
-    else {
-        card.location(location);
-    }
-    return card;
 }

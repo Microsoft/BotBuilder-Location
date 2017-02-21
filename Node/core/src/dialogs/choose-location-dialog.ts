@@ -4,7 +4,7 @@ import { Strings } from '../consts';
 import { Place } from '../place';
 
 export function register(library: Library): void {
-    library.dialog('choice-dialog', createDialog());
+    library.dialog('choose-location-dialog', createDialog());
 }
 
 function createDialog() {
@@ -23,8 +23,7 @@ function createDialog() {
             if (match) {
                 var currentNumber = Number(match[0]);
                 if (currentNumber > 0 && currentNumber <= session.dialogData.locations.length) {
-                    var place = common.processLocation(session.dialogData.locations[currentNumber - 1], true);
-                    session.endDialogWithResult({ response: { place: place } });
+                    session.endDialogWithResult({ response: { place: session.dialogData.locations[currentNumber - 1] } });
                     return;
                 }
             }

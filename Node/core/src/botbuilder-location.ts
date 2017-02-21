@@ -1,22 +1,24 @@
 import * as path from 'path';
-import { Library, Session, IDialogResult, Prompts, ListStyle } from 'botbuilder';
+import { IDialogResult, IPromptOptions, Library, ListStyle, Prompts, Session} from 'botbuilder';
 import * as common from './common';
 import { Strings, LibraryName } from './consts';
 import { Place } from './place';
-import * as defaultLocationDialog from './dialogs/default-location-dialog';
-import * as facebookLocationDialog from './dialogs/facebook-location-dialog'
-import * as requiredFieldsDialog from './dialogs/required-fields-dialog';
 import * as addFavoriteLocationDialog from './dialogs/add-favorite-location-dialog';
+import * as confirmDialog from './dialogs/confirm-dialog';
+import * as retrieveLocationDialog from './dialogs/retrieve-location-dialog'
+import * as requireFieldsDialog from './dialogs/require-fields-dialog';
+import * as retrieveFavoriteLocationDialog from './dialogs/retrieve-favorite-location-dialog'
 
 export interface ILocationPromptOptions {
     prompt: string;
-    requiredFields?: requiredFieldsDialog.LocationRequiredFields;
+    requiredFields?: requireFieldsDialog.LocationRequiredFields;
     useNativeControl?: boolean,
-    reverseGeocode?: boolean
+    reverseGeocode?: boolean,
+    skipFavorites?: boolean
 }
 
-exports.LocationRequiredFields = requiredFieldsDialog.LocationRequiredFields;
-exports.getFormattedAddressFromPlace = common.getFormattedAddressFromPlace;
+exports.LocationRequiredFields = requireFieldsDialog.LocationRequiredFields;
+exports.getFormattedAddressFromLocation = common.getFormattedAddressFromLocation;
 exports.Place = Place;
 
 //=========================================================
@@ -30,11 +32,11 @@ exports.createLibrary = (apiKey: string): Library => {
     }
 
     var lib = new Library(LibraryName);
-
-    requiredFieldsDialog.register(lib);
-    defaultLocationDialog.register(lib, apiKey);
-    facebookLocationDialog.register(lib, apiKey);
+    retrieveFavoriteLocationDialog.register(lib, apiKey);
+    retrieveLocationDialog.register(lib, apiKey);
+    requireFieldsDialog.register(lib);
     addFavoriteLocationDialog.register(lib);
+    confirmDialog.register(lib);
     lib.localePath(path.join(__dirname, 'locale/'));
 
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
@@ -57,41 +59,45 @@ exports.getLocation = function (session: Session, options: ILocationPromptOption
 
 function getLocationPickerPrompt() {
     return [
-        // retrieve the location
-        (session: Session, args: ILocationPromptOptions) => {
+        // handle different ways of retrieving a location (favorite, other, etc)
+        (session: Session, args: ILocationPromptOptions, next: (results?: IDialogResult<any>) => void) => {
             session.dialogData.args = args;
-            if (args.useNativeControl && session.message.address.channelId == 'facebook') {
-                session.beginDialog('facebook-location-dialog', args);
+            if (!args.skipFavorites) {
+                Prompts.choice(
+                    session,
+                    session.gettext(Strings.DialogStartBranchAsk), 
+                    [ session.gettext(Strings.FavoriteLocations), session.gettext(Strings.OtherLocation) ],
+                    { listStyle: ListStyle.button, retryPrompt: session.gettext(Strings.InvalidStartBranchResponse)});
             }
             else {
-                session.beginDialog('default-location-dialog', args);
+                next();
             }
         },
-        // complete required fields, if applicable
+        // retrieve location
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
-            if (results.response && results.response.place) {
-                session.beginDialog('required-fields-dialog', {
-                    place: results.response.place,
-                    requiredFields: session.dialogData.args.requiredFields
-                })
-            } else {
-                next(results);
+            if (results && results.response && results.response.entity === session.gettext(Strings.FavoriteLocations)) {
+                session.beginDialog('retrieve-favorite-location-dialog', session.dialogData.args);
+            }
+            else {
+                session.beginDialog('retrieve-location-dialog', session.dialogData.args);
             }
         },
-        // make final confirmation
+         // make final confirmation
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
             if (results.response && results.response.place) {
+                session.dialogData.place =  results.response.place;
                 var separator = session.gettext(Strings.AddressSeparator);
-                var promptText = session.gettext(Strings.ConfirmationAsk, common.getFormattedAddressFromPlace(results.response.place, separator));
-                session.dialogData.place = results.response.place;
-                Prompts.confirm(session, promptText, { listStyle: ListStyle.none })
-            } else {
+                var promptText = session.gettext(Strings.ConfirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator));
+                session.beginDialog('confirm-dialog' , { confirmationPrompt: promptText });
+            }
+            else {
                 next(results);
             }
         },
         // offer add to favorites, if applicable
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
-            if(!session.dialogData.args.skipFavorites && results.response && !results.response.reset) {
+            session.dialogData.confirmed =  results.response.confirmed;
+            if(results.response && results.response.confirmed && !session.dialogData.args.skipFavorites) {
                 session.beginDialog('add-favorite-location-dialog', { place : session.dialogData.place });
             }
             else {
@@ -99,12 +105,12 @@ function getLocationPickerPrompt() {
             }
         },
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
-            if (results.response && results.response.reset) {
-                session.send(Strings.ResetPrompt)
+            if ( !session.dialogData.confirmed || (results.response && results.response.reset)) {
+                session.send(Strings.ResetPrompt);
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }
             else {
-                next({ response: session.dialogData.place });
+                next({ response: common.processLocation(session.dialogData.place) });
             }
         }
     ];

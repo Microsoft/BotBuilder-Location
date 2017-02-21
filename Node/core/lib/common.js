@@ -18,7 +18,7 @@ function createBaseDialog(options) {
     });
 }
 exports.createBaseDialog = createBaseDialog;
-function processLocation(location, includeStreetAddress) {
+function processLocation(location) {
     var place = new place_1.Place();
     place.type = location.entityType;
     place.name = location.name;
@@ -28,43 +28,25 @@ function processLocation(location, includeStreetAddress) {
         place.locality = location.address.locality;
         place.postalCode = location.address.postalCode;
         place.region = location.address.adminDistrict;
-        if (includeStreetAddress) {
-            place.streetAddress = location.address.addressLine;
-        }
+        place.streetAddress = location.address.addressLine;
     }
     if (location.point && location.point.coordinates && location.point.coordinates.length == 2) {
         place.geo = new place_1.Geo();
-        place.geo.latitude = location.point.coordinates[0];
-        place.geo.longitude = location.point.coordinates[1];
+        place.geo.latitude = location.point.coordinates[0].toString();
+        place.geo.longitude = location.point.coordinates[1].toString();
     }
     return place;
 }
 exports.processLocation = processLocation;
-function buildPlaceFromGeo(latitude, longitude) {
-    var place = new place_1.Place();
-    place.geo = new place_1.Geo();
-    place.geo.latitude = latitude;
-    place.geo.longitude = longitude;
-    return place;
-}
-exports.buildPlaceFromGeo = buildPlaceFromGeo;
-function getFormattedAddressFromPlace(place, separator) {
+function getFormattedAddressFromLocation(location, separator) {
     var addressParts = new Array();
-    if (place.streetAddress) {
-        addressParts.push(place.streetAddress);
+    if (location.address) {
+        addressParts = [location.address.addressLine,
+            location.address.locality,
+            location.address.adminDistrict,
+            location.address.postalCode,
+            location.address.countryRegion];
     }
-    if (place.locality) {
-        addressParts.push(place.locality);
-    }
-    if (place.region) {
-        addressParts.push(place.region);
-    }
-    if (place.postalCode) {
-        addressParts.push(place.postalCode);
-    }
-    if (place.country) {
-        addressParts.push(place.country);
-    }
-    return addressParts.join(separator);
+    return addressParts.filter(function (i) { return i; }).join(separator);
 }
-exports.getFormattedAddressFromPlace = getFormattedAddressFromPlace;
+exports.getFormattedAddressFromLocation = getFormattedAddressFromLocation;

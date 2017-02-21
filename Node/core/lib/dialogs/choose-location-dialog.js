@@ -3,7 +3,7 @@ var common = require("../common");
 var consts_1 = require("../consts");
 var place_1 = require("../place");
 function register(library) {
-    library.dialog('choice-dialog', createDialog());
+    library.dialog('choose-location-dialog', createDialog());
 }
 exports.register = register;
 function createDialog() {
@@ -21,8 +21,7 @@ function createDialog() {
         if (match) {
             var currentNumber = Number(match[0]);
             if (currentNumber > 0 && currentNumber <= session.dialogData.locations.length) {
-                var place = common.processLocation(session.dialogData.locations[currentNumber - 1], true);
-                session.endDialogWithResult({ response: { place: place } });
+                session.endDialogWithResult({ response: { place: session.dialogData.locations[currentNumber - 1] } });
                 return;
             }
         }

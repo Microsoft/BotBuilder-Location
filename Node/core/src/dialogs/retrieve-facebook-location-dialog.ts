@@ -1,11 +1,11 @@
 import { Strings } from '../consts';
 import * as common from '../common';
-import { Session, IDialogResult, Library, AttachmentLayout, HeroCard, CardImage, Message } from 'botbuilder';
-import { Place } from '../Place';
+import { Session, IDialogResult, Library, Message } from 'botbuilder';
 import * as locationService from '../services/bing-geospatial-service';
+import { RawLocation } from '../rawLocation';
 
 export function register(library: Library, apiKey: string): void {
-    library.dialog('facebook-location-dialog', createDialog(apiKey));
+    library.dialog('retrive-facebook-location-dialog', createDialog(apiKey));
     library.dialog('facebook-location-resolve-dialog', createLocationResolveDialog());
 }
 
@@ -17,11 +17,11 @@ function createDialog(apiKey: string) {
         },
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
             if (session.dialogData.args.reverseGeocode && results.response && results.response.place) {
-                locationService.getLocationByPoint(apiKey, results.response.place.geo.latitude, results.response.place.geo.longitude)
+                locationService.getLocationByPoint(apiKey, results.response.place.point.coordinates[0], results.response.place.point.coordinates[1])
                     .then(locations => {
-                        var place: Place;
+                        var place: RawLocation;
                         if (locations.length) {
-                            place = common.processLocation(locations[0], false);
+                            place = locations[0];
                         } else {
                             place = results.response.place;
                         }
@@ -47,7 +47,7 @@ function createLocationResolveDialog() {
             var entities = session.message.entities;
             for (var i = 0; i < entities.length; i++) {
                 if (entities[i].type == "Place" && entities[i].geo && entities[i].geo.latitude && entities[i].geo.longitude) {
-                    session.endDialogWithResult({ response: { place: common.buildPlaceFromGeo(entities[i].geo.latitude, entities[i].geo.longitude) } });
+                    session.endDialogWithResult({ response: { place: buildLocationFromGeo(entities[i].geo.latitude, entities[i].geo.longitude) } });
                     return;
                 }
             }
@@ -69,4 +69,9 @@ function sendLocationPrompt(session: Session, prompt: string): Session {
     });
 
     return session.send(message);
+}
+
+function buildLocationFromGeo(latitude: string, longitude: string) {
+    let coordinates = [ latitude, longitude];
+    return { point : { coordinates : coordinates } };
 }

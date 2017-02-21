@@ -4,22 +4,24 @@ var botbuilder_1 = require("botbuilder");
 var common = require("./common");
 var consts_1 = require("./consts");
 var place_1 = require("./place");
-var defaultLocationDialog = require("./dialogs/default-location-dialog");
-var facebookLocationDialog = require("./dialogs/facebook-location-dialog");
-var requiredFieldsDialog = require("./dialogs/required-fields-dialog");
 var addFavoriteLocationDialog = require("./dialogs/add-favorite-location-dialog");
-exports.LocationRequiredFields = requiredFieldsDialog.LocationRequiredFields;
-exports.getFormattedAddressFromPlace = common.getFormattedAddressFromPlace;
+var confirmDialog = require("./dialogs/confirm-dialog");
+var retrieveLocationDialog = require("./dialogs/retrieve-location-dialog");
+var requireFieldsDialog = require("./dialogs/require-fields-dialog");
+var retrieveFavoriteLocationDialog = require("./dialogs/retrieve-favorite-location-dialog");
+exports.LocationRequiredFields = requireFieldsDialog.LocationRequiredFields;
+exports.getFormattedAddressFromLocation = common.getFormattedAddressFromLocation;
 exports.Place = place_1.Place;
 exports.createLibrary = function (apiKey) {
     if (typeof apiKey === "undefined") {
         throw "'apiKey' parameter missing";
     }
     var lib = new botbuilder_1.Library(consts_1.LibraryName);
-    requiredFieldsDialog.register(lib);
-    defaultLocationDialog.register(lib, apiKey);
-    facebookLocationDialog.register(lib, apiKey);
+    retrieveFavoriteLocationDialog.register(lib, apiKey);
+    retrieveLocationDialog.register(lib, apiKey);
+    requireFieldsDialog.register(lib);
     addFavoriteLocationDialog.register(lib);
+    confirmDialog.register(lib);
     lib.localePath(path.join(__dirname, 'locale/'));
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
     return lib;
@@ -33,39 +35,37 @@ exports.getLocation = function (session, options) {
 };
 function getLocationPickerPrompt() {
     return [
-        function (session, args) {
+        function (session, args, next) {
             session.dialogData.args = args;
-            if (args.useNativeControl && session.message.address.channelId == 'facebook') {
-                session.beginDialog('facebook-location-dialog', args);
+            if (!args.skipFavorites) {
+                botbuilder_1.Prompts.choice(session, session.gettext(consts_1.Strings.DialogStartBranchAsk), [session.gettext(consts_1.Strings.FavoriteLocations), session.gettext(consts_1.Strings.OtherLocation)], { listStyle: botbuilder_1.ListStyle.button, retryPrompt: session.gettext(consts_1.Strings.InvalidStartBranchResponse) });
             }
             else {
-                session.beginDialog('default-location-dialog', args);
+                next();
+            }
+        },
+        function (session, results, next) {
+            if (results && results.response && results.response.entity === session.gettext(consts_1.Strings.FavoriteLocations)) {
+                session.beginDialog('retrieve-favorite-location-dialog', session.dialogData.args);
+            }
+            else {
+                session.beginDialog('retrieve-location-dialog', session.dialogData.args);
             }
         },
         function (session, results, next) {
             if (results.response && results.response.place) {
-                session.beginDialog('required-fields-dialog', {
-                    place: results.response.place,
-                    requiredFields: session.dialogData.args.requiredFields
-                });
-            }
-            else {
-                next(results);
-            }
-        },
-        function (session, results, next) {
-            if (results.response && results.response.place) {
-                var separator = session.gettext(consts_1.Strings.AddressSeparator);
-                var promptText = session.gettext(consts_1.Strings.ConfirmationAsk, common.getFormattedAddressFromPlace(results.response.place, separator));
                 session.dialogData.place = results.response.place;
-                botbuilder_1.Prompts.confirm(session, promptText, { listStyle: botbuilder_1.ListStyle.none });
+                var separator = session.gettext(consts_1.Strings.AddressSeparator);
+                var promptText = session.gettext(consts_1.Strings.ConfirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator));
+                session.beginDialog('confirm-dialog', { confirmationPrompt: promptText });
             }
             else {
                 next(results);
             }
         },
         function (session, results, next) {
-            if (!session.dialogData.args.skipFavorites && results.response && !results.response.reset) {
+            session.dialogData.confirmed = results.response.confirmed;
+            if (results.response && results.response.confirmed && !session.dialogData.args.skipFavorites) {
                 session.beginDialog('add-favorite-location-dialog', { place: session.dialogData.place });
             }
             else {
@@ -73,12 +73,12 @@ function getLocationPickerPrompt() {
             }
         },
         function (session, results, next) {
-            if (results.response && results.response.reset) {
+            if (!session.dialogData.confirmed || (results.response && results.response.reset)) {
                 session.send(consts_1.Strings.ResetPrompt);
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }
             else {
-                next({ response: session.dialogData.place });
+                next({ response: common.processLocation(session.dialogData.place) });
             }
         }
     ];

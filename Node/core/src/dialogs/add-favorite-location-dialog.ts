@@ -3,10 +3,8 @@ import * as common from '../common';
 import { Strings } from '../consts';
 import { FavoriteLocation } from '../favorite-location';
 import { FavoritesManager } from '../services/favorites-manager';
-import * as confirmDialog from './confirm-dialog';
 
 export function register(library: Library): void {
-    confirmDialog.register(library);
     library.dialog('add-favorite-location-dialog', createDialog());
     library.dialog('name-favorite-location-dialog', createNameFavoriteLocationDialog());
 }
@@ -53,7 +51,7 @@ function createNameFavoriteLocationDialog() {
                 location:  session.dialogData.place,
                 name : session.message.text
             };
-             const favoritesManager = new  FavoritesManager(session.userData);
+            const favoritesManager = new  FavoritesManager(session.userData);
             favoritesManager.add(favoriteLocation);
             session.send(session.gettext(Strings.FavoriteAddedConfirmation, favoriteLocation.name));
             session.endDialogWithResult({ response: {} });

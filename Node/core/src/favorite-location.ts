@@ -1,6 +1,6 @@
-import { Place } from './place';
+import { RawLocation } from './rawLocation';
 
 export class FavoriteLocation {
     name: string;
-    location: Place;
+    location: RawLocation;
 }

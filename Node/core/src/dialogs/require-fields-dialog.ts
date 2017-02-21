@@ -12,15 +12,15 @@ export enum LocationRequiredFields {
 }
 
 export function register(library: Library): void {
-    library.dialog('required-fields-dialog', createDialog());
+    library.dialog('require-fields-dialog', createDialog());
 }
 
 const fields: Array<any> = [
-    { name: "streetAddress", prompt: Strings.StreetAddress, flag: LocationRequiredFields.streetAddress },
+    { name: "addressLine", prompt: Strings.StreetAddress, flag: LocationRequiredFields.streetAddress },
     { name: "locality", prompt: Strings.Locality, flag: LocationRequiredFields.locality },
-    { name: "region", prompt: Strings.Region, flag: LocationRequiredFields.region },
+    { name: "adminDistrict", prompt: Strings.Region, flag: LocationRequiredFields.region },
     { name: "postalCode", prompt: Strings.PostalCode, flag: LocationRequiredFields.postalCode },
-    { name: "country", prompt: Strings.Country, flag: LocationRequiredFields.country },
+    { name: "countryRegion", prompt: Strings.Country, flag: LocationRequiredFields.country },
 ];
 
 function createDialog() {
@@ -68,12 +68,12 @@ function createDialog() {
 }
 
 function completeFieldIfMissing(session: Session, field: any) {
-    if ((field.flag & session.dialogData.requiredFieldsFlag) && !session.dialogData.place[field.name]) {
+    if ((field.flag & session.dialogData.requiredFieldsFlag) && !session.dialogData.place.address[field.name]) {
 
         var prefix: string = "";
         var prompt: string = "";
         if (typeof session.dialogData.lastInput === "undefined") {
-            var formattedAddress: string = common.getFormattedAddressFromPlace(session.dialogData.place, session.gettext(Strings.AddressSeparator));
+            var formattedAddress: string = common.getFormattedAddressFromLocation(session.dialogData.place, session.gettext(Strings.AddressSeparator));
             if (formattedAddress) {
                 prefix = session.gettext(Strings.AskForPrefix, formattedAddress);
                 prompt = session.gettext(Strings.AskForTemplate, session.gettext(field.prompt));

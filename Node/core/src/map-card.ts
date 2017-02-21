@@ -1,5 +1,6 @@
 import { Session, HeroCard, CardImage } from 'botbuilder';
 import { Place, Geo } from './place';
+import { RawLocation } from './rawLocation'
 import * as locationService from './services/bing-geospatial-service';
 
 export class MapCard extends HeroCard {
@@ -8,14 +9,18 @@ export class MapCard extends HeroCard {
         super(session);
     }
 
-    public location(location: any, index?: number): this {
-        var indexText = "";
+    public location(location: RawLocation, index?: number, locationName?: string): this {
+        var prefixText = "";
         if (index !== undefined) {
-            indexText = index + ". ";
+            prefixText = index + ". ";
         }
 
-        this.subtitle(indexText + location.address.formattedAddress)
+         if (locationName !== undefined) {
+            prefixText += locationName + ": ";
+        }
 
+        this.subtitle(prefixText + location.address.formattedAddress);
+  
         if (location.point) {
             var locationUrl: string;
             try {

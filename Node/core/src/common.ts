@@ -1,6 +1,7 @@
 import { Session, IntentDialog } from 'botbuilder';
 import { Strings } from './consts';
 import { Place, Geo } from './place';
+import { RawLocation } from './rawLocation'
 
 export function createBaseDialog(options?: any): IntentDialog {
     return new IntentDialog(options)
@@ -18,7 +19,7 @@ export function createBaseDialog(options?: any): IntentDialog {
         });
 }
 
-export function processLocation(location: any, includeStreetAddress: boolean): Place {
+export function processLocation(location: RawLocation): Place {
     var place: Place = new Place();
     place.type = location.entityType;
     place.name = location.name;
@@ -29,51 +30,28 @@ export function processLocation(location: any, includeStreetAddress: boolean): P
         place.locality = location.address.locality;
         place.postalCode = location.address.postalCode;
         place.region = location.address.adminDistrict;
-        if (includeStreetAddress) {
-            place.streetAddress = location.address.addressLine;
-        }
+        place.streetAddress = location.address.addressLine;
     }
 
     if (location.point && location.point.coordinates && location.point.coordinates.length == 2) {
         place.geo = new Geo();
-        place.geo.latitude = location.point.coordinates[0];
-        place.geo.longitude = location.point.coordinates[1];
+        place.geo.latitude = location.point.coordinates[0].toString();
+        place.geo.longitude = location.point.coordinates[1].toString();
     }
 
     return place;
 }
 
-export function buildPlaceFromGeo(latitude: string, longitude: string) {
-    var place = new Place();
-    place.geo = new Geo();
-    place.geo.latitude = latitude;
-    place.geo.longitude = longitude;
+export function getFormattedAddressFromLocation(location: RawLocation, separator: string): string {
+    let addressParts: Array<string> = new Array();
 
-    return place;
-}
-
-export function getFormattedAddressFromPlace(place: Place, separator: string): string {
-    var addressParts: Array<any> = new Array();
-
-    if (place.streetAddress) {
-        addressParts.push(place.streetAddress);
+    if (location.address) {
+        addressParts = [ location.address.addressLine,
+                         location.address.locality,
+                         location.address.adminDistrict,
+                         location.address.postalCode,
+                         location.address.countryRegion];
     }
 
-    if (place.locality) {
-        addressParts.push(place.locality);
-    }
-
-    if (place.region) {
-        addressParts.push(place.region);
-    }
-
-    if (place.postalCode) {
-        addressParts.push(place.postalCode);
-    }
-
-    if (place.country) {
-        addressParts.push(place.country);
-    }
-    
-    return addressParts.join(separator);
+    return addressParts.filter(i => i).join(separator);
 }

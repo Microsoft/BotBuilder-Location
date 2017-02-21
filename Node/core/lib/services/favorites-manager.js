@@ -2,16 +2,16 @@
 var FavoritesManager = (function () {
     function FavoritesManager(userData) {
         this.userData = userData;
-        this.MAX_FAVORITE_COUNT = 5;
-        this.FAVORITES_KEY = 'favorites';
+        this.maxFavoriteCount = 5;
+        this.favoritesKey = 'favorites';
     }
     FavoritesManager.prototype.maxCapacityReached = function () {
-        return this.getFavorites().length >= this.MAX_FAVORITE_COUNT;
+        return this.getFavorites().length >= this.maxFavoriteCount;
     };
     FavoritesManager.prototype.isFavorite = function (location) {
         var favorites = this.getFavorites();
         for (var i = 0; i < favorites.length; i++) {
-            if (favorites[i].location.formattedAddress === location.formattedAddress) {
+            if (this.areEqual(favorites[i].location, location)) {
                 return true;
             }
         }
@@ -19,20 +19,46 @@ var FavoritesManager = (function () {
     };
     FavoritesManager.prototype.add = function (favoriteLocation) {
         var favorites = this.getFavorites();
-        if (favorites.length >= this.MAX_FAVORITE_COUNT) {
+        if (favorites.length >= this.maxFavoriteCount) {
             throw ('The max allowed number of favorite locations has already been reached.');
         }
         favorites.push(favoriteLocation);
-        this.userData[this.FAVORITES_KEY] = favorites;
+        this.userData[this.favoritesKey] = favorites;
+    };
+    FavoritesManager.prototype.delete = function (favoriteLocation) {
+        var favorites = this.getFavorites();
+        var newFavorites = [];
+        for (var i = 0; i < favorites.length; i++) {
+            if (!this.areEqual(favorites[i].location, favoriteLocation.location)) {
+                newFavorites.push(favorites[i]);
+            }
+        }
+        this.userData[this.favoritesKey] = newFavorites;
+    };
+    FavoritesManager.prototype.update = function (currentValue, newValue) {
+        var favorites = this.getFavorites();
+        var newFavorites = [];
+        for (var i = 0; i < favorites.length; i++) {
+            if (this.areEqual(favorites[i].location, currentValue.location)) {
+                newFavorites.push(newValue);
+            }
+            else {
+                newFavorites.push(favorites[i]);
+            }
+        }
+        this.userData[this.favoritesKey] = newFavorites;
     };
     FavoritesManager.prototype.getFavorites = function () {
-        var storedFavorites = this.userData[this.FAVORITES_KEY];
+        var storedFavorites = this.userData[this.favoritesKey];
         if (storedFavorites) {
             return storedFavorites;
         }
         else {
             return [];
         }
+    };
+    FavoritesManager.prototype.areEqual = function (location0, location1) {
+        return location0.address.formattedAddress === location1.address.formattedAddress;
     };
     return FavoritesManager;
 }());

@@ -1,10 +1,8 @@
 import { IDialogResult, Library, Session } from 'botbuilder';
-import * as common from '../common';
 import { Strings } from '../consts';
-import * as confirmDialog from './confirm-dialog';
 
 export function register(library: Library): void {
-    library.dialog('single-location-confirm-dialog', createDialog());
+    library.dialog('confirm-single-location-dialog', createDialog());
 }
 
 function createDialog() {
@@ -16,8 +14,7 @@ function createDialog() {
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
             if (results.response && results.response.confirmed) {
                 // User did confirm the single location offered
-                const place = common.processLocation(session.dialogData.locations[0], true);
-                session.endDialogWithResult({ response: { place: place } });
+                session.endDialogWithResult({ response: { place: session.dialogData.locations[0] } });
             }
             else {
                 // User said no

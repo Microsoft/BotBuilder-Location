@@ -12,15 +12,15 @@ var LocationRequiredFields;
     LocationRequiredFields[LocationRequiredFields["country"] = 16] = "country";
 })(LocationRequiredFields = exports.LocationRequiredFields || (exports.LocationRequiredFields = {}));
 function register(library) {
-    library.dialog('required-fields-dialog', createDialog());
+    library.dialog('require-fields-dialog', createDialog());
 }
 exports.register = register;
 var fields = [
-    { name: "streetAddress", prompt: consts_1.Strings.StreetAddress, flag: LocationRequiredFields.streetAddress },
+    { name: "addressLine", prompt: consts_1.Strings.StreetAddress, flag: LocationRequiredFields.streetAddress },
     { name: "locality", prompt: consts_1.Strings.Locality, flag: LocationRequiredFields.locality },
-    { name: "region", prompt: consts_1.Strings.Region, flag: LocationRequiredFields.region },
+    { name: "adminDistrict", prompt: consts_1.Strings.Region, flag: LocationRequiredFields.region },
     { name: "postalCode", prompt: consts_1.Strings.PostalCode, flag: LocationRequiredFields.postalCode },
-    { name: "country", prompt: consts_1.Strings.Country, flag: LocationRequiredFields.country },
+    { name: "countryRegion", prompt: consts_1.Strings.Country, flag: LocationRequiredFields.country },
 ];
 function createDialog() {
     return common.createBaseDialog({ recognizeMode: botbuilder_1.RecognizeMode.onBegin })
@@ -61,11 +61,11 @@ function createDialog() {
     });
 }
 function completeFieldIfMissing(session, field) {
-    if ((field.flag & session.dialogData.requiredFieldsFlag) && !session.dialogData.place[field.name]) {
+    if ((field.flag & session.dialogData.requiredFieldsFlag) && !session.dialogData.place.address[field.name]) {
         var prefix = "";
         var prompt = "";
         if (typeof session.dialogData.lastInput === "undefined") {
-            var formattedAddress = common.getFormattedAddressFromPlace(session.dialogData.place, session.gettext(consts_1.Strings.AddressSeparator));
+            var formattedAddress = common.getFormattedAddressFromLocation(session.dialogData.place, session.gettext(consts_1.Strings.AddressSeparator));
             if (formattedAddress) {
                 prefix = session.gettext(consts_1.Strings.AskForPrefix, formattedAddress);
                 prompt = session.gettext(consts_1.Strings.AskForTemplate, session.gettext(field.prompt));

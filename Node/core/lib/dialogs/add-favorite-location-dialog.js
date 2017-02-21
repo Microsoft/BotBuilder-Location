@@ -2,9 +2,7 @@
 var common = require("../common");
 var consts_1 = require("../consts");
 var favorites_manager_1 = require("../services/favorites-manager");
-var confirmDialog = require("./confirm-dialog");
 function register(library) {
-    confirmDialog.register(library);
     library.dialog('add-favorite-location-dialog', createDialog());
     library.dialog('name-favorite-location-dialog', createNameFavoriteLocationDialog());
 }

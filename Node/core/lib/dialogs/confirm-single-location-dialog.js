@@ -1,8 +1,7 @@
 "use strict";
-var common = require("../common");
 var consts_1 = require("../consts");
 function register(library) {
-    library.dialog('single-location-confirm-dialog', createDialog());
+    library.dialog('confirm-single-location-dialog', createDialog());
 }
 exports.register = register;
 function createDialog() {
@@ -13,8 +12,7 @@ function createDialog() {
         },
         function (session, results, next) {
             if (results.response && results.response.confirmed) {
-                var place = common.processLocation(session.dialogData.locations[0], true);
-                session.endDialogWithResult({ response: { place: place } });
+                session.endDialogWithResult({ response: { place: session.dialogData.locations[0] } });
             }
             else {
                 session.endDialogWithResult({ response: { reset: true } });
