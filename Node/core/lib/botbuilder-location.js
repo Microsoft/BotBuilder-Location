@@ -55,10 +55,14 @@ function getLocationPickerPrompt() {
         },
         function (session, results, next) {
             if (results.response && results.response.place) {
-                var separator = session.gettext(consts_1.Strings.AddressSeparator);
-                var promptText = session.gettext(consts_1.Strings.ConfirmationAsk, common.getFormattedAddressFromPlace(results.response.place, separator));
-                session.dialogData.place = results.response.place;
-                botbuilder_1.Prompts.confirm(session, promptText, { listStyle: botbuilder_1.ListStyle.none });
+
+                }
+                else {
+                    var separator = session.gettext(consts_1.Strings.AddressSeparator);
+                    var promptText = session.gettext(consts_1.Strings.ConfirmationAsk, common.getFormattedAddressFromPlace(results.response.place, separator));
+                    session.dialogData.place = results.response.place;
+                    botbuilder_1.Prompts.confirm(session, promptText, { listStyle: botbuilder_1.ListStyle.none });
+                }
             }
             else {
                 next(results);

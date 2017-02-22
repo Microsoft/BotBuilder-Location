@@ -37,6 +37,12 @@
         /// Use this option if you do not want the <c>LocationDialog</c> to offer
         /// keeping track of the user's favorite locations.
         /// </summary>
-        SkipFavorites = 4
+        SkipFavorites = 4,
+
+        /// <summary>
+        /// Use this option if you want the location dialog to skip the final 
+        /// confirmation before returning the location
+        /// </summary>
+        SkipFinalConfirmation = 8
     }
 }

@@ -11,6 +11,7 @@ import * as addFavoriteLocationDialog from './dialogs/add-favorite-location-dial
 export interface ILocationPromptOptions {
     prompt: string;
     requiredFields?: requiredFieldsDialog.LocationRequiredFields;
+    skipConfirmationAsk?:boolean;
     useNativeControl?: boolean,
     reverseGeocode?: boolean
 }
@@ -81,10 +82,15 @@ function getLocationPickerPrompt() {
         // make final confirmation
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
             if (results.response && results.response.place) {
-                var separator = session.gettext(Strings.AddressSeparator);
-                var promptText = session.gettext(Strings.ConfirmationAsk, common.getFormattedAddressFromPlace(results.response.place, separator));
-                session.dialogData.place = results.response.place;
-                Prompts.confirm(session, promptText, { listStyle: ListStyle.none })
+
+                    session.endDialogWithResult({ response: results.response.place });
+                }
+                else {
+                    var separator = session.gettext(Strings.AddressSeparator);
+                    var promptText = session.gettext(Strings.ConfirmationAsk, common.getFormattedAddressFromPlace(results.response.place, separator));
+                    session.dialogData.place = results.response.place;
+                    Prompts.confirm(session, promptText, { listStyle: ListStyle.none })
+                }
             } else {
                 next(results);
             }
