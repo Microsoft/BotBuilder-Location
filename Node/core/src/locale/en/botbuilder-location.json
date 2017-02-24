@@ -19,5 +19,5 @@
     "SingleResultFound": "I found this result. Is this the correct address?",    
     "StreetAddress": "street address",
     "TitleSuffix": " Type or say an address",
-    "TitleSuffixFacebook": " Tap 'Send Location' to choose an address."
+    "TitleSuffixFacebook": " Tap 'Send Location' to choose an address, or type or say an address."
 }   
