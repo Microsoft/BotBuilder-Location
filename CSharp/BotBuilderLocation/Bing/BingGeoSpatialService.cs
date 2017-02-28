@@ -63,6 +63,7 @@
             if (location.BoundaryBox != null && location.BoundaryBox.Count >= 4)
             {
                 return string.Format(
+                    CultureInfo.InvariantCulture,
                     ImageUrlByBBox,
                     location.BoundaryBox[0],
                     location.BoundaryBox[1],
@@ -74,7 +75,12 @@
             }
             else
             {
-                return string.Format(ImageUrlByPoint, point.Coordinates[0], point.Coordinates[1], index) + "&key=" + apiKey;
+                return string.Format(
+                    CultureInfo.InvariantCulture, 
+                    ImageUrlByPoint, 
+                    point.Coordinates[0], 
+                    point.Coordinates[1], 
+                    index) + "&key=" + apiKey;
             }
         }
 
