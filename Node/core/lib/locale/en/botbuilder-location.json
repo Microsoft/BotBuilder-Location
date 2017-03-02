@@ -24,6 +24,7 @@
     "InvalidLocationResponse": "Didn't get that. Choose a location or cancel.",
     "InvalidLocationResponseFacebook": "Tap on Send Location to proceed; type or say cancel to exit.",
     "InvalidStartBranchResponse": "Tap one of the options to proceed; type or say cancel to exit.",
+    "InvalidYesNo": "I didn't understand. Please enter 'yes' or 'no'.",
     "LocationNotFound": "I could not find this address. Please try again.",
     "Locality": "city or locality",
     "MultipleResultsFound": "I found these results. Type or say a number to choose the address, or enter 'other' to select another address.",

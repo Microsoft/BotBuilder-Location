@@ -26,6 +26,7 @@ exports.Strings = {
     "InvalidLocationResponse": "InvalidLocationResponse",
     "InvalidLocationResponseFacebook": "InvalidLocationResponseFacebook",
     "InvalidStartBranchResponse": "InvalidStartBranchResponse",
+    "InvalidYesNo": "InvalidYesNo",
     "LocationNotFound": "LocationNotFound",
     "Locality": "Locality",
     "MultipleResultsFound": "MultipleResultsFound",

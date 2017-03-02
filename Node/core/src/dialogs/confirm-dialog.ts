@@ -27,7 +27,7 @@ function createDialog() {
                 return;
             }
 
-            session.send(Strings.InvalidLocationResponse).sendBatch();
+            session.send(Strings.InvalidYesNo).sendBatch();
         });
 }
 

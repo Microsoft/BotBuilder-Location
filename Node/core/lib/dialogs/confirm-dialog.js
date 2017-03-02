@@ -24,7 +24,7 @@ function createDialog() {
             session.endDialogWithResult(result);
             return;
         }
-        session.send(consts_1.Strings.InvalidLocationResponse).sendBatch();
+        session.send(consts_1.Strings.InvalidYesNo).sendBatch();
     });
 }
 function parseBoolean(input) {
