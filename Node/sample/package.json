@@ -6,7 +6,7 @@
     "license": "MIT",
     "dependencies": {
         "botbuilder": "^3.5.3",
-        "botbuilder-location": "^1.0.2",
+        "botbuilder-location": "^1.1.0",
         "dotenv-extended": "^1.0.4",
         "restify": "^4.2.0"
     }

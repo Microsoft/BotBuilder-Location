@@ -1,3 +1,7 @@
+## 1.1.0
+Features:
+  - Added skipConfirmationAsk boolean to allow skipping the final confirmation prompt.
+
 ## 1.0.4
 Bug fixes:
   - Fixed required dialog response: In case there are no required fields, the response now includes the place.
