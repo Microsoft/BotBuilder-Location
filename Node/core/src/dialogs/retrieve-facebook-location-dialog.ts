@@ -5,7 +5,7 @@ import * as locationService from '../services/bing-geospatial-service';
 import { RawLocation } from '../rawLocation';
 
 export function register(library: Library, apiKey: string): void {
-    library.dialog('retrive-facebook-location-dialog', createDialog(apiKey));
+    library.dialog('retrieve-facebook-location-dialog', createDialog(apiKey));
     library.dialog('facebook-location-resolve-dialog', createLocationResolveDialog());
 }
 

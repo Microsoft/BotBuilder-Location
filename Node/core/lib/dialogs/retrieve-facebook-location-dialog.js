@@ -4,7 +4,7 @@ var common = require("../common");
 var botbuilder_1 = require("botbuilder");
 var locationService = require("../services/bing-geospatial-service");
 function register(library, apiKey) {
-    library.dialog('retrive-facebook-location-dialog', createDialog(apiKey));
+    library.dialog('retrieve-facebook-location-dialog', createDialog(apiKey));
     library.dialog('facebook-location-resolve-dialog', createLocationResolveDialog());
 }
 exports.register = register;
