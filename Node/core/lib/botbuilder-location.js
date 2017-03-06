@@ -78,7 +78,10 @@ function getLocationPickerPrompt() {
             }
         },
         function (session, results, next) {
-            if (!session.dialogData.confirmed || (results.response && results.response.reset)) {
+            if (results.response && results.response.cancel) {
+                session.endDialogWithResult(null);
+            }
+            else if (!session.dialogData.confirmed || (results.response && results.response.reset)) {
                 session.send(consts_1.Strings.ResetPrompt);
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }

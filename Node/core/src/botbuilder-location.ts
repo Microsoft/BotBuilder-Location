@@ -111,7 +111,10 @@ function getLocationPickerPrompt() {
             }
         },
         (session: Session, results: IDialogResult<any>, next: (results?: IDialogResult<any>) => void) => {
-            if ( !session.dialogData.confirmed || (results.response && results.response.reset)) {
+            if (results.response && results.response.cancel) {
+                session.endDialogWithResult(null);
+            }
+            else if ( !session.dialogData.confirmed || (results.response && results.response.reset)) {
                 session.send(Strings.ResetPrompt);
                 session.replaceDialog('locationPickerPrompt', session.dialogData.args);
             }
