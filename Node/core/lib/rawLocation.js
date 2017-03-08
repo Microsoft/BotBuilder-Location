@@ -10,6 +10,7 @@ var Address = (function () {
     }
     return Address;
 }());
+exports.Address = Address;
 var Point = (function () {
     function Point() {
     }

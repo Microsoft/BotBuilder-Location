@@ -26,6 +26,10 @@ const fields: Array<any> = [
 function createDialog() {
     return common.createBaseDialog({ recognizeMode: RecognizeMode.onBegin })
         .onBegin((session, args, next) => {
+            if (args.place.address) {
+                args.place.address.formattedAddress = common.getFormattedAddressFromLocation( args.place, session.gettext(Strings.AddressSeparator));
+            }
+        
             if (args.requiredFields) {
                 session.dialogData.place = args.place;
                 session.dialogData.index = -1;
@@ -45,6 +49,7 @@ function createDialog() {
 
                 session.dialogData.lastInput = session.message.text;
                 session.dialogData.place.address[fields[index].name] = session.message.text;
+                session.dialogData.place.address.formattedAddress = common.getFormattedAddressFromLocation( session.dialogData.place, session.gettext(Strings.AddressSeparator));
             }
 
             index++;

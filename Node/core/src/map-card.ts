@@ -19,7 +19,12 @@ export class MapCard extends HeroCard {
             prefixText += locationName + ": ";
         }
 
-        this.subtitle(prefixText + location.address.formattedAddress);
+        if (location.address && location.address.formattedAddress) {
+            this.subtitle(prefixText + location.address.formattedAddress);
+        }
+        else {
+            this.subtitle(prefixText);
+        }
   
         if (location.point) {
             var locationUrl: string;

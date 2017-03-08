@@ -7,7 +7,7 @@ export class RawLocation {
     point: Point;
 }
 
-class Address {
+export class Address {
     addressLine: string;
     adminDistrict: string;
     adminDistrict2: string;
