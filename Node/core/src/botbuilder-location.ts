@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { IDialogResult, IPromptOptions, Library, ListStyle, Prompts, Session} from 'botbuilder';
+import { AttachmentLayout, IDialogResult, IPromptOptions, CardAction, HeroCard, Library, ListStyle, Message, Prompts, Session} from 'botbuilder';
 import * as common from './common';
 import { Strings, LibraryName } from './consts';
 import { Place } from './place';
@@ -41,6 +41,7 @@ exports.createLibrary = (apiKey: string): Library => {
     lib.localePath(path.join(__dirname, 'locale/'));
 
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
+    lib.dialog('start-hero-card-dialog', createDialogStartHeroCard());
 
     return lib;
 }
@@ -64,11 +65,7 @@ function getLocationPickerPrompt() {
         (session: Session, args: ILocationPromptOptions, next: (results?: IDialogResult<any>) => void) => {
             session.dialogData.args = args;
             if (!args.skipFavorites) {
-                Prompts.choice(
-                    session,
-                    session.gettext(Strings.DialogStartBranchAsk), 
-                    [ session.gettext(Strings.FavoriteLocations), session.gettext(Strings.OtherLocation) ],
-                    { listStyle: ListStyle.button, retryPrompt: session.gettext(Strings.InvalidStartBranchResponse)});
+                session.beginDialog('start-hero-card-dialog');
             }
             else {
                 next();
@@ -120,4 +117,36 @@ function getLocationPickerPrompt() {
             }
         }
     ];
+}
+
+function createDialogStartHeroCard() {
+    return common.createBaseDialog()
+        .onBegin(function (session, args) {
+            const possibleBranches = [ session.gettext(Strings.FavoriteLocations), session.gettext(Strings.OtherLocation) ];
+            let buttons = new Array();
+            for (let i =0; i < possibleBranches.length; i++) {
+                var button = new CardAction(session);
+                button.type("imBack");
+                button.value(possibleBranches[i]);       
+                button.title(possibleBranches[i]);       
+                buttons.push(button);
+            }
+
+            var card = new HeroCard();
+            card.buttons(buttons);
+            card.subtitle(session.gettext(Strings.DialogStartBranchAsk));
+
+            var attachments = new Array();
+            attachments.push(card.toAttachment());
+          
+            session.send( new Message(session).attachmentLayout(AttachmentLayout.carousel).attachments(attachments)).sendBatch();
+        }).onDefault((session) => {
+            const text: string = session.message.text;
+            if (text === session.gettext(Strings.OtherLocation) || text === session.gettext(Strings.FavoriteLocations)) {
+                session.endDialogWithResult({ response: { entity: text } });
+            }
+            else {
+               session.send(session.gettext(Strings.InvalidStartBranchResponse)).sendBatch();
+            }
+        });
 }

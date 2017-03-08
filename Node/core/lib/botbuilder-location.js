@@ -24,6 +24,7 @@ exports.createLibrary = function (apiKey) {
     confirmDialog.register(lib);
     lib.localePath(path.join(__dirname, 'locale/'));
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
+    lib.dialog('start-hero-card-dialog', createDialogStartHeroCard());
     return lib;
 };
 exports.getLocation = function (session, options) {
@@ -38,7 +39,7 @@ function getLocationPickerPrompt() {
         function (session, args, next) {
             session.dialogData.args = args;
             if (!args.skipFavorites) {
-                botbuilder_1.Prompts.choice(session, session.gettext(consts_1.Strings.DialogStartBranchAsk), [session.gettext(consts_1.Strings.FavoriteLocations), session.gettext(consts_1.Strings.OtherLocation)], { listStyle: botbuilder_1.ListStyle.button, retryPrompt: session.gettext(consts_1.Strings.InvalidStartBranchResponse) });
+                session.beginDialog('start-hero-card-dialog');
             }
             else {
                 next();
@@ -87,4 +88,32 @@ function getLocationPickerPrompt() {
             }
         }
     ];
+}
+function createDialogStartHeroCard() {
+    return common.createBaseDialog()
+        .onBegin(function (session, args) {
+        var possibleBranches = [session.gettext(consts_1.Strings.FavoriteLocations), session.gettext(consts_1.Strings.OtherLocation)];
+        var buttons = new Array();
+        for (var i = 0; i < possibleBranches.length; i++) {
+            var button = new botbuilder_1.CardAction(session);
+            button.type("imBack");
+            button.value(possibleBranches[i]);
+            button.title(possibleBranches[i]);
+            buttons.push(button);
+        }
+        var card = new botbuilder_1.HeroCard();
+        card.buttons(buttons);
+        card.subtitle(session.gettext(consts_1.Strings.DialogStartBranchAsk));
+        var attachments = new Array();
+        attachments.push(card.toAttachment());
+        session.send(new botbuilder_1.Message(session).attachmentLayout(botbuilder_1.AttachmentLayout.carousel).attachments(attachments)).sendBatch();
+    }).onDefault(function (session) {
+        var text = session.message.text;
+        if (text === session.gettext(consts_1.Strings.OtherLocation) || text === session.gettext(consts_1.Strings.FavoriteLocations)) {
+            session.endDialogWithResult({ response: { entity: text } });
+        }
+        else {
+            session.send(session.gettext(consts_1.Strings.InvalidStartBranchResponse)).sendBatch();
+        }
+    });
 }
