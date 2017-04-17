@@ -3,6 +3,7 @@ import { AttachmentLayout, IDialogResult, IPromptOptions, CardAction, HeroCard, 
 import * as common from './common';
 import { Strings, LibraryName } from './consts';
 import { Place } from './place';
+import { FavoritesManager } from './services/favorites-manager';
 import * as addFavoriteLocationDialog from './dialogs/add-favorite-location-dialog';
 import * as confirmDialog from './dialogs/confirm-dialog';
 import * as retrieveLocationDialog from './dialogs/retrieve-location-dialog'
@@ -64,7 +65,8 @@ function getLocationPickerPrompt() {
         // handle different ways of retrieving a location (favorite, other, etc)
         (session: Session, args: ILocationPromptOptions, next: (results?: IDialogResult<any>) => void) => {
             session.dialogData.args = args;
-            if (!args.skipFavorites) {
+
+            if (!args.skipFavorites && (new  FavoritesManager(session.userData)).getFavorites().length > 0) {
                 session.beginDialog('start-hero-card-dialog');
             }
             else {

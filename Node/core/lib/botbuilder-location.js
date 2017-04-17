@@ -4,6 +4,7 @@ var botbuilder_1 = require("botbuilder");
 var common = require("./common");
 var consts_1 = require("./consts");
 var place_1 = require("./place");
+var favorites_manager_1 = require("./services/favorites-manager");
 var addFavoriteLocationDialog = require("./dialogs/add-favorite-location-dialog");
 var confirmDialog = require("./dialogs/confirm-dialog");
 var retrieveLocationDialog = require("./dialogs/retrieve-location-dialog");
@@ -38,7 +39,7 @@ function getLocationPickerPrompt() {
     return [
         function (session, args, next) {
             session.dialogData.args = args;
-            if (!args.skipFavorites) {
+            if (!args.skipFavorites && (new favorites_manager_1.FavoritesManager(session.userData)).getFavorites().length > 0) {
                 session.beginDialog('start-hero-card-dialog');
             }
             else {

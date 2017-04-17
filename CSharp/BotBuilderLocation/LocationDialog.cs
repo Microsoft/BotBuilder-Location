@@ -101,6 +101,7 @@
     {
         private readonly LocationOptions options;
         private readonly ILocationDialogFactory locationDialogFactory;
+        private readonly IFavoritesManager favoritesManager;
         private bool selectedLocationConfirmed;
         private Location selectedLocation;
 
@@ -129,7 +130,7 @@
             LocationOptions options = LocationOptions.None,
             LocationRequiredFields requiredFields = LocationRequiredFields.None,
             LocationResourceManager resourceManager = null)
-            : this(new LocationDialogFactory(apiKey, channelId, prompt, new BingGeoSpatialService(apiKey), options, requiredFields, resourceManager), resourceManager)
+            : this(new LocationDialogFactory(apiKey, channelId, prompt, new BingGeoSpatialService(apiKey), options, requiredFields, resourceManager), new FavoritesManager(), resourceManager)
         {
             this.options = options;
         }
@@ -141,9 +142,11 @@
         /// <param name="resourceManager">The location resource manager.</param>
         internal LocationDialog(
             ILocationDialogFactory locationDialogFactory,
+            IFavoritesManager favoritesManager,
             LocationResourceManager resourceManager = null) : base(resourceManager)
         {
             SetField.NotNull(out this.locationDialogFactory, nameof(locationDialogFactory), locationDialogFactory);
+            SetField.NotNull(out this.favoritesManager, nameof(favoritesManager), favoritesManager);
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -157,14 +160,13 @@
         {
             this.selectedLocationConfirmed = false;
 
-            if (this.options.HasFlag(LocationOptions.SkipFavorites))
+            if (this.options.HasFlag(LocationOptions.SkipFavorites) || this.favoritesManager.GetFavorites(context).Count == 0)
             {
                 // this is the default branch
                 this.StartBranch(context, BranchType.LocationRetriever);
             }
             else
             {
-                // TODO : Should we always start this way even if the user currently has no fav locations?
                 await context.PostAsync(this.CreateDialogStartHeroCard(context));
                 context.Wait(this.MessageReceivedAsync);
             }
