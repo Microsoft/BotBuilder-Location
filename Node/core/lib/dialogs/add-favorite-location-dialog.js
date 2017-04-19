@@ -36,13 +36,19 @@ function createNameFavoriteLocationDialog() {
         session.dialogData.place = args.place;
         session.send(session.gettext(consts_1.Strings.EnterNewFavoriteLocationName)).sendBatch();
     }).onDefault(function (session) {
-        var favoriteLocation = {
-            location: session.dialogData.place,
-            name: session.message.text
-        };
         var favoritesManager = new favorites_manager_1.FavoritesManager(session.userData);
-        favoritesManager.add(favoriteLocation);
-        session.send(session.gettext(consts_1.Strings.FavoriteAddedConfirmation, favoriteLocation.name));
-        session.endDialogWithResult({ response: {} });
+        var newFavoriteName = session.message.text.trim();
+        if (favoritesManager.isFavoriteLocationName(newFavoriteName)) {
+            session.send(session.gettext(consts_1.Strings.DuplicateFavoriteNameResponse, newFavoriteName)).sendBatch();
+        }
+        else {
+            var favoriteLocation = {
+                location: session.dialogData.place,
+                name: newFavoriteName
+            };
+            favoritesManager.add(favoriteLocation);
+            session.send(session.gettext(consts_1.Strings.FavoriteAddedConfirmation, favoriteLocation.name));
+            session.endDialogWithResult({ response: {} });
+        }
     });
 }

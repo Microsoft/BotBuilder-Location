@@ -25,6 +25,40 @@ export class FavoritesManager {
         return false;
     }
 
+    public isFavoriteLocationName(name: string) : boolean {
+        let favorites = this.getFavorites();
+
+        for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i].name.toLowerCase() === name.toLowerCase()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public getFavoriteByIndex(index: number) : FavoriteLocation {
+        let favorites = this.getFavorites();
+
+        if (index >=0 && index < favorites.length) {
+            return favorites[index];
+        }
+
+        return null;
+    }
+
+    public getFavoriteByName(name: string) : FavoriteLocation {
+        let favorites = this.getFavorites();
+
+         for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i].name.toLowerCase() === name.toLowerCase()) {
+                return favorites[i];
+            }
+        }
+
+        return null;
+    }
+
     public add(favoriteLocation: FavoriteLocation): void {
         let favorites = this.getFavorites();
 

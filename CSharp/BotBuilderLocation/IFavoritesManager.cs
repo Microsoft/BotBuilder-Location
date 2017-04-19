@@ -28,6 +28,33 @@
         bool IsFavorite(IBotData botData, Location location);
 
         /// <summary>
+        /// Checks whether the given string is the name of one of the favorite locations of
+        /// the user inferred from the bot data.
+        /// </summary>
+        /// <param name="botData">The bot data.</param>
+        /// <param name="name">The location name.</param>
+        /// <returns></returns>
+        bool IsFavoriteLocationName(IBotData botData, string name);
+
+        /// <summary>
+        /// Looks up the favorite location at the given zero-based index value for
+        /// the user inferred from the bot data.
+        /// </summary>
+        /// <param name="botData">The bot data.</param>
+        /// <param name="index">The index.</param>
+        /// <returns>>A favorite location or null if no favorite location can be found.</returns>
+        FavoriteLocation GetFavoriteByIndex(IBotData botData, int index);
+
+        /// <summary>
+        /// Looks up the favorite location with the given name value for
+        /// the user inferred from the bot data.
+        /// </summary>
+        /// <param name="botData">The bot data.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>>A favorite location or null if no favorite location can be found.</returns>
+        FavoriteLocation GetFavoriteByName(IBotData botData, string name);
+
+        /// <summary>
         /// Looks up the favorite locations value for the user inferred from the
         /// bot data.
         /// </summary>

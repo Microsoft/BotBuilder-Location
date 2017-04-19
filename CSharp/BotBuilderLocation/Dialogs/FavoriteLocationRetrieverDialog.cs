@@ -58,28 +58,28 @@
         protected override async Task MessageReceivedInternalAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var messageText = (await result).Text.Trim();
-            int value = -1;
+            FavoriteLocation value = null;
             string command = null;
 
             if (StringComparer.OrdinalIgnoreCase.Equals(messageText, this.ResourceManager.OtherComand))
             {
                 this.SwitchToLocationRetriever(context);
             }
-            else if (this.TryParseSelection(messageText, out value))
+            else if (this.TryParseSelection(context, messageText, out value))
             {
-                await this.ProcessRetrievedLocation(context, this.locations[value - 1].Location);
+                await this.ProcessRetrievedLocation(context, value.Location);
             }
-            else if (this.TryParseCommandSelection(messageText, out value, out command) &&
+            else if (this.TryParseCommandSelection(context, messageText, out value, out command) &&
                 (StringComparer.OrdinalIgnoreCase.Equals(command, this.ResourceManager.DeleteCommand)
                 || StringComparer.OrdinalIgnoreCase.Equals(command, this.ResourceManager.EditCommand)))
             {
                 if (StringComparer.OrdinalIgnoreCase.Equals(command, this.ResourceManager.DeleteCommand))
                 {
-                    TryConfirmAndDelete(context, this.locations[value - 1]);
+                    TryConfirmAndDelete(context, value);
                 }
                 else
                 {
-                    var editDialog = this.locationDialogFactory.CreateDialog(BranchType.EditFavoriteLocation, this.locations[value - 1].Location, this.locations[value - 1].Name);
+                    var editDialog = this.locationDialogFactory.CreateDialog(BranchType.EditFavoriteLocation, value.Location, value.Name);
                     context.Call(editDialog, this.ResumeAfterChildDialogAsync);
                 }
             }
@@ -106,14 +106,31 @@
             return message;
         }
 
-        private bool TryParseSelection(string text, out int value)
+        private bool TryParseSelection(IDialogContext context, string text, out FavoriteLocation value)
         {
-            return int.TryParse(text, out value) && value > 0 && value <= this.locations.Count;
+            var favoriteRetrievedByName = this.favoritesManager.GetFavoriteByName(context, text);
+
+            if (favoriteRetrievedByName != null)
+            {
+                value = favoriteRetrievedByName;
+                return true;
+            }
+
+            int index = -1;
+
+            if (int.TryParse(text, out index))
+            {
+                value = this.favoritesManager.GetFavoriteByIndex(context, index-1);
+                return value != null;
+            }
+
+            value = null;
+            return false;
         }
 
-        private bool TryParseCommandSelection(string text, out int value, out string command)
+        private bool TryParseCommandSelection(IDialogContext context, string text, out FavoriteLocation value, out string command)
         {
-            value = -1;
+            value = null;
             command = null;
 
             var tokens = text.Split(' ');
@@ -122,7 +139,7 @@
 
             command = tokens[0];
 
-            return this.TryParseSelection(tokens[1], out value);
+            return this.TryParseSelection(context, tokens[1], out value);
         }
 
         private void TryConfirmAndDelete(IDialogContext context, FavoriteLocation favoriteLocation)

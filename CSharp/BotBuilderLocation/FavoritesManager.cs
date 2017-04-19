@@ -24,6 +24,30 @@
             return favorites.Any(favoriteLocation => AreEqual(location, favoriteLocation.Location));
         }
 
+        public bool IsFavoriteLocationName(IBotData botData, string name)
+        {
+            var favorites = this.GetFavorites(botData);
+            return favorites.Any(favoriteLocation => StringComparer.OrdinalIgnoreCase.Equals(name, favoriteLocation.Name));
+        }
+
+        public FavoriteLocation GetFavoriteByIndex(IBotData botData, int index)
+        {
+            var favorites = this.GetFavorites(botData);
+
+            if (index >= 0 && index <  favorites.Count)
+            {
+                return favorites[index];
+            }
+
+            return null;
+        }
+
+        public FavoriteLocation GetFavoriteByName(IBotData botData, string name)
+        {
+            var favorites = this.GetFavorites(botData);
+            return favorites.Where(favoriteLocation => StringComparer.OrdinalIgnoreCase.Equals(name, favoriteLocation.Name)).FirstOrDefault();
+        }
+
         public void Add(IBotData botData, FavoriteLocation value)
         {
             var favorites = this.GetFavorites(botData);

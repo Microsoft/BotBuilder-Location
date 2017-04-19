@@ -15,6 +15,7 @@ export const Strings = {
     "DeleteFavoriteAbortion" : "DeleteFavoriteAbortion",
     "DeleteFavoriteConfirmationAsk": "DeleteFavoriteConfirmationAsk",
     "DialogStartBranchAsk": "DialogStartBranchAsk",
+    "DuplicateFavoriteNameResponse": "DuplicateFavoriteNameResponse",
     "EditCommand": "EditCommand",
     "EditFavoritePrompt": "EditFavoritePrompt",
     "EnterNewFavoriteLocationName": "EnterNewFavoriteLocationName",

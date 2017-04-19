@@ -238,7 +238,7 @@
     <value>You do not seem to have any favorite locations at the moment. Enter an address and you will be able to save it to your favorite locations.</value>
   </data>
   <data name="SelectFavoriteLocationPrompt" xml:space="preserve">
-    <value>Here are your favorite locations. Type or say a number to use the respective location, or 'other' to use a different location. You can also type or say 'edit' or 'delete' followed by a number to edit or delete the respective location.</value>
+    <value>Here are your favorite locations. Type or say a favorite location name/number to use the respective location, or 'other' to use a different location. You can also type or say 'edit' or 'delete' followed by a name/number to edit or delete the respective location.</value>
   </data>
   <data name="DeleteFavoriteAbortion" xml:space="preserve">
     <value>OK, deletion aborted.</value>
@@ -251,5 +251,8 @@
   </data>
   <data name="InvalidFavoriteNameResponse" xml:space="preserve">
     <value>Please enter a valid name for this address.</value>
+  </data>
+  <data name="DuplicateFavoriteNameResponse" xml:space="preserve">
+    <value>Please choose another name because "{0}" is already listed in your favorites.</value>
   </data>
 </root>

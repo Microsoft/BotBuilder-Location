@@ -196,6 +196,15 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please choose another name because &quot;{0}&quot; is already listed in your favorites..
+        /// </summary>
+        internal static string DuplicateFavoriteNameResponse {
+            get {
+                return ResourceManager.GetString("DuplicateFavoriteNameResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to edit.
         /// </summary>
         internal static string EditCommand {
@@ -412,7 +421,7 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here are your favorite locations. Type or say a number to use the respective location, or &apos;other&apos; to use a different location. You can also type or say &apos;edit&apos; or &apos;delete&apos; followed by a number to edit or delete the respective location..
+        ///   Looks up a localized string similar to Here are your favorite locations. Type or say a favorite location name/number to use the respective location, or &apos;other&apos; to use a different location. You can also type or say &apos;edit&apos; or &apos;delete&apos; followed by a name/number to edit or delete the respective location..
         /// </summary>
         internal static string SelectFavoriteLocationPrompt {
             get {

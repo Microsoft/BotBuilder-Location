@@ -90,6 +90,11 @@
         public virtual string DialogStartBranchAsk => this.GetResource(nameof(Strings.DialogStartBranchAsk));
 
         /// <summary>
+        /// The <see cref="DuplicateFavoriteNameResponse"/> resource string.
+        /// </summary>
+        public virtual string DuplicateFavoriteNameResponse => this.GetResource(nameof(Strings.DuplicateFavoriteNameResponse));
+
+        /// <summary>
         /// The <see cref="EditCommand"/> resource string.
         /// </summary>
         public virtual string EditCommand => this.GetResource(nameof(Strings.EditCommand));

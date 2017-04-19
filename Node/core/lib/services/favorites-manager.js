@@ -17,6 +17,31 @@ var FavoritesManager = (function () {
         }
         return false;
     };
+    FavoritesManager.prototype.isFavoriteLocationName = function (name) {
+        var favorites = this.getFavorites();
+        for (var i = 0; i < favorites.length; i++) {
+            if (favorites[i].name.toLowerCase() === name.toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
+    };
+    FavoritesManager.prototype.getFavoriteByIndex = function (index) {
+        var favorites = this.getFavorites();
+        if (index >= 0 && index < favorites.length) {
+            return favorites[index];
+        }
+        return null;
+    };
+    FavoritesManager.prototype.getFavoriteByName = function (name) {
+        var favorites = this.getFavorites();
+        for (var i = 0; i < favorites.length; i++) {
+            if (favorites[i].name.toLowerCase() === name.toLowerCase()) {
+                return favorites[i];
+            }
+        }
+        return null;
+    };
     FavoritesManager.prototype.add = function (favoriteLocation) {
         var favorites = this.getFavorites();
         if (favorites.length >= this.maxFavoriteCount) {

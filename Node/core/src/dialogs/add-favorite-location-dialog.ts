@@ -47,13 +47,20 @@ function createNameFavoriteLocationDialog() {
             session.dialogData.place = args.place;     
             session.send(session.gettext(Strings.EnterNewFavoriteLocationName)).sendBatch();
         }).onDefault((session) => {
-            const favoriteLocation: FavoriteLocation = {
-                location:  session.dialogData.place,
-                name : session.message.text
-            };
             const favoritesManager = new  FavoritesManager(session.userData);
-            favoritesManager.add(favoriteLocation);
-            session.send(session.gettext(Strings.FavoriteAddedConfirmation, favoriteLocation.name));
-            session.endDialogWithResult({ response: {} });
+            const newFavoriteName = session.message.text.trim();
+
+            if (favoritesManager.isFavoriteLocationName(newFavoriteName)) {
+                session.send(session.gettext(Strings.DuplicateFavoriteNameResponse, newFavoriteName)).sendBatch();
+            } else {
+                const favoriteLocation: FavoriteLocation = {
+                    location:  session.dialogData.place,
+                    name : newFavoriteName
+                };
+            
+                favoritesManager.add(favoriteLocation);
+                session.send(session.gettext(Strings.FavoriteAddedConfirmation, favoriteLocation.name));
+                session.endDialogWithResult({ response: {} });
+            }
         });
 }

@@ -3,6 +3,7 @@ import { Strings } from '../consts';
 import { Session, Library } from 'botbuilder';
 import { LocationCardBuilder } from '../services/location-card-builder';
 import { FavoritesManager } from '../services/favorites-manager';
+import { FavoriteLocation } from '../favorite-location';
 import * as deleteFavoriteLocationDialog from './delete-favorite-location-dialog';
 import * as editFavoriteLocationDialog from './edit-fravorite-location-dialog';
 import { RawLocation } from '../rawLocation';
@@ -44,20 +45,20 @@ function createDialog(apiKey: string) {
                 session.replaceDialog('retrieve-location-dialog',  session.dialogData.args);
             }
             else {
-                const selection = tryParseCommandSelection(text, session.dialogData.userFavorites.length);
+                const selection = tryParseCommandSelection(session.userData, text, session.dialogData.userFavorites.length);
                 if ( selection.command === "select" ) {
                     // complete required fields
                     session.replaceDialog('require-fields-dialog', {
-                                place: session.dialogData.userFavorites[selection.index - 1].location,
+                                place: selection.selectedFavorite.location,
                                 requiredFields: session.dialogData.args.requiredFields
                             });
                 }
                 else if (selection.command === session.gettext(Strings.DeleteCommand) ) {
-                     session.dialogData.args.toBeDeleted = session.dialogData.userFavorites[selection.index - 1];
+                     session.dialogData.args.toBeDeleted = selection.selectedFavorite;
                      session.replaceDialog('delete-favorite-location-dialog',  session.dialogData.args);
                 }
                 else if (selection.command === session.gettext(Strings.EditCommand)) {
-                    session.dialogData.args.toBeEditted = session.dialogData.userFavorites[selection.index - 1];
+                    session.dialogData.args.toBeEditted = selection.selectedFavorite;
                     session.replaceDialog('edit-favorite-location-dialog',  session.dialogData.args);
                 }
                 else {
@@ -67,32 +68,35 @@ function createDialog(apiKey: string) {
         });
 }
     
-function tryParseNumberSelection(text: string): number {
-    const tokens = text.trim().split(' ');
-    if (tokens.length == 1) {
-        const numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
-        const match = numberExp.exec(text);
-        if (match) {
-            return Number(match[0]);
-        }
+function tryParseFavoriteSelection(userData : any, text: string): FavoriteLocation {
+    text = text.trim().toLowerCase();
+
+    const favoritesManager = new  FavoritesManager(userData);
+    const favoriteRetrievedByName = favoritesManager.getFavoriteByName(text);
+
+    if (favoriteRetrievedByName != null) {
+        return favoriteRetrievedByName;
     }
-    return -1;
+
+    const numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
+    const match = numberExp.exec(text);
+    if (match) {
+       return favoritesManager.getFavoriteByIndex(Number(match[0]) - 1);
+    }
+
+    return null;
 }
 
-function tryParseCommandSelection(text: string, maxIndex: number): any {
+function tryParseCommandSelection(userData : any, text: string, maxIndex: number): any {
     const tokens = text.trim().split(' ');
 
     if (tokens.length == 1) {
-        const index = tryParseNumberSelection(text);
-        if (index > 0 && index <= maxIndex) {
-             return { index: index, command: "select" };
-        }
+        const selectedFavorite = tryParseFavoriteSelection(userData, text);
+        return { selectedFavorite: selectedFavorite, command: "select" };
     }
     else if (tokens.length == 2) {
-        const index = tryParseNumberSelection(tokens[1]);
-        if (index > 0 && index <= maxIndex) {
-            return { index: index, command: tokens[0] };
-        }
+        const selectedFavorite = tryParseFavoriteSelection(userData, tokens[1]);
+        return { selectedFavorite: selectedFavorite, command: tokens[0] };
     }
    
     return { command: ""};

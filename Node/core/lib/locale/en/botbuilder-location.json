@@ -12,6 +12,7 @@
     "DeleteFavoriteAbortion": "OK, deletion aborted.",
     "DeleteFavoriteConfirmationAsk": "Are you sure you want to delete %s from your favorite locations?",
     "DialogStartBranchAsk": "How would you like to pick a location?",
+	"DuplicateFavoriteNameResponse": "Please choose another name because \"%s\" is already listed in your favorites.",
     "EditCommand": "edit",
     "EditFavoritePrompt": "OK, let's edit %s. Enter a new address.",
     "EnterNewFavoriteLocationName": "OK, please enter a friendly name for this address. You can use 'home', 'work' or any other name you prefer.",

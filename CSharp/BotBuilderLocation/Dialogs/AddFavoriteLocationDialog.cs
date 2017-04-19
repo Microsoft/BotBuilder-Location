@@ -57,11 +57,16 @@
         /// <returns></returns>
         protected override async Task MessageReceivedInternalAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            var messageText = (await result).Text;
+            var messageText = (await result).Text?.Trim();
 
-            if (string.IsNullOrWhiteSpace(messageText))
+            if (string.IsNullOrEmpty(messageText))
             {
                 await context.PostAsync(this.ResourceManager.InvalidFavoriteNameResponse);
+                context.Wait(this.MessageReceivedAsync);
+            }
+            else if (this.favoritesManager.IsFavoriteLocationName(context, messageText))
+            {
+                await context.PostAsync(string.Format(this.ResourceManager.DuplicateFavoriteNameResponse, messageText));
                 context.Wait(this.MessageReceivedAsync);
             }
             else

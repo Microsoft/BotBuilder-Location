@@ -37,19 +37,19 @@ function createDialog(apiKey) {
             session.replaceDialog('retrieve-location-dialog', session.dialogData.args);
         }
         else {
-            var selection = tryParseCommandSelection(text, session.dialogData.userFavorites.length);
+            var selection = tryParseCommandSelection(session.userData, text, session.dialogData.userFavorites.length);
             if (selection.command === "select") {
                 session.replaceDialog('require-fields-dialog', {
-                    place: session.dialogData.userFavorites[selection.index - 1].location,
+                    place: selection.selectedFavorite.location,
                     requiredFields: session.dialogData.args.requiredFields
                 });
             }
             else if (selection.command === session.gettext(consts_1.Strings.DeleteCommand)) {
-                session.dialogData.args.toBeDeleted = session.dialogData.userFavorites[selection.index - 1];
+                session.dialogData.args.toBeDeleted = selection.selectedFavorite;
                 session.replaceDialog('delete-favorite-location-dialog', session.dialogData.args);
             }
             else if (selection.command === session.gettext(consts_1.Strings.EditCommand)) {
-                session.dialogData.args.toBeEditted = session.dialogData.userFavorites[selection.index - 1];
+                session.dialogData.args.toBeEditted = selection.selectedFavorite;
                 session.replaceDialog('edit-favorite-location-dialog', session.dialogData.args);
             }
             else {
@@ -58,30 +58,29 @@ function createDialog(apiKey) {
         }
     });
 }
-function tryParseNumberSelection(text) {
-    var tokens = text.trim().split(' ');
-    if (tokens.length == 1) {
-        var numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
-        var match = numberExp.exec(text);
-        if (match) {
-            return Number(match[0]);
-        }
+function tryParseFavoriteSelection(userData, text) {
+    text = text.trim().toLowerCase();
+    var favoritesManager = new favorites_manager_1.FavoritesManager(userData);
+    var favoriteRetrievedByName = favoritesManager.getFavoriteByName(text);
+    if (favoriteRetrievedByName != null) {
+        return favoriteRetrievedByName;
     }
-    return -1;
+    var numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
+    var match = numberExp.exec(text);
+    if (match) {
+        return favoritesManager.getFavoriteByIndex(Number(match[0]) - 1);
+    }
+    return null;
 }
-function tryParseCommandSelection(text, maxIndex) {
+function tryParseCommandSelection(userData, text, maxIndex) {
     var tokens = text.trim().split(' ');
     if (tokens.length == 1) {
-        var index = tryParseNumberSelection(text);
-        if (index > 0 && index <= maxIndex) {
-            return { index: index, command: "select" };
-        }
+        var selectedFavorite = tryParseFavoriteSelection(userData, text);
+        return { selectedFavorite: selectedFavorite, command: "select" };
     }
     else if (tokens.length == 2) {
-        var index = tryParseNumberSelection(tokens[1]);
-        if (index > 0 && index <= maxIndex) {
-            return { index: index, command: tokens[0] };
-        }
+        var selectedFavorite = tryParseFavoriteSelection(userData, tokens[1]);
+        return { selectedFavorite: selectedFavorite, command: tokens[0] };
     }
     return { command: "" };
 }
