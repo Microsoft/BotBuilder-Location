@@ -34,7 +34,7 @@
             this.resourceManager = resourceManager;
         }
 
-       public IDialog<LocationDialogResponse> CreateDialog(BranchType branch, Location location = null, string locationName = null)
+       public IDialog<LocationDialogResponse> CreateDialog(BranchType branch, Location location = null, string locationName = null, bool skipDialogPrompt = false)
         {
             bool isFacebookChannel = StringComparer.OrdinalIgnoreCase.Equals(this.channelId, "facebook");
 
@@ -57,7 +57,8 @@
                     geoSpatialService: new BingGeoSpatialService(this.apiKey),
                     options: this.options,
                     requiredFields: this.requiredFields,
-                    resourceManager: this.resourceManager);
+                    resourceManager: this.resourceManager,
+                    skipPrompt: skipDialogPrompt);
             }
             else if (branch == BranchType.FavoriteLocationRetriever)
             {

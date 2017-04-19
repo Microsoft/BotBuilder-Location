@@ -15,7 +15,7 @@ exports.register = register;
 function createDialog() {
     return [
         function (session, args) {
-            session.beginDialog('location-resolve-dialog', { prompt: args.prompt });
+            session.beginDialog('location-resolve-dialog', args);
         },
         function (session, results, next) {
             session.dialogData.response = results.response;
@@ -38,8 +38,10 @@ var MAX_CARD_COUNT = 5;
 function createLocationResolveDialog(apiKey) {
     return common.createBaseDialog()
         .onBegin(function (session, args) {
-        var promptSuffix = session.gettext(consts_1.Strings.TitleSuffix);
-        session.send(args.prompt + promptSuffix).sendBatch();
+        if (!args.skipDialogPrompt) {
+            var promptSuffix = session.gettext(consts_1.Strings.TitleSuffix);
+            session.send(args.prompt + promptSuffix).sendBatch();
+        }
     }).onDefault(function (session) {
         locationService.getLocationByQuery(apiKey, session.message.text)
             .then(function (locations) {

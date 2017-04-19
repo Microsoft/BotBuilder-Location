@@ -12,6 +12,7 @@ function createDialog() {
         (session: Session, args: any) => {
             session.dialogData.args = args;
             session.dialogData.toBeEditted = args.toBeEditted; 
+            session.dialogData.args.skipDialogPrompt = true;
             session.send(session.gettext(Strings.EditFavoritePrompt, args.toBeEditted.name));
             session.beginDialog('retrieve-location-dialog',  session.dialogData.args);
         },

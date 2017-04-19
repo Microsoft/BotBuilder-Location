@@ -15,6 +15,7 @@
     {
         private const int MaxLocationCount = 5;
         private readonly string prompt;
+        private readonly bool skipPrompt;
         private readonly bool supportsKeyboard;
         private readonly List<Location> locations = new List<Location>();
         private readonly ILocationCardBuilder cardBuilder;
@@ -36,18 +37,25 @@
             IGeoSpatialService geoSpatialService,
             LocationOptions options,
             LocationRequiredFields requiredFields,
-            LocationResourceManager resourceManager)
+            LocationResourceManager resourceManager,
+            bool skipPrompt = false)
             : base(geoSpatialService, options, requiredFields, resourceManager)
         {
             SetField.NotNull(out this.cardBuilder, nameof(cardBuilder), cardBuilder);
             SetField.NotNull(out this.prompt, nameof(prompt), prompt);
             this.supportsKeyboard = supportsKeyboard;
+            this.skipPrompt = skipPrompt;
         }
 
         public override async Task StartAsync(IDialogContext context)
         {
             this.locations.Clear();
-            await context.PostAsync(this.prompt + this.ResourceManager.TitleSuffix);
+
+            if (!this.skipPrompt)
+            {
+                await context.PostAsync(this.prompt + this.ResourceManager.TitleSuffix);
+            }
+
             context.Wait(this.MessageReceivedAsync);
         }
 

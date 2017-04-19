@@ -31,7 +31,7 @@
         public override async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync(string.Format(this.ResourceManager.EditFavoritePrompt, this.favoriteName));
-            var locationRetrieverDialog = this.locationDialogFactory.CreateDialog(BranchType.LocationRetriever);
+            var locationRetrieverDialog = this.locationDialogFactory.CreateDialog(BranchType.LocationRetriever, skipDialogPrompt: true);
             context.Call(locationRetrieverDialog, this.ResumeAfterChildDialogAsync);
         }
 
