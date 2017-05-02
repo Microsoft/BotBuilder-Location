@@ -42,13 +42,14 @@
             Represents the interface that defines how location (sub)dialogs are created.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Location.Dialogs.ILocationDialogFactory.CreateDialog(Microsoft.Bot.Builder.Location.Dialogs.BranchType,Microsoft.Bot.Builder.Location.Bing.Location,System.String)">
+        <member name="M:Microsoft.Bot.Builder.Location.Dialogs.ILocationDialogFactory.CreateDialog(Microsoft.Bot.Builder.Location.Dialogs.BranchType,Microsoft.Bot.Builder.Location.Bing.Location,System.String,System.Boolean)">
             <summary>
             Given a branch parameter, creates the appropriate corresponding dialog that should run.
             </summary>
             <param name="branch">The location dialog branch.</param>
             <param name="location">The location to be passed to the new dialog, if applicable.</param>
             <param name="locationName">The location name to be passed to the new dialog, if applicable.</param>
+            <param name="skipDialogPrompt">A flag to customize whether the new dialog should skip its initial dialog prompt to better fit the flow.</param>
             <returns>The dialog.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.Location.Dialogs.LocationRetrieverDialogBase.ResumeAfterChildDialogInternalAsync(Microsoft.Bot.Builder.Dialogs.IDialogContext,Microsoft.Bot.Builder.Dialogs.IAwaitable{Microsoft.Bot.Builder.Location.Dialogs.LocationDialogResponse})">
@@ -67,7 +68,7 @@
             <param name="location">The location.</param>
             <returns>The asynchronous task.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Location.Dialogs.RichLocationRetrieverDialog.#ctor(System.String,System.Boolean,Microsoft.Bot.Builder.Location.ILocationCardBuilder,Microsoft.Bot.Builder.Location.Bing.IGeoSpatialService,Microsoft.Bot.Builder.Location.LocationOptions,Microsoft.Bot.Builder.Location.LocationRequiredFields,Microsoft.Bot.Builder.Location.LocationResourceManager)">
+        <member name="M:Microsoft.Bot.Builder.Location.Dialogs.RichLocationRetrieverDialog.#ctor(System.String,System.Boolean,Microsoft.Bot.Builder.Location.ILocationCardBuilder,Microsoft.Bot.Builder.Location.Bing.IGeoSpatialService,Microsoft.Bot.Builder.Location.LocationOptions,Microsoft.Bot.Builder.Location.LocationRequiredFields,Microsoft.Bot.Builder.Location.LocationResourceManager,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> class.
             </summary>
@@ -247,6 +248,33 @@
             <param name="botData">The bot data.</param>
             <param name="location"></param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.IsFavoriteLocationName(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.String)">
+            <summary>
+            Checks whether the given string is the name of one of the favorite locations of
+            the user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="name">The location name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavoriteByIndex(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.Int32)">
+            <summary>
+            Looks up the favorite location at the given zero-based index value for
+            the user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="index">The index.</param>
+            <returns>>A favorite location or null if no favorite location can be found.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavoriteByName(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.String)">
+            <summary>
+            Looks up the favorite location with the given name value for
+            the user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="name">The name.</param>
+            <returns>>A favorite location or null if no favorite location can be found.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavorites(Microsoft.Bot.Builder.Dialogs.Internals.IBotData)">
             <summary>
@@ -601,6 +629,11 @@
         <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.DialogStartBranchAsk">
             <summary>
             The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.DialogStartBranchAsk"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.DuplicateFavoriteNameResponse">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.DuplicateFavoriteNameResponse"/> resource string.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.EditCommand">
@@ -969,7 +1002,7 @@
             <param name="requiredFields">The location required fields.</param>
             <param name="resourceManager">The location resource manager.</param>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Location.LocationDialog.#ctor(Microsoft.Bot.Builder.Location.Dialogs.ILocationDialogFactory,Microsoft.Bot.Builder.Location.LocationResourceManager)">
+        <member name="M:Microsoft.Bot.Builder.Location.LocationDialog.#ctor(Microsoft.Bot.Builder.Location.Dialogs.ILocationDialogFactory,Microsoft.Bot.Builder.Location.IFavoritesManager,Microsoft.Bot.Builder.Location.LocationResourceManager)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> class.
             </summary>
@@ -1024,12 +1057,12 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.AddToFavoritesAsk">
             <summary>
-              Looks up a localized string similar to Do you want me to add this address to your favorite locations?.
+              Looks up a localized string similar to Add this address to your favorite locations? Reply “yes” or “no.”.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.AddToFavoritesRetry">
             <summary>
-              Looks up a localized string similar to did not get that. Reply &apos;yes&apos; if you want me to add this address to your favorite locations. Otherwise, reply &apos;no&apos;..
+              Looks up a localized string similar to Sorry, please reply “yes” or “no” to add the address to your favorite locations..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.AskForEmptyAddressTemplate">
@@ -1079,7 +1112,7 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.DeleteFavoriteAbortion">
             <summary>
-              Looks up a localized string similar to OK, deletion aborted..
+              Looks up a localized string similar to Ok, {0} will remain a favorite location..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.DeleteFavoriteConfirmationAsk">
@@ -1089,7 +1122,12 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.DialogStartBranchAsk">
             <summary>
-              Looks up a localized string similar to How would you like to pick a location?.
+              Looks up a localized string similar to How would you like to choose a location?.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.DuplicateFavoriteNameResponse">
+            <summary>
+              Looks up a localized string similar to {0} is already listed in your favorites. Please type or say a different name for this address..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.EditCommand">
@@ -1099,12 +1137,12 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.EditFavoritePrompt">
             <summary>
-              Looks up a localized string similar to OK, let&apos;s edit {0}. Enter a new address..
+              Looks up a localized string similar to Ok, let’s edit {0}. Type or say a new address..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.EnterNewFavoriteLocationName">
             <summary>
-              Looks up a localized string similar to OK, please enter a friendly name for this address. You can use &apos;home&apos;, &apos;work&apos; or any other name you prefer..
+              Looks up a localized string similar to Please type or say a friendly name for this address, for example “Home” or “Work.”.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteAddedConfirmation">
@@ -1114,12 +1152,12 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteDeletedConfirmation">
             <summary>
-              Looks up a localized string similar to OK, I deleted {0} from your favorite locations..
+              Looks up a localized string similar to Ok, I deleted {0} from your favorite locations..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteEdittedConfirmation">
             <summary>
-              Looks up a localized string similar to OK, I editted {0} in your favorite locations with this new address..
+              Looks up a localized string similar to Ok, I updated {0} with the new address {show_address}..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteLocations">
@@ -1139,7 +1177,7 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidFavoriteLocationSelection">
             <summary>
-              Looks up a localized string similar to Type or say a number to choose the address, enter &apos;other&apos; to create a new favorite location, or enter &apos;cancel&apos; to exit. You can also type or say &apos;edit&apos; or &apos;delete&apos; followed by a number to edit or delete the respective location..
+              Looks up a localized string similar to Sorry, “UserInput” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidFavoriteNameResponse">
@@ -1214,7 +1252,7 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.SelectFavoriteLocationPrompt">
             <summary>
-              Looks up a localized string similar to Here are your favorite locations. Type or say a number to use the respective location, or &apos;other&apos; to use a different location. You can also type or say &apos;edit&apos; or &apos;delete&apos; followed by a number to edit or delete the respective location..
+              Looks up a localized string similar to Type or say a number/name to use one of your favorite locations. Type or say “other” to specify a different location. To edit or delete a favorite, type or say, “edit” or “delete” number/name..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.SelectLocation">

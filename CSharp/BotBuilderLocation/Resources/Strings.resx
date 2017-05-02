@@ -121,7 +121,7 @@
     <value>, </value>
   </data>
   <data name="AddToFavoritesAsk" xml:space="preserve">
-    <value>Do you want me to add this address to your favorite locations?</value>
+    <value>Add this address to your favorite locations? Reply “yes” or “no.”</value>
   </data>
   <data name="AskForEmptyAddressTemplate" xml:space="preserve">
     <value>Please provide the {0}.</value>
@@ -148,7 +148,7 @@
     <value>country</value>
   </data>
   <data name="DialogStartBranchAsk" xml:space="preserve">
-    <value>How would you like to pick a location?</value>
+    <value>How would you like to choose a location?</value>
   </data>
   <data name="FavoriteLocations" xml:space="preserve">
     <value>Favorite Locations</value>
@@ -211,10 +211,10 @@
     <value> Tap 'Send Location' to choose an address.</value>
   </data>
   <data name="AddToFavoritesRetry" xml:space="preserve">
-    <value>did not get that. Reply 'yes' if you want me to add this address to your favorite locations. Otherwise, reply 'no'.</value>
+    <value>Sorry, please reply “yes” or “no” to add the address to your favorite locations.</value>
   </data>
   <data name="EnterNewFavoriteLocationName" xml:space="preserve">
-    <value>OK, please enter a friendly name for this address. You can use 'home', 'work' or any other name you prefer.</value>
+    <value>Please type or say a friendly name for this address, for example “Home” or “Work.”</value>
   </data>
   <data name="FavoriteAddedConfirmation" xml:space="preserve">
     <value>OK, I added {0} to your favorite locations.</value>
@@ -226,33 +226,33 @@
     <value>edit</value>
   </data>
   <data name="EditFavoritePrompt" xml:space="preserve">
-    <value>OK, let's edit {0}. Enter a new address.</value>
+    <value>Ok, let’s edit {0}. Type or say a new address.</value>
   </data>
   <data name="FavoriteDeletedConfirmation" xml:space="preserve">
-    <value>OK, I deleted {0} from your favorite locations.</value>
+    <value>Ok, I deleted {0} from your favorite locations.</value>
   </data>
   <data name="InvalidFavoriteLocationSelection" xml:space="preserve">
-    <value>Type or say a number to choose the address, enter 'other' to create a new favorite location, or enter 'cancel' to exit. You can also type or say 'edit' or 'delete' followed by a number to edit or delete the respective location.</value>
+    <value>Sorry, “UserInput” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit.</value>
   </data>
   <data name="NoFavoriteLocationsFound" xml:space="preserve">
     <value>You do not seem to have any favorite locations at the moment. Enter an address and you will be able to save it to your favorite locations.</value>
   </data>
   <data name="SelectFavoriteLocationPrompt" xml:space="preserve">
-    <value>Here are your favorite locations. Type or say a favorite location name/number to use the respective location, or 'other' to use a different location. You can also type or say 'edit' or 'delete' followed by a name/number to edit or delete the respective location.</value>
+    <value>Type or say a number/name to use one of your favorite locations. Type or say “other” to specify a different location. To edit or delete a favorite, type or say, “edit” or “delete” number/name.</value>
   </data>
   <data name="DeleteFavoriteAbortion" xml:space="preserve">
-    <value>OK, deletion aborted.</value>
+    <value>Ok, {0} will remain a favorite location.</value>
   </data>
   <data name="DeleteFavoriteConfirmationAsk" xml:space="preserve">
     <value>Are you sure you want to delete {0} from your favorite locations?</value>
   </data>
   <data name="FavoriteEdittedConfirmation" xml:space="preserve">
-    <value>OK, I editted {0} in your favorite locations with this new address.</value>
+    <value>Ok, I updated {0} with the new address {show_address}.</value>
   </data>
   <data name="InvalidFavoriteNameResponse" xml:space="preserve">
     <value>Please enter a valid name for this address.</value>
   </data>
   <data name="DuplicateFavoriteNameResponse" xml:space="preserve">
-    <value>Please choose another name because "{0}" is already listed in your favorites.</value>
+    <value>{0} is already listed in your favorites. Please type or say a different name for this address.</value>
   </data>
 </root>

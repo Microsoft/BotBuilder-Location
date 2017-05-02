@@ -21,7 +21,7 @@ function createDialog() {
                 session.replaceDialog('retrieve-favorite-location-dialog', session.dialogData.args);
             }
             else if (results.response && results.response.confirmed === false) {
-                session.send(session.gettext(consts_1.Strings.DeleteFavoriteAbortion));
+                session.send(session.gettext(consts_1.Strings.DeleteFavoriteAbortion, session.dialogData.toBeDeleted.name));
                 session.replaceDialog('retrieve-favorite-location-dialog', session.dialogData.args);
             }
             else {

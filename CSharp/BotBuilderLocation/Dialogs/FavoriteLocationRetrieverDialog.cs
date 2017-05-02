@@ -162,7 +162,7 @@
                         }
                         else
                         {
-                            await dialogContext.PostAsync(this.ResourceManager.DeleteFavoriteAbortion);
+                            await dialogContext.PostAsync(string.Format(this.ResourceManager.DeleteFavoriteAbortion, this.selectedLocation.Name));
                             await dialogContext.PostAsync(this.ResourceManager.SelectFavoriteLocationPrompt);
                             dialogContext.Wait(this.MessageReceivedAsync);
                         }
