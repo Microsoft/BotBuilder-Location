@@ -12,11 +12,13 @@ import * as retrieveFavoriteLocationDialog from './dialogs/retrieve-favorite-loc
 
 export interface ILocationPromptOptions {
     prompt: string;
+    skipPromptSuffix?: boolean;
     requiredFields?: requireFieldsDialog.LocationRequiredFields;
     skipConfirmationAsk?: boolean;
-    useNativeControl?: boolean,
-    reverseGeocode?: boolean,
-    skipFavorites?: boolean
+    confirmationAsk?: string;
+    useNativeControl?: boolean;
+    reverseGeocode?: boolean;
+    skipFavorites?: boolean;
 }
 
 exports.LocationRequiredFields = requireFieldsDialog.LocationRequiredFields;
@@ -91,7 +93,9 @@ function getLocationPickerPrompt() {
                 }
                 else {
                     var separator = session.gettext(Strings.AddressSeparator);
-                    var promptText = session.gettext(Strings.ConfirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator));
+                    var promptText = session.dialogData.args.confirmationAsk
+                        ? session.gettext(session.dialogData.args.confirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator))
+                        : session.gettext(Strings.ConfirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator));
                     session.beginDialog('confirm-dialog' , { confirmationPrompt: promptText });
                 }
             }

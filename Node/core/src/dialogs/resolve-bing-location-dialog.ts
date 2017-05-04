@@ -43,7 +43,9 @@ function createLocationResolveDialog(apiKey: string) {
     return common.createBaseDialog()
         .onBegin(function (session, args) {
             if (!args.skipDialogPrompt) {
-                var promptSuffix = session.gettext(Strings.TitleSuffix);
+                var promptSuffix = !args.skipPromptSuffix
+                    ? session.gettext(Strings.TitleSuffix)
+                    : '';
                 session.send(args.prompt + promptSuffix).sendBatch();
             }
         }).onDefault((session) => {

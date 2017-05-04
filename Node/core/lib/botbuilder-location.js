@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var botbuilder_1 = require("botbuilder");
 var common = require("./common");
@@ -62,7 +63,9 @@ function getLocationPickerPrompt() {
                 }
                 else {
                     var separator = session.gettext(consts_1.Strings.AddressSeparator);
-                    var promptText = session.gettext(consts_1.Strings.ConfirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator));
+                    var promptText = session.dialogData.args.confirmationAsk
+                        ? session.gettext(session.dialogData.args.confirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator))
+                        : session.gettext(consts_1.Strings.ConfirmationAsk, common.getFormattedAddressFromLocation(results.response.place, separator));
                     session.beginDialog('confirm-dialog', { confirmationPrompt: promptText });
                 }
             }

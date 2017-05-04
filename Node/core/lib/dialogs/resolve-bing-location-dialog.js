@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../common");
 var consts_1 = require("../consts");
 var locationService = require("../services/bing-geospatial-service");
@@ -39,7 +40,9 @@ function createLocationResolveDialog(apiKey) {
     return common.createBaseDialog()
         .onBegin(function (session, args) {
         if (!args.skipDialogPrompt) {
-            var promptSuffix = session.gettext(consts_1.Strings.TitleSuffix);
+            var promptSuffix = !args.skipPromptSuffix
+                ? session.gettext(consts_1.Strings.TitleSuffix)
+                : '';
             session.send(args.prompt + promptSuffix).sendBatch();
         }
     }).onDefault(function (session) {
