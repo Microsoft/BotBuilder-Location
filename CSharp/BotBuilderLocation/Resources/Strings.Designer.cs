@@ -250,7 +250,7 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ok, I updated {0} with the new address {show_address}..
+        ///   Looks up a localized string similar to Ok, I updated {0} with the new address {1}..
         /// </summary>
         internal static string FavoriteEdittedConfirmation {
             get {
@@ -286,7 +286,7 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, “UserInput” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit..
+        ///   Looks up a localized string similar to Sorry, &quot;{0}” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit..
         /// </summary>
         internal static string InvalidFavoriteLocationSelection {
             get {

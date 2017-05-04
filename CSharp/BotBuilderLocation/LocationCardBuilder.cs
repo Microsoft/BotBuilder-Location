@@ -16,14 +16,15 @@
     public class LocationCardBuilder : ILocationCardBuilder
     {
         private readonly string apiKey;
-
+        private readonly LocationResourceManager resourceManager;
         /// <summary>
         /// Initializes a new instance of the <see cref="LocationCardBuilder"/> class.
         /// </summary>
         /// <param name="apiKey">The geo spatial API key.</param>
-        public LocationCardBuilder(string apiKey)
+        public LocationCardBuilder(string apiKey, LocationResourceManager resourceManager)
         {
             SetField.NotNull(out this.apiKey, nameof(apiKey), apiKey);
+            SetField.NotNull(out this.resourceManager, nameof(resourceManager), resourceManager);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@
             foreach (var location in locations)
             {
                 string nameString = locationNames == null ? string.Empty : $"{locationNames[i-1]}: ";
-                string locationString = $"{nameString}{location.Address.FormattedAddress}";
+                string locationString = $"{nameString}{location.GetFormattedAddress(this.resourceManager.AddressSeparator)}";
                 string address = alwaysShowNumericPrefix || locations.Count > 1 ? $"{i}. {locationString}" : locationString;
 
                 var heroCard = new HeroCard

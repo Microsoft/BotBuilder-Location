@@ -24,7 +24,10 @@ function createDialog() {
                     name: session.dialogData.toBeEditted.name
                 };
                 favoritesManager.update(session.dialogData.toBeEditted, newfavoriteLocation);
-                session.send(session.gettext(Strings.FavoriteEdittedConfirmation, session.dialogData.toBeEditted.name));
+                session.send(session.gettext(
+                    Strings.FavoriteEdittedConfirmation,
+                    session.dialogData.toBeEditted.name,
+                    newfavoriteLocation.location.address.formattedAddress));
                 session.endDialogWithResult({ response: { place: results.response.place } });
             }
             else {

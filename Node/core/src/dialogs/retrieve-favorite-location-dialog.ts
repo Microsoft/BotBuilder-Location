@@ -62,7 +62,7 @@ function createDialog(apiKey: string) {
                     session.replaceDialog('edit-favorite-location-dialog',  session.dialogData.args);
                 }
                 else {
-                    session.send(session.gettext(Strings.InvalidFavoriteLocationSelection)).sendBatch();
+                    session.send(session.gettext(Strings.InvalidFavoriteLocationSelection, text)).sendBatch();
                 }
             }
         });
@@ -92,10 +92,16 @@ function tryParseCommandSelection(userData : any, text: string, maxIndex: number
 
     if (tokens.length == 1) {
         const selectedFavorite = tryParseFavoriteSelection(userData, text);
+        if (selectedFavorite == null) {
+            return { command: ""};
+        }
         return { selectedFavorite: selectedFavorite, command: "select" };
     }
     else if (tokens.length == 2) {
         const selectedFavorite = tryParseFavoriteSelection(userData, tokens[1]);
+        if (selectedFavorite == null) {
+            return { command: ""};
+        }
         return { selectedFavorite: selectedFavorite, command: tokens[0] };
     }
    

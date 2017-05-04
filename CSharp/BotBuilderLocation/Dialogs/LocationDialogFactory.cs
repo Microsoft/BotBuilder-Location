@@ -31,7 +31,7 @@
             this.geoSpatialService = geoSpatialService;
             this.options = options;
             this.requiredFields = requiredFields;
-            this.resourceManager = resourceManager;
+            this.resourceManager = resourceManager ?? new LocationResourceManager();
         }
 
        public IDialog<LocationDialogResponse> CreateDialog(BranchType branch, Location location = null, string locationName = null, bool skipDialogPrompt = false)
@@ -53,7 +53,7 @@
                 return new RichLocationRetrieverDialog(
                     prompt: this.prompt,
                     supportsKeyboard: isFacebookChannel,
-                    cardBuilder: new LocationCardBuilder(this.apiKey),
+                    cardBuilder: new LocationCardBuilder(this.apiKey, this.resourceManager),
                     geoSpatialService: new BingGeoSpatialService(this.apiKey),
                     options: this.options,
                     requiredFields: this.requiredFields,
@@ -66,7 +66,7 @@
                     isFacebookChannel,
                     new FavoritesManager(),
                     this,
-                    new LocationCardBuilder(this.apiKey),
+                    new LocationCardBuilder(this.apiKey, this.resourceManager),
                     new BingGeoSpatialService(this.apiKey),
                     this.options,
                     this.requiredFields,

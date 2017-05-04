@@ -85,7 +85,7 @@
             }
             else
             {
-                await context.PostAsync(this.ResourceManager.InvalidFavoriteLocationSelection);
+                await context.PostAsync(string.Format(this.ResourceManager.InvalidFavoriteLocationSelection, messageText));
                 context.Wait(this.MessageReceivedAsync);
             }
         }

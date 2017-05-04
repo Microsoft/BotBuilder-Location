@@ -42,7 +42,10 @@
                 context, 
                 currentValue: new FavoriteLocation { Name = this.favoriteName, Location = this.favoriteLocation },
                 newValue: new FavoriteLocation { Name = this.favoriteName, Location = newLocationValue});
-            await context.PostAsync(string.Format(this.ResourceManager.FavoriteEdittedConfirmation, this.favoriteName));
+            await context.PostAsync(string.Format(
+                this.ResourceManager.FavoriteEdittedConfirmation,
+                this.favoriteName,
+                newLocationValue.GetFormattedAddress(this.ResourceManager.AddressSeparator)));
             context.Done(new LocationDialogResponse(newLocationValue));
         }
     }

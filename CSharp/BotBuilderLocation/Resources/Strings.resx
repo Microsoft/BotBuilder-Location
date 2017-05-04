@@ -232,7 +232,7 @@
     <value>Ok, I deleted {0} from your favorite locations.</value>
   </data>
   <data name="InvalidFavoriteLocationSelection" xml:space="preserve">
-    <value>Sorry, “UserInput” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit.</value>
+    <value>Sorry, "{0}” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit.</value>
   </data>
   <data name="NoFavoriteLocationsFound" xml:space="preserve">
     <value>You do not seem to have any favorite locations at the moment. Enter an address and you will be able to save it to your favorite locations.</value>
@@ -247,7 +247,7 @@
     <value>Are you sure you want to delete {0} from your favorite locations?</value>
   </data>
   <data name="FavoriteEdittedConfirmation" xml:space="preserve">
-    <value>Ok, I updated {0} with the new address {show_address}.</value>
+    <value>Ok, I updated {0} with the new address {1}.</value>
   </data>
   <data name="InvalidFavoriteNameResponse" xml:space="preserve">
     <value>Please enter a valid name for this address.</value>

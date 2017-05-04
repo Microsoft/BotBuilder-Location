@@ -53,7 +53,7 @@ function createDialog(apiKey) {
                 session.replaceDialog('edit-favorite-location-dialog', session.dialogData.args);
             }
             else {
-                session.send(session.gettext(consts_1.Strings.InvalidFavoriteLocationSelection)).sendBatch();
+                session.send(session.gettext(consts_1.Strings.InvalidFavoriteLocationSelection, text)).sendBatch();
             }
         }
     });
@@ -76,10 +76,16 @@ function tryParseCommandSelection(userData, text, maxIndex) {
     var tokens = text.trim().split(' ');
     if (tokens.length == 1) {
         var selectedFavorite = tryParseFavoriteSelection(userData, text);
+        if (selectedFavorite == null) {
+            return { command: "" };
+        }
         return { selectedFavorite: selectedFavorite, command: "select" };
     }
     else if (tokens.length == 2) {
         var selectedFavorite = tryParseFavoriteSelection(userData, tokens[1]);
+        if (selectedFavorite == null) {
+            return { command: "" };
+        }
         return { selectedFavorite: selectedFavorite, command: tokens[0] };
     }
     return { command: "" };
