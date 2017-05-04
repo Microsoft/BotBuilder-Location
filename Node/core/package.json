@@ -1,8 +1,8 @@
 {
-  "name": "botbuilder-location",
+  "name": "botbuilder-location-ambit",
   "author": "Microsoft Corp.",
   "description": "An open-source location picker control for Microsoft Bot Framework powered by Bing's Maps REST services. This control makes the process of collecting and validating the user's desired location in a conversation easy and reliable.",
-  "version": "1.0.4",
+  "version": "1.2.3",
   "license": "MIT",
   "keywords": [
     "botbuilder",
@@ -10,12 +10,13 @@
     "chatbots",
     "botbuilder-location"
   ],
+  "readme": "../README.md",
   "bugs": {
-    "url": "https://github.com/Microsoft/BotBuilder-Location/issues"
+    "url": "https://github.com/nsantini/BotBuilder-Location/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Microsoft/BotBuilder-Location.git"
+    "url": "https://github.com/nsantini/BotBuilder-Location.git"
   },
   "main": "./lib/botbuilder-location.js",
   "dependencies": {
