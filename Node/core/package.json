@@ -2,7 +2,7 @@
   "name": "botbuilder-location",
   "author": "Microsoft Corp.",
   "description": "An open-source location picker control for Microsoft Bot Framework powered by Bing's Maps REST services. This control makes the process of collecting and validating the user's desired location in a conversation easy and reliable.",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "license": "MIT",
   "keywords": [
     "botbuilder",

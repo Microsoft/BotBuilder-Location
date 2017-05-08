@@ -1,3 +1,7 @@
+## 2.0.0
+Features:
+  - Added favorites scenario to allow users to manage their favorite locations.
+
 ## 1.2.0
 Features:
   - Add LocationOptions.SkipFinalConfirmation to allow developers to skip the final confirmation prompt.
