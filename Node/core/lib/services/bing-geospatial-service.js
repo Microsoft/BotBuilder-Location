@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var rp = require("request-promise");
 var sprintf_js_1 = require("sprintf-js");
 var formAugmentation = "&form=BTCTRL";

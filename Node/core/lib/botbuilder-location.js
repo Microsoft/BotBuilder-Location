@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var path = require("path");
 var botbuilder_1 = require("botbuilder");
 var common = require("./common");
@@ -13,7 +14,10 @@ var retrieveFavoriteLocationDialog = require("./dialogs/retrieve-favorite-locati
 exports.LocationRequiredFields = requireFieldsDialog.LocationRequiredFields;
 exports.getFormattedAddressFromLocation = common.getFormattedAddressFromLocation;
 exports.Place = place_1.Place;
-exports.createLibrary = function (apiKey) {
+//=========================================================
+// Library creation
+//=========================================================
+exports.createLibrary = function (apiKey, localePath) {
     if (typeof apiKey === "undefined") {
         throw "'apiKey' parameter missing";
     }
@@ -23,11 +27,14 @@ exports.createLibrary = function (apiKey) {
     requireFieldsDialog.register(lib);
     addFavoriteLocationDialog.register(lib);
     confirmDialog.register(lib);
-    lib.localePath(path.join(__dirname, 'locale/'));
+    lib.localePath(localePath || path.join(__dirname, 'locale/'));
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
     lib.dialog('start-hero-card-dialog', createDialogStartHeroCard());
     return lib;
 };
+//=========================================================
+// Location Picker Prompt
+//=========================================================
 exports.getLocation = function (session, options) {
     options = options || { prompt: session.gettext(consts_1.Strings.DefaultPrompt) };
     if (typeof options.prompt == "undefined") {
@@ -37,6 +44,7 @@ exports.getLocation = function (session, options) {
 };
 function getLocationPickerPrompt() {
     return [
+        // handle different ways of retrieving a location (favorite, other, etc)
         function (session, args, next) {
             session.dialogData.args = args;
             if (!args.skipFavorites && (new favorites_manager_1.FavoritesManager(session.userData)).getFavorites().length > 0) {
@@ -46,6 +54,7 @@ function getLocationPickerPrompt() {
                 next();
             }
         },
+        // retrieve location
         function (session, results, next) {
             if (results && results.response && results.response.entity === session.gettext(consts_1.Strings.FavoriteLocations)) {
                 session.beginDialog('retrieve-favorite-location-dialog', session.dialogData.args);
@@ -54,6 +63,7 @@ function getLocationPickerPrompt() {
                 session.beginDialog('retrieve-location-dialog', session.dialogData.args);
             }
         },
+        // make final confirmation
         function (session, results, next) {
             if (results.response && results.response.place) {
                 session.dialogData.place = results.response.place;
@@ -72,6 +82,7 @@ function getLocationPickerPrompt() {
                 next(results);
             }
         },
+        // offer add to favorites, if applicable
         function (session, results, next) {
             session.dialogData.confirmed = results.response.confirmed;
             if (results.response && results.response.confirmed && !session.dialogData.args.skipFavorites) {

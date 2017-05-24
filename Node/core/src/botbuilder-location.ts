@@ -30,7 +30,7 @@ exports.Place = Place;
 //=========================================================
 
 
-exports.createLibrary = (apiKey: string): Library => {
+exports.createLibrary = (apiKey: string, localePath: string): Library => {
     if (typeof apiKey === "undefined") {
         throw "'apiKey' parameter missing";
     }
@@ -41,7 +41,7 @@ exports.createLibrary = (apiKey: string): Library => {
     requireFieldsDialog.register(lib);
     addFavoriteLocationDialog.register(lib);
     confirmDialog.register(lib);
-    lib.localePath(path.join(__dirname, 'locale/'));
+    lib.localePath(localePath || path.join(__dirname, 'locale/'));
 
     lib.dialog('locationPickerPrompt', getLocationPickerPrompt());
     lib.dialog('start-hero-card-dialog', createDialogStartHeroCard());

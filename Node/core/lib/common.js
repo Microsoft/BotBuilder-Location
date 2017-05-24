@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var botbuilder_1 = require("botbuilder");
 var consts_1 = require("./consts");
 var place_1 = require("./place");

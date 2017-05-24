@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var common = require("../common");
 var consts_1 = require("../consts");
 var locationService = require("../services/bing-geospatial-service");
@@ -34,6 +35,7 @@ function createDialog() {
         }
     ];
 }
+// Maximum number of hero cards to be returned in the carousel. If this number is greater than 5, skype throws an exception.
 var MAX_CARD_COUNT = 5;
 function createLocationResolveDialog(apiKey) {
     return common.createBaseDialog()
@@ -56,7 +58,6 @@ function createLocationResolveDialog(apiKey) {
             var reply = new location_card_builder_1.LocationCardBuilder(apiKey).createHeroCards(session, locations);
             session.send(reply);
             session.endDialogWithResult({ response: { locations: locations } });
-        })
-            .catch(function (error) { return session.error(error); });
+        })["catch"](function (error) { return session.error(error); });
     });
 }

@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var consts_1 = require("../consts");
 var common = require("../common");
 var botbuilder_1 = require("botbuilder");
@@ -20,6 +21,8 @@ function createDialog(apiKey) {
                     .then(function (locations) {
                     var place;
                     if (locations.length && locations[0].address) {
+                        // We don't trust reverse geo-coder on the street address level.
+                        // So, copy all fields except it.
                         var address = {
                             addressLine: undefined,
                             formattedAddress: undefined,
@@ -35,8 +38,7 @@ function createDialog(apiKey) {
                         place = results.response.place;
                     }
                     session.endDialogWithResult({ response: { place: place } });
-                })
-                    .catch(function (error) { return session.error(error); });
+                })["catch"](function (error) { return session.error(error); });
                 ;
             }
             else {

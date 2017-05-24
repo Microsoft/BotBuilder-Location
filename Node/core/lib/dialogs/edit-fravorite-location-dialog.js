@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var consts_1 = require("../consts");
 var favorites_manager_1 = require("../services/favorites-manager");
 function register(library, apiKey) {

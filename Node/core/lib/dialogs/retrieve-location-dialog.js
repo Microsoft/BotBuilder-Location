@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var resolveBingLocationDialog = require("./resolve-bing-location-dialog");
 var retrieveFacebookLocationDialog = require("./retrieve-facebook-location-dialog");
 function register(library, apiKey) {
@@ -18,6 +19,7 @@ function createDialog() {
                 session.beginDialog('resolve-bing-location-dialog', args);
             }
         },
+        // complete required fields, if applicable
         function (session, results, next) {
             if (results.response && results.response.place) {
                 session.beginDialog('require-fields-dialog', {

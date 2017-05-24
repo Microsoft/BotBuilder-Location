@@ -1,13 +1,20 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
 var botbuilder_1 = require("botbuilder");
 var locationService = require("./services/bing-geospatial-service");
 var MapCard = (function (_super) {
     __extends(MapCard, _super);
+    // Todo: remove private session. https://github.com/Microsoft/BotBuilder/pull/1790
     function MapCard(apiKey, session) {
         var _this = _super.call(this, session) || this;
         _this.apiKey = apiKey;

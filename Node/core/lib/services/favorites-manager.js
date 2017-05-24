@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var FavoritesManager = (function () {
     function FavoritesManager(userData) {
         this.userData = userData;
@@ -50,7 +51,7 @@ var FavoritesManager = (function () {
         favorites.push(favoriteLocation);
         this.userData[this.favoritesKey] = favorites;
     };
-    FavoritesManager.prototype.delete = function (favoriteLocation) {
+    FavoritesManager.prototype["delete"] = function (favoriteLocation) {
         var favorites = this.getFavorites();
         var newFavorites = [];
         for (var i = 0; i < favorites.length; i++) {
@@ -79,10 +80,15 @@ var FavoritesManager = (function () {
             return storedFavorites;
         }
         else {
+            // User currently has no favorite locations. Return an empty list.
             return [];
         }
     };
     FavoritesManager.prototype.areEqual = function (location0, location1) {
+        // Other attributes of a location such as its Confidence, BoundaryBox, etc
+        // should not be considered as distinguishing factors.
+        // On the other hand, attributes of a location that are shown to the users
+        // are what distinguishes one location from another. 
         return location0.address.formattedAddress === location1.address.formattedAddress;
     };
     return FavoritesManager;

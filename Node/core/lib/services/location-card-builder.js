@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var botbuilder_1 = require("botbuilder");
 var map_card_1 = require("../map-card");
 var LocationCardBuilder = (function () {

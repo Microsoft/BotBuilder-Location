@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 var common = require("../common");
 var consts_1 = require("../consts");
 var location_card_builder_1 = require("../services/location-card-builder");
@@ -17,6 +18,7 @@ function createDialog(apiKey) {
         session.dialogData.args = args;
         var favoritesManager = new favorites_manager_1.FavoritesManager(session.userData);
         var userFavorites = favoritesManager.getFavorites();
+        // If the user has no favorite locations, switch to a normal location retriever dialog
         if (userFavorites.length == 0) {
             session.send(session.gettext(consts_1.Strings.NoFavoriteLocationsFound));
             session.replaceDialog('retrieve-location-dialog', session.dialogData.args);
@@ -39,6 +41,7 @@ function createDialog(apiKey) {
         else {
             var selection = tryParseCommandSelection(session.userData, text, session.dialogData.userFavorites.length);
             if (selection.command === "select") {
+                // complete required fields
                 session.replaceDialog('require-fields-dialog', {
                     place: selection.selectedFavorite.location,
                     requiredFields: session.dialogData.args.requiredFields
