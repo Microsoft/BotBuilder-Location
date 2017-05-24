@@ -34,8 +34,8 @@ function createDialog() {
 function parseBoolean(session: any, input: string) {
     input = input.trim();
 
-    const yesExp = session.gettext(Strings.YesExp);
-    const noExp = session.gettext(Strings.NoExp);
+    const yesExp = new RegExp(session.gettext(Strings.YesExp), 'i');
+    const noExp = new RegExp(session.gettext(Strings.NoExp), 'i');
 
     if (yesExp.test(input)) {
         return true;

@@ -30,8 +30,8 @@ function createDialog() {
 }
 function parseBoolean(session, input) {
     input = input.trim();
-    var yesExp = session.gettext(consts_1.Strings.YesExp);
-    var noExp = session.gettext(consts_1.Strings.NoExp);
+    var yesExp = new RegExp(session.gettext(consts_1.Strings.YesExp), 'i');
+    var noExp = new RegExp(session.gettext(consts_1.Strings.NoExp), 'i');
     if (yesExp.test(input)) {
         return true;
     }
