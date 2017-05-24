@@ -38,5 +38,7 @@
     "SingleResultFound": "I found this result. Is this the correct address?",
     "StreetAddress": "street address",
     "TitleSuffix": " Type or say an address",
-    "TitleSuffixFacebook": " Tap 'Send Location' to choose an address."
+    "TitleSuffixFacebook": " Tap 'Send Location' to choose an address.",
+    "YesExp": "/^(y|yes|yep|sure|ok|true)/i",
+    "NoExp": "/^(n|no|nope|not|false)/i"
 }

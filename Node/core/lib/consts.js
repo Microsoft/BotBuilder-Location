@@ -42,5 +42,7 @@ exports.Strings = {
     "SingleResultFound": "SingleResultFound",
     "StreetAddress": "StreetAddress",
     "TitleSuffixFacebook": "TitleSuffixFacebook",
-    "TitleSuffix": "TitleSuffix"
+    "TitleSuffix": "TitleSuffix",
+    "YesExp": "YesExp",
+    "NoExp": "NoExp"
 };

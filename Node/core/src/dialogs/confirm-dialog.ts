@@ -13,7 +13,7 @@ function createDialog() {
             session.send(confirmationPrompt).sendBatch();
         })
         .onDefault((session) => {
-            var message = parseBoolean(session.message.text);
+            var message = parseBoolean(session, session.message.text);
             if (typeof message == 'boolean') {
                 var result: any;
                 if (message == true) {
@@ -31,11 +31,11 @@ function createDialog() {
         });
 }
 
-function parseBoolean(input: string) {
+function parseBoolean(session: any, input: string) {
     input = input.trim();
 
-    const yesExp = /^(y|yes|yep|sure|ok|true)/i;
-    const noExp = /^(n|no|nope|not|false)/i;
+    const yesExp = session.gettext(Strings.YesExp);
+    const noExp = session.gettext(Strings.NoExp);
 
     if (yesExp.test(input)) {
         return true;

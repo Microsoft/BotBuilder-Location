@@ -43,4 +43,6 @@ export const Strings = {
     "StreetAddress": "StreetAddress",
     "TitleSuffixFacebook": "TitleSuffixFacebook",
     "TitleSuffix": "TitleSuffix",
+    "YesExp":"YesExp",
+    "NoExp":"NoExp"
 };
