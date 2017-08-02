@@ -95,5 +95,52 @@
 
             return new KeyboardCard(selectText, buttons);
         }
+
+        /// <summary>
+        /// Creates selectable locations hero cards.
+        /// </summary>
+        /// <param name="locations">List of the locations.</param>
+        /// <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
+        /// <param name="locationNames">List of strings that can be used as names or labels for the locations.</param>
+        /// <param name="locationIds">List of strings that can be used as ids returned when user click o Select button.</param>
+        /// <returns>The locations card as a list.</returns>
+        public IEnumerable<HeroCard> CreateSelectableHeroCards(IList<Location> locations, bool alwaysShowNumericPrefix = false, IList<string> locationNames = null, IList<string> locationIds = null)
+        {
+            var cards = new List<HeroCard>();
+
+            int i = 1;
+
+            foreach (var location in locations)
+            {
+                string nameString = locationNames == null ? string.Empty : $"{locationNames[i - 1]}: ";
+                string locationString = $"{nameString}{location.GetFormattedAddress(this.resourceManager.AddressSeparator)}";
+                string address = alwaysShowNumericPrefix || locations.Count > 1 ? $"{i}. {locationString}" : locationString;
+
+                var heroCard = new HeroCard
+                {
+                    Subtitle = address
+                };
+
+                if (location.Point != null)
+                {
+                    var image =
+                        new CardImage(
+                            url: new BingGeoSpatialService(this.apiKey).GetLocationMapImageUrl(location, i));
+
+                    heroCard.Images = new[] { image };
+                }
+
+                if (locationIds != null)
+                {
+                    heroCard.Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, this.resourceManager.SelectButtonText, null, locationIds[i - 1]) };
+                }
+
+                cards.Add(heroCard);
+
+                i++;
+            }
+
+            return cards;
+        }
     }
 }

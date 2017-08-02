@@ -421,6 +421,15 @@ namespace Microsoft.Bot.Builder.Location.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        internal static string SelectButtonText {
+            get {
+                return ResourceManager.GetString("SelectButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type or say a number/name to use one of your favorite locations. Type or say “other” to specify a different location. To edit or delete a favorite, type or say, “edit” or “delete” number/name..
         /// </summary>
         internal static string SelectFavoriteLocationPrompt {
