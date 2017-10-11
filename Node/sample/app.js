@@ -1,53 +1,57 @@
-// This loads the environment variables from the .env file
+// load env vars
 require('dotenv-extended').load();
 
+// import node modules
 var builder = require('botbuilder');
 var restify = require('restify');
 var locationDialog = require('botbuilder-location');
 
-// Setup Restify Server
+// local vars
+var locationDialogOptions = {
+    prompt: 'Where should I ship your order?',
+    useNativeControl: true,
+    reverseGeocode: true,
+    skipFavorites: false,
+    skipConfirmationAsk: true,
+    requiredFields:
+        locationDialog.LocationRequiredFields.streetAddress |
+        locationDialog.LocationRequiredFields.locality |
+        locationDialog.LocationRequiredFields.region |
+        locationDialog.LocationRequiredFields.postalCode |
+        locationDialog.LocationRequiredFields.country
+};
+
+// init restify server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
-    console.log('%s listening to %s', server.name, server.url);
+    console.log(`${server.name} listening at: ${server.url}`);
 });
 
+// init Bot Framework connector
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
+
+// init bot with connector config
 var bot = new builder.UniversalBot(connector);
+// bind connector to /api/messages endpoint
 server.post('/api/messages', connector.listen());
 
+// add location dialog to bot library
 bot.library(locationDialog.createLibrary(process.env.BING_MAPS_API_KEY));
 
-bot.dialog("/", [
+// configure default dialog handler
+bot.dialog('/', [
     function (session) {
-        var options = {
-            prompt: "Where should I ship your order?",
-            useNativeControl: true,
-            reverseGeocode: true,
-			skipFavorites: false,
-			skipConfirmationAsk: true,
-            requiredFields:
-                locationDialog.LocationRequiredFields.streetAddress |
-                locationDialog.LocationRequiredFields.locality |
-                locationDialog.LocationRequiredFields.region |
-                locationDialog.LocationRequiredFields.postalCode |
-                locationDialog.LocationRequiredFields.country
-        };
-
-        locationDialog.getLocation(session, options);
+        session.send('Welcome to the Bing Location Control demo.')
+        locationDialog.getLocation(session, locationDialogOptions);
     },
     function (session, results) {
         if (results.response) {
-            var place = results.response;
-			var formattedAddress = 
-            session.send("Thanks, I will ship to " + getFormattedAddressFromPlace(place, ", "));
+            session.send(`Thanks, I will ship your item to: ${results.response.formattedAddress}`)
         }
     }
 ]);
 
-function getFormattedAddressFromPlace(place, separator) {
-    var addressParts = [place.streetAddress, place.locality, place.region, place.postalCode, place.country];
-    return addressParts.filter(i => i).join(separator);
-}
+// end of line

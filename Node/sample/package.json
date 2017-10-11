@@ -1,13 +1,18 @@
 {
-    "name": "sample",
-    "version": "0.6.0",
-    "description": "Sample for the botbuilder-location control",
+    "name": "botbuilder-location-example",
+    "version": "0.7.0",
+    "description": "Bing Location Control for Bot Framework Node.js SDK Example",
+    "repository": "https://github.com/Microsoft/BotBuilder-Location",
     "author": "Microsoft Corp.",
     "license": "MIT",
+    "scripts": {
+      "start": "node app"
+    },
     "dependencies": {
-        "botbuilder": "^3.5.3",
-        "botbuilder-location": "^1.1.0",
-        "dotenv-extended": "^1.0.4",
-        "restify": "^4.2.0"
+      "botbuilder": "^3.11.0",
+      "botbuilder-location": "^2.0.0",
+      "dotenv-extended": "^2.0.1",
+      "restify": "^6.0.1"
     }
-}
+  }
+  
