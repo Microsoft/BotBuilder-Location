@@ -1,12 +1,12 @@
-// LOAD ENV VARS
+// load env vars
 require('dotenv-extended').load();
 
-// IMPORT NODE MODULES
+// import node modules
 var builder = require('botbuilder');
 var restify = require('restify');
 var locationDialog = require('botbuilder-location');
 
-// LOCAL VARS
+// local vars
 var locationDialogOptions = {
     prompt: 'Where should I ship your order?',
     useNativeControl: true,
@@ -54,4 +54,4 @@ bot.dialog('/', [
     }
 ]);
 
-// END OF LINE
+// end of line
