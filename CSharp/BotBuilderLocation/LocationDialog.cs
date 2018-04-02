@@ -130,7 +130,7 @@
             LocationOptions options = LocationOptions.None,
             LocationRequiredFields requiredFields = LocationRequiredFields.None,
             LocationResourceManager resourceManager = null)
-            : this(new LocationDialogFactory(apiKey, channelId, prompt, new BingGeoSpatialService(apiKey), options, requiredFields, resourceManager), new FavoritesManager(), resourceManager)
+            : this(new LocationDialogFactory(apiKey, channelId, prompt, new GoogleGeocodingService(apiKey), options, requiredFields, resourceManager), new FavoritesManager(), resourceManager)
         {
             this.options = options;
         }

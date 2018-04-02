@@ -55,7 +55,7 @@
                 {
                     var image =
                         new CardImage(
-                            url: new BingGeoSpatialService(this.apiKey).GetLocationMapImageUrl(location, i));
+                            url: new GoogleGeocodingService(this.apiKey).GetLocationMapImageUrl(location, i));
 
                     heroCard.Images = new[] { image };
                 }

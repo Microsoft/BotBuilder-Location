@@ -227,117 +227,21 @@
             Represents a dialog that prompts the user for any missing location fields.
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Builder.Location.IFavoritesManager">
+        <member name="M:Microsoft.Bot.Builder.Location.Bing.GoogleGeocodingService.GetLocationMapImageUrl(Microsoft.Bot.Builder.Location.Bing.Location,System.Nullable{System.Int32})">
             <summary>
-            Represents the interface that defines how the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> will
-            store and retrieve favorite locations for its users.
+            https://developers.google.com/maps/documentation/static-maps/intro
             </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.MaxCapacityReached(Microsoft.Bot.Builder.Dialogs.Internals.IBotData)">
-            <summary>
-            Gets whether the max allowed favorite location count has been reached.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <returns>True if the maximum capacity has been reached, false otherwise.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.IsFavorite(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Bing.Location)">
-            <summary>
-            Checks whether the given location is one of the favorite locations of the
-            user inferred from the bot data.
-            </summary>
-            <param name="botData">The bot data.</param>
             <param name="location"></param>
+            <param name="index"></param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.IsFavoriteLocationName(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.String)">
+        <member name="M:Microsoft.Bot.Builder.Location.Bing.GoogleGeocodingService.GetLocationsByPointAsync(System.Double,System.Double)">
             <summary>
-            Checks whether the given string is the name of one of the favorite locations of
-            the user inferred from the bot data.
+            https://developers.google.com/maps/documentation/geocoding/intro
             </summary>
-            <param name="botData">The bot data.</param>
-            <param name="name">The location name.</param>
+            <param name="latitude"></param>
+            <param name="longitude"></param>
             <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavoriteByIndex(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.Int32)">
-            <summary>
-            Looks up the favorite location at the given zero-based index value for
-            the user inferred from the bot data.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <param name="index">The index.</param>
-            <returns>>A favorite location or null if no favorite location can be found.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavoriteByName(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.String)">
-            <summary>
-            Looks up the favorite location with the given name value for
-            the user inferred from the bot data.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <param name="name">The name.</param>
-            <returns>>A favorite location or null if no favorite location can be found.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavorites(Microsoft.Bot.Builder.Dialogs.Internals.IBotData)">
-            <summary>
-            Looks up the favorite locations value for the user inferred from the
-            bot data.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <returns>>A list of favorite locations.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.Add(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation)">
-            <summary>
-            Adds the given location to the favorites of the user inferred from the
-            bot data.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <param name="value">The new favorite location value.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.Delete(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation)">
-            <summary>
-            Deletes the given location from the favorites of the user inferred from the
-            bot data.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <param name="value">The favorite location value to be deleted.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.Update(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation)">
-            <summary>
-            Updates the favorites of the user inferred from the bot data.
-            The favorite location whose value matched the given current value is updated
-            to the given new value.
-            </summary>
-            <param name="botData">The bot data.</param>
-            <param name="currentValue">The updated favorite location value.</param>
-            <param name="newValue">The updated favorite location value.</param>
-        </member>
-        <member name="T:Microsoft.Bot.Builder.Location.LocationCardBuilder">
-            <summary>
-            A class for creating location cards.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Location.LocationCardBuilder"/> class.
-            </summary>
-            <param name="apiKey">The geo spatial API key.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.CreateHeroCards(System.Collections.Generic.IList{Microsoft.Bot.Builder.Location.Bing.Location},System.Boolean,System.Collections.Generic.IList{System.String})">
-            <summary>
-            Creates locations hero cards.
-            </summary>
-            <param name="locations">List of the locations.</param>
-            <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
-            <param name="locationNames">List of strings that can be used as names or labels for the locations.</param>
-            <returns>The locations card as a list.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.CreateKeyboardCard(System.String,System.Int32,System.String[])">
-            <summary>
-            Creates a location keyboard card (buttons) with numbers and/or additional labels.
-            </summary>
-            <param name="selectText">The card prompt.</param>
-            <param name="optionCount">The number of options for which buttons should be made.</param>
-            <param name="additionalLabels">Additional buttons labels.</param>
-            <returns>The keyboard card.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Location.Bing.IGeoSpatialService">
             <summary>
@@ -509,6 +413,265 @@
             <summary>
             The location list.
             </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Google.Models.GeocodingResponse.Results">
+            <summary>
+            Gets or sets the results.
+            </summary>
+            <value>The results.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Google.Models.GeocodingResponse.Status">
+            <summary>
+            Gets or sets the status.
+            </summary>
+            <value>The status.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Google.Models.GeocodingResult.AddressComponents">
+            <summary>
+            Gets or sets the address_components.
+            </summary>
+            <value>The address_components.</value>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Microsoft.Bot.Builder.Location.Google.Models.GeocodingResult.FormattedAddress" -->
+        <member name="P:Microsoft.Bot.Builder.Location.Google.Models.GeocodingResult.Geometry">
+            <summary>
+            Gets or sets the geometry.
+            </summary>
+            <value>The geometry.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Google.Models.GeocodingResult.Types">
+            <summary>
+            Gets or sets the types.
+            </summary>
+            <value>The types.</value>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.street_address">
+            <summary>
+            indicates a precise street address
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.route">
+            <summary>
+            indicates a named route (such as "US 101"). 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.intersection">
+            <summary>
+            indicates a major intersection, usually of two major roads. 
+            </summary>
+            
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.political">
+            <summary>
+            indicates a political entity. Usually, this type indicates a polygon of some civil administration. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.country">
+            <summary>
+            indicates the national political entity, and is typically the highest order type returned by the Geocoder.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.administrative_area_level_1">
+            <summary>
+            indicates a first-order civil entity below the country level. Within the United States, these administrative levels are states. Not all nations exhibit these administrative levels. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.administrative_area_level_2">
+            <summary>
+            indicates a second-order civil entity below the country level. Within the United States, these administrative levels are counties. Not all nations exhibit these administrative levels. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.administrative_area_level_3">
+            <summary>
+            indicates a third-order civil entity below the country level. This type indicates a minor civil division. Not all nations exhibit these administrative levels. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.colloquial_area">
+            <summary>
+            indicates a commonly-used alternative name for the entity. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.locality">
+            <summary>
+            indicates an incorporated city or town political entity. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.sublocality">
+            <summary>
+            indicates an first-order civil entity below a locality 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.neighborhood">
+            <summary>
+            indicates a named neighborhood 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.premise">
+            <summary>
+            indicates a named location, usually a building or collection of buildings with a common name 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.subpremise">
+            <summary>
+            indicates a first-order entity below a named location, usually a singular building within a collection of buildings with a common name 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.postal_code">
+            <summary>
+            indicates a postal code as used to address postal mail within the country. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.natural_feature">
+            <summary>
+            indicates a prominent natural feature. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.airport">
+            <summary>
+            indicates an airport. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.park">
+            <summary>
+            indicates a named park. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.point_of_interest">
+            <summary>
+            indicates a named point of interest. Typically, these "POI"s are prominent local entities that don't easily fit in another category such as "Empire State Building" or "Statue of Liberty." 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.post_box">
+            <summary>
+            indicates a specific postal box. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.street_number">
+            <summary>
+            indicates the precise street number. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.floor">
+            <summary>
+            indicates the floor of a building address. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Location.Google.Models.AddressType.room">
+            <summary>
+            indicates the room of a building address. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Location.IFavoritesManager">
+            <summary>
+            Represents the interface that defines how the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> will
+            store and retrieve favorite locations for its users.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.MaxCapacityReached(Microsoft.Bot.Builder.Dialogs.Internals.IBotData)">
+            <summary>
+            Gets whether the max allowed favorite location count has been reached.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <returns>True if the maximum capacity has been reached, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.IsFavorite(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Bing.Location)">
+            <summary>
+            Checks whether the given location is one of the favorite locations of the
+            user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="location"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.IsFavoriteLocationName(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.String)">
+            <summary>
+            Checks whether the given string is the name of one of the favorite locations of
+            the user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="name">The location name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavoriteByIndex(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.Int32)">
+            <summary>
+            Looks up the favorite location at the given zero-based index value for
+            the user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="index">The index.</param>
+            <returns>>A favorite location or null if no favorite location can be found.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavoriteByName(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,System.String)">
+            <summary>
+            Looks up the favorite location with the given name value for
+            the user inferred from the bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="name">The name.</param>
+            <returns>>A favorite location or null if no favorite location can be found.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.GetFavorites(Microsoft.Bot.Builder.Dialogs.Internals.IBotData)">
+            <summary>
+            Looks up the favorite locations value for the user inferred from the
+            bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <returns>>A list of favorite locations.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.Add(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation)">
+            <summary>
+            Adds the given location to the favorites of the user inferred from the
+            bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="value">The new favorite location value.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.Delete(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation)">
+            <summary>
+            Deletes the given location from the favorites of the user inferred from the
+            bot data.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="value">The favorite location value to be deleted.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.IFavoritesManager.Update(Microsoft.Bot.Builder.Dialogs.Internals.IBotData,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation,Microsoft.Bot.Builder.Location.Dialogs.FavoriteLocation)">
+            <summary>
+            Updates the favorites of the user inferred from the bot data.
+            The favorite location whose value matched the given current value is updated
+            to the given new value.
+            </summary>
+            <param name="botData">The bot data.</param>
+            <param name="currentValue">The updated favorite location value.</param>
+            <param name="newValue">The updated favorite location value.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Location.LocationCardBuilder">
+            <summary>
+            A class for creating location cards.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.#ctor(System.String,Microsoft.Bot.Builder.Location.LocationResourceManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Location.LocationCardBuilder"/> class.
+            </summary>
+            <param name="apiKey">The geo spatial API key.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.CreateHeroCards(System.Collections.Generic.IList{Microsoft.Bot.Builder.Location.Bing.Location},System.Boolean,System.Collections.Generic.IList{System.String})">
+            <summary>
+            Creates locations hero cards.
+            </summary>
+            <param name="locations">List of the locations.</param>
+            <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
+            <param name="locationNames">List of strings that can be used as names or labels for the locations.</param>
+            <returns>The locations card as a list.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.CreateKeyboardCard(System.String,System.Int32,System.String[])">
+            <summary>
+            Creates a location keyboard card (buttons) with numbers and/or additional labels.
+            </summary>
+            <param name="selectText">The card prompt.</param>
+            <param name="optionCount">The number of options for which buttons should be made.</param>
+            <param name="additionalLabels">Additional buttons labels.</param>
+            <returns>The keyboard card.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Location.LocationRequiredFields">
             <summary>
@@ -1157,7 +1320,7 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteEdittedConfirmation">
             <summary>
-              Looks up a localized string similar to Ok, I updated {0} with the new address {show_address}..
+              Looks up a localized string similar to Ok, I updated {0} with the new address {1}..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.FavoriteLocations">
@@ -1177,7 +1340,7 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidFavoriteLocationSelection">
             <summary>
-              Looks up a localized string similar to Sorry, “UserInput” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit..
+              Looks up a localized string similar to Sorry, &quot;{0}” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.InvalidFavoriteNameResponse">

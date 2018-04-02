@@ -54,7 +54,7 @@
                     prompt: this.prompt,
                     supportsKeyboard: isFacebookChannel,
                     cardBuilder: new LocationCardBuilder(this.apiKey, this.resourceManager),
-                    geoSpatialService: new BingGeoSpatialService(this.apiKey),
+                    geoSpatialService: new GoogleGeocodingService(this.apiKey),
                     options: this.options,
                     requiredFields: this.requiredFields,
                     resourceManager: this.resourceManager,
@@ -67,7 +67,7 @@
                     new FavoritesManager(),
                     this,
                     new LocationCardBuilder(this.apiKey, this.resourceManager),
-                    new BingGeoSpatialService(this.apiKey),
+                    new GoogleGeocodingService(this.apiKey),
                     this.options,
                     this.requiredFields,
                     this.resourceManager);
