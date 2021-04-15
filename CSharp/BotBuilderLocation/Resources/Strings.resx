@@ -255,4 +255,7 @@
   <data name="DuplicateFavoriteNameResponse" xml:space="preserve">
     <value>{0} is already listed in your favorites. Please type or say a different name for this address.</value>
   </data>
+  <data name="SelectButtonText" xml:space="preserve">
+    <value>Select</value>
+  </data>
 </root>

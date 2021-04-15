@@ -246,6 +246,12 @@
         public virtual string TitleSuffixFacebook => this.GetResource(nameof(Strings.TitleSuffixFacebook));
 
         /// <summary>
+        /// The <see cref="SelectButtonText"/> resource string.
+        /// </summary>
+        public virtual string SelectButtonText => this.GetResource(nameof(Strings.SelectButtonText));
+
+
+        /// <summary>
         /// Default constructor. Initializes strings using Microsoft.Bot.Builder.Location assembly resources.
         /// </summary>
         public LocationResourceManager() :

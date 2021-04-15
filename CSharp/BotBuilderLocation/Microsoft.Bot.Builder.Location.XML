@@ -398,6 +398,16 @@
             <param name="additionalLabels">Additional buttons labels.</param>
             <returns>The keyboard card.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Builder.Location.LocationCardBuilder.CreateSelectableHeroCards(System.Collections.Generic.IList{Microsoft.Bot.Builder.Location.Bing.Location},System.Boolean,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String})">
+            <summary>
+            Creates selectable locations hero cards.
+            </summary>
+            <param name="locations">List of the locations.</param>
+            <param name="alwaysShowNumericPrefix">Indicates whether a list containing exactly one location should have a '1.' prefix in its label.</param>
+            <param name="locationNames">List of strings that can be used as names or labels for the locations.</param>
+            <param name="locationIds">List of strings that can be used as ids returned when user click o Select button.</param>
+            <returns>The locations card as a list.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Builder.Location.Bing.IGeoSpatialService">
             <summary>
             Represents the interface the defines how the <see cref="T:Microsoft.Bot.Builder.Location.LocationDialog"/> will query for locations.
@@ -817,6 +827,11 @@
         <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook">
             <summary>
             The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.TitleSuffixFacebook"/> resource string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SelectButtonText">
+            <summary>
+            The <see cref="P:Microsoft.Bot.Builder.Location.LocationResourceManager.SelectButtonText"/> resource string.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Builder.Location.LocationResourceManager.#ctor">
@@ -1281,6 +1296,11 @@
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.ResetPrompt">
             <summary>
               Looks up a localized string similar to OK, let&apos;s start over..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.SelectButtonText">
+            <summary>
+              Looks up a localized string similar to Select.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Location.Resources.Strings.SelectFavoriteLocationPrompt">

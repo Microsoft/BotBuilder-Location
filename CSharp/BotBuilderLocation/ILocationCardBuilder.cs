@@ -10,5 +10,7 @@
         IEnumerable<HeroCard> CreateHeroCards(IList<Location> locations, bool alwaysShowNumericPrefix = false, IList<string> locationNames = null);
 
         KeyboardCard CreateKeyboardCard(string selectText, int optionCount = 0, params string[] additionalLabels);
+
+        IEnumerable<HeroCard> CreateSelectableHeroCards(IList<Location> locations, bool alwaysShowNumericPrefix = false, IList<string> locationNames = null, IList<string> locationIds = null);
     }
 }
