@@ -253,7 +253,12 @@
         {
         }
 
-        internal LocationResourceManager(Assembly resourceAssembly = null, string resourceName = null)
+        /// <summary>
+        /// Orverloaded constructor. Initializes strings using custom assembly resources.
+        /// </summary>
+        /// <param name="resourceAssembly">The main assembly for the resources.</param>
+        /// <param name="resourceName">The type of the custom System.Resources.ResourceSet to use.</param>
+        public LocationResourceManager(Assembly resourceAssembly, string resourceName)
         {
             if (resourceAssembly == null || resourceName == null)
             {
